@@ -1,6 +1,5 @@
-# Diamond Design System
-
-The Diamond Design System provides the foundations, guidance, patterns, accessibility standards, and component documentation used to build scientific software at Diamond Light Source.
+# Diamond Design System ❖
+The design system for Diamond Light Source, providing the foundations, guidance, patterns, accessibility standards, and component documentation used to build clear, consistent, reliable, and predictable scientific software.
 
 This repository contains the design system website and documentation.
 
