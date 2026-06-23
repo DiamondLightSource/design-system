@@ -6,11 +6,14 @@ This repository contains the design system website and documentation.
 ## What you'll find here
 
 * Design principles
-* Foundations (colour, typography, spacing, icons, accessibility)
+* Foundations (colour, typography, etc)
 * Practical guidance
+* Accessibilty guidelines
 * Patterns and workflows
 * Component documentation
 * Examples and best practices
+
+The design system is actively evolving and will continue to grow as it is adopted across applications at Diamond Light Source.
 
 ## Relationship to SciReactUI
 
@@ -29,8 +32,4 @@ When contributing:
 * Follow existing guidance and patterns where possible.
 * Prefer reusable solutions over one-off implementations.
 * Consider accessibility from the start.
-* Keep documentation practical and focused on real usage.
-
-## Status
-
-The Diamond Design System is actively evolving as it is adopted across applications at Diamond Light Source.
+* Keep documentation practical and focused on real usage
