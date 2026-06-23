@@ -14,13 +14,11 @@ This repository contains the design system website and documentation.
 
 ## Relationship to SciReactUI
 
-The React implementation of the Diamond Design System is provided by **SciReactUI**.
+The React implementation of the Diamond Design System is provided by [**SciReactUI**](https://github.com/DiamondLightSource/sci-react-ui).
 
 SciReactUI contains the MUI theme, design tokens, and reusable React components that implement the design system.
 
-Repository:
-
-`https://github.com/DiamondLightSource/sci-react-ui`
+Repository: `https://github.com/DiamondLightSource/sci-react-ui`
 
 ## Contributing
 
