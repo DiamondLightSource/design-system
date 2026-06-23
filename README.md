@@ -25,11 +25,14 @@ Repository: `https://github.com/DiamondLightSource/sci-react-ui`
 
 ## Contributing
 
-Contributions are welcome from designers, developers, scientists, and product teams.
+The Diamond Design System is still a work in progress and is actively evolving.
+
+Contributions and feedback are welcome from anyone involved in building or designing software at Diamond.
 
 When contributing:
 
 * Follow existing guidance and patterns where possible.
 * Prefer reusable solutions over one-off implementations.
 * Consider accessibility from the start.
-* Keep documentation practical and focused on real usage
+* Keep documentation practical and focused on real usage.
+* Discuss significant changes before introducing new patterns or approaches.
