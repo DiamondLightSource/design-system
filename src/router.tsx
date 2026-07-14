@@ -1,5 +1,6 @@
-import { LucidePalette, LucideWorm } from "lucide-react";
+import { LucideHome, LucidePalette, LucideWorm } from "lucide-react";
 import { createRouter, type SectionGroup } from "./app-shell";
+import Home from "./pages/Home.mdx";
 import Design from "./pages/Introduction/Design.mdx";
 import More from "./pages/Introduction/More.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
@@ -10,19 +11,25 @@ const navigation: SectionGroup[] = [
   {
     sections: [
       {
+        name: "Home",
+        icon: <LucideHome />,
+        path: "Home",
+        element: <MdxWrapper component={Home} />,
+      },
+      {
         name: "Introduction",
         icon: <LucideWorm />,
         path: "introduction",
         pages: [
           {
             name: "Design",
-            element: <MdxWrapper component={Design} />
+            element: <MdxWrapper component={Design} />,
           },
           {
             name: "Yes!",
-            element: <MdxWrapper component={More} />
-          }
-        ]
+            element: <MdxWrapper component={More} />,
+          },
+        ],
       },
       {
         name: "Foundations",
@@ -30,16 +37,19 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Colours",
-            element: <MdxWrapper component={Colours} />
+            element: <MdxWrapper component={Colours} />,
           },
           {
             name: "Typography",
-            element: <MdxWrapper component={Typography} />
+            element: <MdxWrapper component={Typography} />,
           },
-        ]
-      }
-    ]
-  }
-]
+        ],
+      },
+    ],
+  },
+];
 
-export const router = createRouter({ title: "Diamond Design System", navigation});
+export const router = createRouter({
+  title: "Diamond Design System",
+  navigation,
+});
