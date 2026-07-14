@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ComponentType } from "react";
-import { LucidePalette, LucideWorm } from "lucide-react";
+import { LucideHome, LucidePalette, LucideWorm } from "lucide-react";
 import { createRouter, type SectionGroup } from "./app-shell";
 import MdxWrapper from "./Wrapper";
 
@@ -15,6 +15,7 @@ const loadMdxPage = (loader: () => Promise<{ default: ComponentType }>) => {
   };
 };
 
+const Home = loadMdxPage(() => import("./pages/Home.mdx"));
 const Design = loadMdxPage(() => import("./pages/Introduction/Design.mdx"));
 const More = loadMdxPage(() => import("./pages/Introduction/More.mdx"));
 const Colours = loadMdxPage(() => import("./pages/Foundations/Colours.mdx"));
@@ -24,19 +25,25 @@ const navigation: SectionGroup[] = [
   {
     sections: [
       {
+        name: "Home",
+        icon: <LucideHome />,
+        path: "Home",
+        element: <MdxWrapper component={Home} />,
+      },
+      {
         name: "Introduction",
         icon: <LucideWorm />,
         path: "introduction",
         pages: [
           {
             name: "Design",
-            element: <MdxWrapper component={Design} />
+            element: <MdxWrapper component={Design} />,
           },
           {
             name: "Yes!",
-            element: <MdxWrapper component={More} />
-          }
-        ]
+            element: <MdxWrapper component={More} />,
+          },
+        ],
       },
       {
         name: "Foundations",
@@ -44,16 +51,19 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Colours",
-            element: <MdxWrapper component={Colours} />
+            element: <MdxWrapper component={Colours} />,
           },
           {
             name: "Typography",
-            element: <MdxWrapper component={Typography} />
+            element: <MdxWrapper component={Typography} />,
           },
-        ]
-      }
-    ]
-  }
-]
+        ],
+      },
+    ],
+  },
+];
 
-export const router = createRouter({ title: "Diamond Design System", navigation});
+export const router = createRouter({
+  title: "Diamond Design System",
+  navigation,
+});
