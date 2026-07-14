@@ -1,25 +1,11 @@
-import { lazy, Suspense, type ComponentType } from "react";
 import { LucideHome, LucidePalette, LucideWorm } from "lucide-react";
 import { createRouter, type SectionGroup } from "./app-shell";
+import Home from "./pages/Home.mdx";
+import Design from "./pages/Introduction/Design.mdx";
+import More from "./pages/Introduction/More.mdx";
+import Colours from "./pages/Foundations/Colours.mdx";
+import Typography from "./pages/Foundations/Typography.mdx";
 import MdxWrapper from "./Wrapper";
-
-const loadMdxPage = (loader: () => Promise<{ default: ComponentType }>) => {
-  const Component = lazy(loader);
-
-  return function MdxPage() {
-    return (
-      <Suspense fallback={null}>
-        <Component />
-      </Suspense>
-    );
-  };
-};
-
-const Home = loadMdxPage(() => import("./pages/Home.mdx"));
-const Design = loadMdxPage(() => import("./pages/Introduction/Design.mdx"));
-const More = loadMdxPage(() => import("./pages/Introduction/More.mdx"));
-const Colours = loadMdxPage(() => import("./pages/Foundations/Colours.mdx"));
-const Typography = loadMdxPage(() => import("./pages/Foundations/Typography.mdx"));
 
 const navigation: SectionGroup[] = [
   {
