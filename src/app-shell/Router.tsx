@@ -4,7 +4,7 @@ import {
   Navigate,
   type RouteObject,
 } from "react-router-dom";
-import { TabbedPanel, type TabDescription } from "./TabbedRoute";
+import { ContentPanel, TabbedPanel, type TabDescription } from "./TabbedRoute";
 
 import type { ReactNode } from "react";
 
@@ -35,19 +35,34 @@ export interface LabelledRoute {
   path?: string;
 }
 
-/**
- * This describes a top-level screen,
- * accessible via main navigation component */
-export interface Section extends LabelledRoute {
+interface BaseSection extends LabelledRoute {
   /** icon for top-level navigation */
   icon: ReactNode;
+}
 
+/** A section rendering a single page, with no tabs nav or child routes */
+export interface SingleSection extends BaseSection {
+  element: ReactNode;
+}
+
+/** A section rendering multiple pages behind a tabs nav */
+export interface TabbedSection extends BaseSection {
   /** First one is default */
   pages: Page[];
 }
 
+/**
+ * This describes a top-level screen,
+ * accessible via main navigation component */
+export type Section = SingleSection | TabbedSection;
+
 export interface Page extends LabelledRoute {
   element: ReactNode;
+}
+
+/** Custom data attached to each leaf route, read via `useMatches()` for the page title */
+export interface RouteHandle {
+  title: string;
 }
 
 /** When paths not given, derive from name through this function */
@@ -60,13 +75,21 @@ export function routePath(route: LabelledRoute) {
 }
 
 function childRoute(section: Section): RouteObject {
+  const sectionPath = routePath(section);
+
+  if (!("pages" in section)) {
+    return {
+      path: sectionPath,
+      element: <ContentPanel>{section.element}</ContentPanel>,
+    };
+  }
+
   const tabbedPages: TabDescription[] = section.pages.map((page) => {
     return {
       label: page.name,
       path: routePath(page),
     };
   });
-  const sectionPath = routePath(section);
   const element = (
     <TabbedPanel basePath={`/${sectionPath}`} tabs={tabbedPages} />
   );
@@ -74,6 +97,7 @@ function childRoute(section: Section): RouteObject {
     return {
       path: routePath(page),
       element: page.element,
+      handle: { title: page.name } satisfies RouteHandle,
     };
   });
 
