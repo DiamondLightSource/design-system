@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Palette, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 # Build better scientific software together
 
@@ -24,7 +25,8 @@ It brings together shared foundations, reusable components, design patterns and 
 
 <Card variant="outlined">
   <CardActionArea
-    href="/foundations"
+    component={Link}
+    to="/foundations"
     sx={{
       height: "100%",
       p: 3,
