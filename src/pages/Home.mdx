@@ -1,0 +1,361 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+
+import {
+  ArrowUpRight,
+  BookOpen,
+  Code2,
+  FlaskConical,
+  Layers3,
+  Palette,
+  PenTool,
+  Shapes,
+  ShieldCheck,
+  LucideBlocks,
+  LucideRocket,
+} from "lucide-react";
+
+<Box
+  component="main"
+  sx={{
+    maxWidth: "1200px",
+    mx: "auto",
+    px: { xs: 2, sm: 3, md: 4 },
+  }}
+>
+  <Stack spacing={{ xs: 7, md: 10 }}>
+    <Box
+      component="section"
+      sx={{
+        maxWidth: "800px",
+      }}
+    >
+        <Typography
+        component="text"
+        variant="h5"
+        sx={{
+          mb: 2,
+          maxWidth: "720px",
+          fontWeight: 600,
+          color: "brand.main",
+        }}
+      >
+        Diamond Design System ❖
+      </Typography>    
+      <Typography
+        component="h1"
+        variant="h2"
+        sx={{
+          mb: 4,
+          maxWidth: "720px",
+          fontWeight: 600,
+        }}
+      >
+        <div>Build better scientific software together</div>
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          maxWidth: "720px",
+          mb: 4,
+          color: "text.secondary",
+          fontSize: "1.125rem",
+          lineHeight: 1.8,
+        }}
+      >
+        The Diamond Design System helps engineers, scientists and designers
+        create consistent, accessible and dependable digital experiences
+        across Diamond.
+      </Typography>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <Button variant="contained" size="large" href="/GettingStarted/">
+          Get started
+        </Button>
+      </Stack>
+    </Box>
+    <Box component="section">
+      <Typography component="h2" variant="h4" sx={{ mb: 1 }}>
+        Explore the Design System
+      </Typography>
+      <Typography
+        sx={{
+          mb: 4,
+          maxWidth: "680px",
+          color: "text.secondary",
+        }}
+      >
+        Find the guidance, building blocks and standards you need to design
+        and develop Diamond applications.
+      </Typography>
+      <Grid container spacing={3}>
+        {[
+          {
+            title: "Foundations",
+            description:
+              "Colours, typography, spacing, icons, accessibility and design tokens.",
+            icon: Palette,
+            href: "/foundations/",
+          },
+          {
+            title: "Components",
+            description:
+              "Reusable interface components built with React and MUI.",
+            icon: Shapes,
+            href: "/components/",
+          },
+          {
+            title: "Patterns",
+            description:
+              "Recommended approaches for common workflows and interface problems.",
+            icon: LucideBlocks,
+            href: "/patterns/",
+          },
+          {
+            title: "Standards",
+            description:
+              "Shared guidance for interaction, content and behaviour.",
+            icon: ShieldCheck,
+            href: "/standards/",
+          },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <Grid key={item.title} size={{ xs: 12, sm: 6 }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  height: "100%",
+                  backgroundColor: "var(--ds-primary-container)",
+                  borderColor: "var(--ds-primary-accent)",
+                  overflow: 'visible',
+                }}
+              >
+                <CardActionArea
+                  component={Link}
+                  to={item.href}
+                  sx={{
+                    height: "100%",
+                    p: 1,
+                    alignItems: "stretch",
+                    "&:hover": {
+                      backgroundColor: "var(--ds-primary-container)",
+                      boxShadow: "inset 0 0 0 9999px var(--ds-overlay-hover)",
+                    },
+                    "&:focus-visible": {
+                      outline: "3px solid var(--ds-focus-ring)",
+                      outlineOffset: "2px",
+                    },
+                  }}
+                >
+                  <CardContent>
+                    <Box
+                      sx={{
+                        display: "inline-flex",
+                        p: 1.25,
+                        mb: 2,
+                        borderRadius: 4,
+                        color: "var(--ds-primary)",
+                        backgroundColor: "var(--ds-primary-container)",
+                      }}
+                    >
+                      <Icon size={24} aria-hidden="true" />
+                    </Box>
+                    <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+                      {item.title}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
+    <Box component="section">
+      <Typography component="h2" variant="h4" sx={{ mb: 1 }}>
+        Build with Diamond
+      </Typography>
+      <Typography
+        sx={{
+          mb: 4,
+          maxWidth: "680px",
+          color: "text.secondary",
+        }}
+      >
+        Move from guidance to implementation using Diamond's shared
+        development and design resources.
+      </Typography>
+      <Grid container spacing={3}>
+        {[
+          {
+            title: "SciReactUI on GitHub",
+            description:
+              "Diamond's React component library, built on MUI and shared across applications.",
+            icon: Code2,
+            href: "https://github.com/DiamondLightSource/sci-react-ui",
+          },
+          {
+            title: "SciReactUI Storybook",
+            description:
+              "Explore live components, variants and implementation examples.",
+            icon: BookOpen,
+            href: "https://diamondlightsource.github.io/sci-react-ui/",
+          },
+          {
+            title: "Figma",
+            description:
+              "Use shared libraries and resources to explore and validate ideas before development.",
+            icon: PenTool,
+            href: "https://www.figma.com/design/Sl1LP28kxexEusAYPkVhsj/Diamond-Design-Foundations?node-id=0-1&t=8pMTji2vJodku81k-1",
+          },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <Grid key={item.title} size={{ xs: 12, md: 4 }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  height: "100%",
+                  backgroundColor: "var(--ds-primary-container)",
+                  borderColor: "var(--ds-primary-accent)",
+                  overflow: 'visible',
+                }}
+              >
+                <CardActionArea
+                  component={Link}
+                  to={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${item.title}, opens in a new tab`}
+                  sx={{
+                    height: "100%",
+                    alignItems: "stretch",
+                    "&:hover": {
+                      backgroundColor: "var(--ds-primary-container)",
+                      boxShadow: "inset 0 0 0 9999px var(--ds-overlay-hover)",
+                    },
+                    "&:focus-visible": {
+                      outline: "3px solid var(--ds-focus-ring)",
+                      outlineOffset: "2px",
+                    },
+                  }}
+                >
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                      gap: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start"
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "inline-flex",
+                          p: 1.25,
+                          borderRadius: 4,
+                          color: "var(--ds-primary)",
+                          backgroundColor: "var(--ds-primary-container)",
+                        }}
+                      >
+                        <Icon size={24} aria-hidden="true" />
+                      </Box>
+                      <ArrowUpRight
+                        size={18}
+                        opacity={0.6}
+                        aria-hidden="true"
+                      />
+                    </Box>
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography color="text.secondary">
+                        {item.description}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
+    <Box
+      component="section"
+      sx={{
+        p: { xs: 3, md: 5 },
+        borderRadius: 3,
+        backgroundColor: "var(--ds-brand-container)",
+        border: "1px solid var(--ds-border-subtle)",
+      }}
+    >
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={3}
+        alignItems={{ md: "flex-start" }}
+      >
+        <Box
+          sx={{
+            display: "inline-flex",
+            p: 1.5,
+            borderRadius: 2,
+            color: "var(--ds-on-brand-solid)",
+            backgroundColor: "var(--ds-brand-solid)",
+          }}
+        >
+          <FlaskConical size={28} aria-hidden="true" />
+        </Box>
+        <Box>
+          <Typography component="h2" variant="h4" sx={{ color: "brand.main", mb: 1.5, lineHeight: 1.6 }}>
+            <span>Designed for scientific software</span>
+          </Typography>
+          <Typography
+            sx={{
+              maxWidth: "760px",
+              color: "text.secondary",
+              mb: 3,
+            }}
+          >
+            The Diamond Design System is shaped by scientific workflows,
+            specialist instrumentation and the need for clear, dependable
+            interactions in complex working environments.
+          </Typography>
+          <Stack direction="row" useFlexGap flexWrap="wrap" spacing={1}>
+            {[
+              "Experiment configuration",
+              "Live acquisition",
+              "Queues and automation",
+              "Long-running processes",
+              "Data visualisation",
+              "Specialist instrumentation",
+            ].map((label) => (
+              <Chip key={label} label={label} variant="outlined" color="primary" />
+            ))}
+          </Stack>
+        </Box>
+      </Stack>
+    </Box>
+
+  </Stack>
+</Box>
