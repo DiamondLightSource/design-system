@@ -8,9 +8,9 @@
   "containerEnv": {
     "PNPM_HOME": "/home/node/.local/share/pnpm"
   },
-  "forwardPorts": [5173],
+  "forwardPorts": [3000],
   "portsAttributes": {
-    "5173": {
+    "3000": {
       "label": "Vite dev server",
       "onAutoForward": "openPreview"
     }
