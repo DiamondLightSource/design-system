@@ -10,7 +10,7 @@ import { createRouter, type SectionGroup } from "./app-shell";
 
 import Home from "./pages/Home.mdx";
 
-import Design from "./pages/GettingStarted/Design.mdx";
+import Introduction from "./pages/GettingStarted/Introduction.mdx";
 import More from "./pages/GettingStarted/More.mdx";
 
 import Foundations from "./pages/Foundations/Overview.mdx";
@@ -46,8 +46,8 @@ const navigation: SectionGroup[] = [
         path: "GettingStarted",
         pages: [
           {
-            name: "Design",
-            element: <MdxWrapper component={Design} />,
+            name: "Introduction",
+            element: <MdxWrapper component={Introduction} />,
           },
           {
             name: "Yes!",
