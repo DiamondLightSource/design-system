@@ -7,4 +7,8 @@ export default defineConfig({
     { enforce: "pre", ...mdx() },
     react(),
   ],
+  server: {
+    host: true,
+    port: 3000,
+  },
 });
