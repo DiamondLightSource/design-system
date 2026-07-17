@@ -10,3 +10,4 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/utils@8.64.0'
   - '@typescript-eslint/visitor-keys@8.64.0'
   - typescript-eslint@8.64.0
+  - '@diamondlightsource/sci-react-ui@0.6.2-alpha.1'
