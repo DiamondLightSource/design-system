@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@diamondlightsource/sci-react-ui':
-        specifier: 0.6.1-alpha.1
-        version: 0.6.1-alpha.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)
+        specifier: 0.6.2-alpha.1
+        version: 0.6.2-alpha.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.17)(react@18.3.1)
@@ -154,8 +154,8 @@ packages:
       dayjs:
         optional: true
 
-  '@diamondlightsource/sci-react-ui@0.6.1-alpha.1':
-    resolution: {integrity: sha512-OoLHw/w6gXD+q/gJVbiQyjXkW6+W9DB9ADNNW3QsqvwcL74c8vBie02hRSDZeINViH0KXrj39x4AV1zNE3Tc5A==}
+  '@diamondlightsource/sci-react-ui@0.6.2-alpha.1':
+    resolution: {integrity: sha512-IMm3akmSJd3dQKoKRYsbOF/kcUWImTCpJuY/bPzeovxhpLDdcP6RaC6T7ED9IFazR0dPyEDOpp+cweWKS1km6Q==}
     peerDependencies:
       '@emotion/react': ^11.13.3
       '@emotion/styled': ^11.13.0
@@ -2000,7 +2000,7 @@ snapshots:
     optionalDependencies:
       dayjs: 1.10.7
 
-  '@diamondlightsource/sci-react-ui@0.6.1-alpha.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)':
+  '@diamondlightsource/sci-react-ui@0.6.2-alpha.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.2.17)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)
