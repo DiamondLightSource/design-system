@@ -1,45 +1,27 @@
-import { LucidePalette, LucideWorm } from "lucide-react";
+import {
+  Home as HomeIcon,
+  Palette,
+  Shapes,
+  Blocks,
+  ShieldCheck,
+  Rocket,
+} from "lucide-react";
 import { createRouter, type SectionGroup } from "./app-shell";
-import Design from "./pages/Introduction/Design.mdx";
-import More from "./pages/Introduction/More.mdx";
-import Colours from "./pages/Foundations/Colours.mdx";
-import Typography from "./pages/Foundations/Typography.mdx";
-import MdxWrapper from "./Wrapper";
 
 const navigation: SectionGroup[] = [
   {
     sections: [
-      {
-        name: "Introduction",
-        icon: <LucideWorm />,
-        path: "introduction",
-        pages: [
-          {
-            name: "Design",
-            element: <MdxWrapper component={Design} />
-          },
-          {
-            name: "Yes!",
-            element: <MdxWrapper component={More} />
-          }
-        ]
-      },
-      {
-        name: "Foundations",
-        icon: <LucidePalette />,
-        pages: [
-          {
-            name: "Colours",
-            element: <MdxWrapper component={Colours} />
-          },
-          {
-            name: "Typography",
-            element: <MdxWrapper component={Typography} />
-          },
-        ]
-      }
-    ]
-  }
-]
+      { name: "Home", icon: <HomeIcon />, path: "Home", folder: "Home" },
+      { name: "Getting Started", icon: <Rocket />, folder: "GettingStarted" },
+      { name: "Foundations", icon: <Palette />, folder: "Foundations" },
+      { name: "Components", icon: <Shapes />, folder: "Components" },
+      { name: "Patterns", icon: <Blocks />, folder: "Patterns" },
+      { name: "Standards", icon: <ShieldCheck />, folder: "Standards" },
+    ],
+  },
+];
 
-export const router = createRouter({ title: "Diamond Design System", navigation});
+export const router = createRouter({
+  title: "Diamond Design System",
+  navigation,
+});

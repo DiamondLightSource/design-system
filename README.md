@@ -36,3 +36,5 @@ When contributing:
 * Consider accessibility from the start.
 * Keep documentation practical and focused on real usage.
 * Discuss significant changes before introducing new patterns or approaches.
+
+See `CONTRIBUTING.md` for how pages and sections are structured, and `PROJECT_GUIDELINES.md` for guidance on writing content.
