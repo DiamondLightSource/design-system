@@ -1,1 +1,321 @@
-# Palettes
+import { Box, Stack, Typography } from "@mui/material";
+
+# Colours
+
+DiamondDS colour tokens, exposed as MUI palette roles or raw `--ds-*` CSS
+variables. Toggle light/dark mode to see how each token responds.
+
+export const intentRows = [
+  { bg: "main", fg: "contrastText", label: "" },
+  { bg: "dark", fg: "contrastText", label: "Emphasis" },
+  { bg: "light", fg: "contrastText", label: "Accent" },
+  { bg: "container", fg: "onContainer", label: "Container" },
+  { bg: "onContainer", fg: "container", label: "On Container" },
+  { bg: "solid", fg: "onSolid", label: "Solid" },
+  { bg: "onSolid", fg: "solid", label: "On Solid" },
+  { bg: "fixed", fg: "onFixed", label: "Fixed" },
+  { bg: "fixedDim", fg: "onFixed", label: "Fixed Dim" },
+  { bg: "onFixed", fg: "fixed", label: "On Fixed" },
+];
+
+export const intentGroups = [
+  {
+    key: "primary",
+    label: "Primary",
+    muiPath: "primary",
+    getPalette: (theme) =>
+      theme.vars?.palette.primary ?? theme.palette.primary,
+  },
+  {
+    key: "secondary",
+    label: "Secondary",
+    muiPath: "secondary",
+    getPalette: (theme) =>
+      theme.vars?.palette.secondary ?? theme.palette.secondary,
+  },
+  {
+    key: "info",
+    label: "Info",
+    muiPath: "info",
+    getPalette: (theme) => theme.vars?.palette.info ?? theme.palette.info,
+  },
+  {
+    key: "error",
+    label: "Danger",
+    muiPath: "error",
+    getPalette: (theme) => theme.vars?.palette.error ?? theme.palette.error,
+  },
+  {
+    key: "warning",
+    label: "Warning",
+    muiPath: "warning",
+    getPalette: (theme) =>
+      theme.vars?.palette.warning ?? theme.palette.warning,
+  },
+  {
+    key: "success",
+    label: "Success",
+    muiPath: "success",
+    getPalette: (theme) =>
+      theme.vars?.palette.success ?? theme.palette.success,
+  },
+];
+
+export const cssVarTokenNames = (prefix) => ({
+  main: `--ds-${prefix}`,
+  contrastText: `--ds-on-${prefix}`,
+  dark: `--ds-${prefix}-emphasis`,
+  light: `--ds-${prefix}-accent`,
+  container: `--ds-${prefix}-container`,
+  onContainer: `--ds-on-${prefix}-container`,
+  solid: `--ds-${prefix}-solid`,
+  onSolid: `--ds-on-${prefix}-solid`,
+});
+
+export const coreBrandGroups = [
+  {
+    key: "brand",
+    label: "Brand",
+    muiPath: "brand",
+    getPalette: (theme) => theme.vars?.palette.brand ?? theme.palette.brand,
+  },
+  {
+    key: "tertiary",
+    label: "Tertiary",
+    cssVarNames: cssVarTokenNames("tertiary"),
+    getPalette: () =>
+      Object.fromEntries(
+        Object.entries(cssVarTokenNames("tertiary")).map(([token, name]) => [
+          token,
+          `var(${name})`,
+        ]),
+      ),
+  },
+  {
+    key: "highlight",
+    label: "Highlight",
+    cssVarNames: cssVarTokenNames("highlight"),
+    getPalette: () =>
+      Object.fromEntries(
+        Object.entries(cssVarTokenNames("highlight")).map(([token, name]) => [
+          token,
+          `var(${name})`,
+        ]),
+      ),
+  },
+];
+
+export const getPaletteValue = (theme, path) => {
+  const value = path.split(".").reduce((obj, key) => {
+    if (obj && typeof obj === "object") {
+      return obj[key];
+    }
+    return undefined;
+  }, theme.palette);
+
+  return typeof value === "string" ? value : undefined;
+};
+
+export const ColourRow = ({ label, background, foreground }) => (
+  <Box
+    sx={(theme) => ({
+      px: 1.25,
+      py: 1,
+      minHeight: 40,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      backgroundColor: getPaletteValue(theme, background),
+      color: getPaletteValue(theme, foreground),
+    })}
+  >
+    <Typography variant="body2">{label}</Typography>
+    <Typography variant="caption" sx={{ fontFamily: "monospace" }}>
+      {background}
+    </Typography>
+  </Box>
+);
+
+export const IntentGroupGrid = ({ groups }) => (
+  <Box
+    sx={{
+      display: "grid",
+      gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+      gap: 2,
+    }}
+  >
+    {groups.map((group) => (
+      <Stack key={group.key}>
+        {intentRows.map((row) => (
+          <Box
+            key={`${group.key}-${row.bg}`}
+            sx={(theme) => {
+              const palette = group.getPalette(theme);
+
+              if (!palette?.[row.bg] || !palette?.[row.fg]) {
+                return { display: "none" };
+              }
+
+              return {
+                px: 1.25,
+                py: 1,
+                minHeight: 40,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 2,
+                backgroundColor: palette[row.bg],
+                color: palette[row.fg],
+              };
+            }}
+          >
+            <Typography variant="body2">
+              {row.label ? `${group.label} ${row.label}` : group.label}
+            </Typography>
+            <Typography variant="caption" sx={{ fontFamily: "monospace" }}>
+              {group.cssVarNames?.[row.bg] ??
+                (group.muiPath ? `${group.muiPath}.${row.bg}` : row.bg)}
+            </Typography>
+          </Box>
+        ))}
+      </Stack>
+    ))}
+  </Box>
+);
+
+<Box
+  sx={(theme) => ({
+    p: 2,
+    borderRadius: 2,
+    backgroundColor: theme.palette.surface.subtle,
+  })}
+>
+  <Stack spacing={3}>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Intent colours
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Exposed as MUI palette roles (e.g.{" "}
+        <code>theme.palette.primary.main</code>).
+      </Typography>
+      <IntentGroupGrid groups={intentGroups} />
+    </Box>
+
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Core brand colours
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        <code>Brand</code> is exposed as a MUI palette role.{" "}
+        <code>Tertiary</code> and <code>Highlight</code> are token families
+        available as CSS variables, but are not currently exposed as MUI
+        palette roles.
+      </Typography>
+      <IntentGroupGrid groups={coreBrandGroups} />
+    </Box>
+
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Neutral colours
+      </Typography>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+          gap: 2,
+        }}
+      >
+        <Stack spacing={1}>
+          <ColourRow
+            label="Background"
+            background="background.default"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Surface"
+            background="background.paper"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Surface Container"
+            background="surface.subtle"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Surface Container High"
+            background="surface.strong"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Surface Disabled"
+            background="action.disabledBackground"
+            foreground="text.disabled"
+          />
+        </Stack>
+
+        <Stack spacing={1}>
+          <ColourRow
+            label="On Surface"
+            background="text.primary"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="On Surface Variant"
+            background="text.secondary"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="On Surface Subtle"
+            background="text.tertiary"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="On Surface Muted"
+            background="text.muted"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="On Surface Disabled"
+            background="text.disabled"
+            foreground="background.paper"
+          />
+        </Stack>
+
+        <Stack spacing={1}>
+          <ColourRow
+            label="Placeholder"
+            background="text.placeholder"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="Placeholder Focus"
+            background="text.placeholderFocus"
+            foreground="background.paper"
+          />
+          <ColourRow
+            label="On Solid"
+            background="text.onSolid"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Border Subtle"
+            background="border.subtle"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Border Emphasis"
+            background="border.emphasis"
+            foreground="text.primary"
+          />
+          <ColourRow
+            label="Border Strong"
+            background="border.strong"
+            foreground="background.paper"
+          />
+        </Stack>
+      </Box>
+    </Box>
+  </Stack>
+</Box>

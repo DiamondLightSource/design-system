@@ -1,43 +1,54 @@
-import { lazy, Suspense, type ComponentType } from "react";
-import { LucideHome, LucidePalette, LucideWorm } from "lucide-react";
+import {
+  Home as HomeIcon,
+  Palette,
+  Shapes,
+  Blocks,
+  ShieldCheck,
+  Rocket,
+} from "lucide-react";
 import { createRouter, type SectionGroup } from "./app-shell";
+
+import Home from "./pages/Home.mdx";
+
+import Introduction from "./pages/GettingStarted/Introduction.mdx";
+import More from "./pages/GettingStarted/More.mdx";
+
+import Foundations from "./pages/Foundations/Overview.mdx";
+import Colours from "./pages/Foundations/Colours.mdx";
+import Typography from "./pages/Foundations/Typography.mdx";
+import Elevation from "./pages/Foundations/Elevation.mdx";
+
+import Components from "./pages/Components/Overview.mdx";
+import Inputs from "./pages/Components/Inputs.mdx";
+import Navigation from "./pages/Components/Navigation.mdx";
+
+import Patterns from "./pages/Patterns/Overview.mdx";
+import ApplicationStructure from "./pages/Patterns/ApplicationStructure.mdx";
+import NavigationP from "./pages/Patterns/Navigation.mdx";
+
+import Standards from "./pages/Standards/Overview.mdx";
+import Accessibility from "./pages/Standards/Accessibility.mdx";
+import InteractionStandards from "./pages/Standards/InteractionStandards.mdx";
+
 import MdxWrapper from "./Wrapper";
-
-const loadMdxPage = (loader: () => Promise<{ default: ComponentType }>) => {
-  const Component = lazy(loader);
-
-  return function MdxPage() {
-    return (
-      <Suspense fallback={null}>
-        <Component />
-      </Suspense>
-    );
-  };
-};
-
-const Home = loadMdxPage(() => import("./pages/Home.mdx"));
-const Design = loadMdxPage(() => import("./pages/Introduction/Design.mdx"));
-const More = loadMdxPage(() => import("./pages/Introduction/More.mdx"));
-const Colours = loadMdxPage(() => import("./pages/Foundations/Colours.mdx"));
-const Typography = loadMdxPage(() => import("./pages/Foundations/Typography.mdx"));
 
 const navigation: SectionGroup[] = [
   {
     sections: [
       {
         name: "Home",
-        icon: <LucideHome />,
+        icon: <HomeIcon />,
         path: "Home",
         element: <MdxWrapper component={Home} />,
       },
       {
-        name: "Introduction",
-        icon: <LucideWorm />,
-        path: "introduction",
+        name: "Getting Started",
+        icon: <Rocket />,
+        path: "GettingStarted",
         pages: [
           {
-            name: "Design",
-            element: <MdxWrapper component={Design} />,
+            name: "Introduction",
+            element: <MdxWrapper component={Introduction} />,
           },
           {
             name: "Yes!",
@@ -47,8 +58,12 @@ const navigation: SectionGroup[] = [
       },
       {
         name: "Foundations",
-        icon: <LucidePalette />,
+        icon: <Palette />,
         pages: [
+          {
+            name: "Overview",
+            element: <MdxWrapper component={Foundations} />,
+          },
           {
             name: "Colours",
             element: <MdxWrapper component={Colours} />,
@@ -56,6 +71,64 @@ const navigation: SectionGroup[] = [
           {
             name: "Typography",
             element: <MdxWrapper component={Typography} />,
+          },
+          {
+            name: "Elevation",
+            element: <MdxWrapper component={Elevation} />,
+          },
+        ],
+      },
+      {
+        name: "Components",
+        icon: <Shapes />,
+        pages: [
+          {
+            name: "Overview",
+            element: <MdxWrapper component={Components} />,
+          },
+          {
+            name: "Inputs",
+            element: <MdxWrapper component={Inputs} />,
+          },
+          {
+            name: "Navigation",
+            element: <MdxWrapper component={Navigation} />,
+          },
+        ],
+      },
+      {
+        name: "Patterns",
+        icon: <Blocks />,
+        pages: [
+          {
+            name: "Overview",
+            element: <MdxWrapper component={Patterns} />,
+          },
+          {
+            name: "Application Structure",
+            element: <MdxWrapper component={ApplicationStructure} />,
+          },
+          {
+            name: "Navigation",
+            element: <MdxWrapper component={NavigationP} />,
+          },
+        ],
+      },
+      {
+        name: "Standards",
+        icon: <ShieldCheck />,
+        pages: [
+          {
+            name: "Overview",
+            element: <MdxWrapper component={Standards} />,
+          },
+          {
+            name: "Accessibility",
+            element: <MdxWrapper component={Accessibility} />,
+          },
+          {
+            name: "Interaction Standards",
+            element: <MdxWrapper component={InteractionStandards} />,
           },
         ],
       },
