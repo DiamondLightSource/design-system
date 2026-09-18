@@ -1,0 +1,56 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Palette, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+
+# Build better scientific software together
+
+The Diamond Design System helps engineers, scientists and designers create consistent, accessible and dependable digital experiences across Diamond.
+
+It brings together shared foundations, reusable components, design patterns and development resources to help teams build with confidence.
+
+<Button variant="outlined">Get started</Button>
+<Button variant="outlined">Nothing happens!</Button>
+
+## Why use the Design System?
+
+<Card variant="outlined">
+  <CardActionArea
+    component={Link}
+    to="/foundations"
+    sx={{
+      height: "100%",
+      p: 3,
+    }}
+  >
+    <Stack spacing={3}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+        }}
+      >
+        <Palette size={24} />
+        <ArrowUpRight size={18} style={{ opacity: 0.6 }} />
+      </Box>
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Foundations
+        </Typography>
+        <Typography color="text.secondary">
+          Colours, typography, spacing, icons, accessibility and design tokens.
+        </Typography>
+      </Box>
+    </Stack>
+  </CardActionArea>
+</Card>

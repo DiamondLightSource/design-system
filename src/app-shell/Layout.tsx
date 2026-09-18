@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { SidebarNav, type Navigation } from "@diamondlightsource/sci-react-ui";
 import { useEffect } from "react";
 import { NavLink, Outlet, useMatches } from "react-router-dom";
-import { routePath, type RouterProps } from "./Router";
+import { routePath, type RouteHandle, type RouterProps } from "./Router";
 import { TopBar } from "./TopBar";
 import { usePersistentDrawerState } from "./usePersistentDrawerState";
 
@@ -13,7 +13,7 @@ function usePageTitle(appTitle: string) {
   const matches = useMatches();
   const pageTitle = [...matches]
     .reverse()
-    .map((match) => (match.handle as { title?: string } | undefined)?.title)
+    .map((match) => (match.handle as RouteHandle | undefined)?.title)
     .find((title) => title !== undefined);
 
   useEffect(() => {
