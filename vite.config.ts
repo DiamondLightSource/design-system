@@ -5,7 +5,7 @@ import mdx from "@mdx-js/rollup";
 export default defineConfig({
   plugins: [{ enforce: "pre", ...mdx() }, react()],
   build: {
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -39,8 +39,5 @@ export default defineConfig({
   server: {
     host: true,
     port: 3000,
-  },
-  build: {
-    chunkSizeWarningLimit: 1000,
   },
 });
