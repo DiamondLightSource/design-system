@@ -23,7 +23,7 @@ function usePageTitle(appTitle: string) {
   }, [appTitle, pageTitle]);
 }
 
-export function toNavItemGroups(routerProps: RouterProps): Navigation {
+function toNavItemGroups(routerProps: RouterProps): Navigation {
   return routerProps.navigation.map((group) => ({
     name: group.name,
     navItems: group.sections.map((section) => ({
