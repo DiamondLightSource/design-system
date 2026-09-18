@@ -82,16 +82,24 @@ export function SidebarNav({ navigation, open }: NavProps) {
             flexDirection: "column",
           }}
         >
-          {navigation.map((group, groupIndex) => (
-            <Fragment key={groupIndex}>
-              {groupIndex > 0 && <SectionDivider />}
-              {group.navItems.map((item, itemIndex) => {
-                return (
-                  <NavItem key={itemIndex} definition={item} open={open} />
-                );
-              })}
-            </Fragment>
-          ))}
+          {navigation.map((group, groupIndex) => {
+            const groupKey = group.name ?? `group-${groupIndex}`;
+
+            return (
+              <Fragment key={groupKey}>
+                {groupIndex > 0 && <SectionDivider />}
+                {group.navItems.map((item) => {
+                  return (
+                    <NavItem
+                      key={`${groupKey}-${item.label}`}
+                      definition={item}
+                      open={open}
+                    />
+                  );
+                })}
+              </Fragment>
+            );
+          })}
         </List>
       </Box>
     </Drawer>
