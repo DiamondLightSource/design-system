@@ -16,6 +16,7 @@ import More from "./pages/GettingStarted/More.mdx";
 import Foundations from "./pages/Foundations/Overview.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
+import Elevation from "./pages/Foundations/Elevation.mdx";
 
 import Components from "./pages/Components/Overview.mdx";
 import Inputs from "./pages/Components/Inputs.mdx";
@@ -70,6 +71,10 @@ const navigation: SectionGroup[] = [
           {
             name: "Typography",
             element: <MdxWrapper component={Typography} />,
+          },
+          {
+            name: "Elevation",
+            element: <MdxWrapper component={Elevation} />,
           },
         ],
       },
