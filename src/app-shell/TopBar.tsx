@@ -1,14 +1,15 @@
 import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
+import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import { Menu } from "lucide-react";
 
-import { ColourSchemeButton, Logo } from "@diamondlightsource/sci-react-ui";
-import { Divider } from "@mui/material";
-import type { Theme } from "@mui/material/styles";
+import {
+  ColourSchemeButton,
+  Logo,
+  Navbar,
+} from "@diamondlightsource/sci-react-ui";
 
 type Props = {
   title: string;
@@ -18,50 +19,44 @@ type Props = {
 
 export function TopBar({ title, open, setOpen }: Props) {
   return (
-    <AppBar
-      position="fixed"
-      color="inherit"
+    <Navbar
+      surface="surface"
+      variant="base"
+      containerWidth={false}
+      leftSlot={
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+            ml: -2,
+          }}
+        >
+          <IconButton
+            size="small"
+            aria-label="menu"
+            sx={{ color: "inherit" }}
+            onClick={() => setOpen(!open)}
+          >
+            <Menu />
+          </IconButton>
+          <Logo />
+          <Divider orientation="vertical" flexItem sx={{ my: 1 }} />
+          <Typography variant="h6" noWrap component="div">
+            {title}
+          </Typography>
+        </Box>
+      }
+      rightSlot={<ColourSchemeButton />}
       sx={{
-        zIndex: (theme: Theme) => theme.zIndex.drawer + 1,
+        position: "fixed",
+        top: 0,
+        minHeight: 48,
+        height: 48,
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         borderBottom: "1px solid",
         borderColor: "divider",
       }}
-      elevation={0}
-    >
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          aria-label="menu"
-          sx={{ mr: 2, color: "brand.onContainer" }}
-          onClick={() => setOpen(!open)}
-        >
-          <Menu />
-        </IconButton>
-
-        <Box sx={{ mr: 2, width: 100 }}>
-          <Logo  />
-        </Box>
-
-        <Divider orientation="vertical" variant="middle" flexItem />
-
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{
-            ml: 1.5,
-            mt: 1.25,
-            color: "brand.onContainer",
-          }}
-        >
-          {title}
-        </Typography>
-
-        <Box sx={{ ml: "auto" }}>
-          <ColourSchemeButton />
-        </Box>
-      </Toolbar>
-    </AppBar>
+    />
   );
 }
