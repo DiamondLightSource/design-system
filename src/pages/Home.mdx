@@ -36,16 +36,13 @@ import {
   <Stack spacing={{ xs: 7, md: 10 }}>
     <Box
       component="section"
-      sx={{
-        maxWidth: "800px",
-      }}
     >
         <Typography
         component="text"
         variant="h5"
         sx={{
           mb: 2,
-          maxWidth: "720px",
+          maxWidth: "66ch",
           fontWeight: 600,
           color: "brand.main",
         }}
@@ -53,24 +50,21 @@ import {
         Diamond Design System ❖
       </Typography>    
       <Typography
-        component="h1"
-        variant="h2"
+        variant="h2Display"
         sx={{
           mb: 4,
-          maxWidth: "720px",
+          maxWidth: "66ch",
           fontWeight: 600,
         }}
       >
         <div>Build better scientific software together</div>
       </Typography>
       <Typography
-        variant="body1"
+        variant="lead"
         sx={{
-          maxWidth: "720px",
+          maxWidth: "66ch",
           mb: 4,
-          color: "text.secondary",
-          fontSize: "1.125rem",
-          lineHeight: 1.8,
+          color: "text.secondary"
         }}
       >
         The Diamond Design System helps engineers, scientists and designers
@@ -90,7 +84,7 @@ import {
       <Typography
         sx={{
           mb: 4,
-          maxWidth: "680px",
+          maxWidth: "66ch",
           color: "text.secondary",
         }}
       >
@@ -191,7 +185,7 @@ import {
       <Typography
         sx={{
           mb: 4,
-          maxWidth: "680px",
+          maxWidth: "66ch",
           color: "text.secondary",
         }}
       >
@@ -332,7 +326,7 @@ import {
           </Typography>
           <Typography
             sx={{
-              maxWidth: "760px",
+              maxWidth: "66ch",
               color: "text.secondary",
               mb: 3,
             }}
@@ -350,7 +344,7 @@ import {
               "Data visualisation",
               "Specialist instrumentation",
             ].map((label) => (
-              <Chip key={label} label={label} variant="outlined" color="primary" />
+              <Chip key={label} label={label} variant="outlined" color="default" />
             ))}
           </Stack>
         </Box>
