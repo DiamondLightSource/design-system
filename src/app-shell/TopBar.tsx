@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -42,9 +43,15 @@ export function TopBar({ title, open, setOpen }: Props) {
           </IconButton>
           <Logo />
           <Divider orientation="vertical" flexItem sx={{ my: 1 }} />
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h2Display"
+            noWrap
+            component="div"
+            sx={{ fontSize: "var(--ds-type-h5-size)" }}
+          >
             {title}
           </Typography>
+          <Chip label="Beta" size="small" variant="outlined" />
         </Box>
       }
       rightSlot={<ColourSchemeButton />}
