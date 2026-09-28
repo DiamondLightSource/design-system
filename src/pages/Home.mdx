@@ -12,9 +12,9 @@ import {
 import { Link } from "react-router-dom";
 
 import {
-  ArrowUpRight,
   BookOpen,
   Code2,
+  ExternalLink,
   FlaskConical,
   Layers3,
   Palette,
@@ -209,16 +209,23 @@ import {
             href: "https://diamondlightsource.github.io/sci-react-ui/",
           },
           {
-            title: "Figma",
+            title: "Figma (Foundations)",
             description:
               "Use shared libraries and resources to explore and validate ideas before development.",
             icon: PenTool,
             href: "https://www.figma.com/design/Sl1LP28kxexEusAYPkVhsj/Diamond-Design-Foundations?node-id=0-1&t=8pMTji2vJodku81k-1",
           },
+          {
+            title: "Figma (Components)",
+            description:
+              "Explore the Diamond MUI component library and its variants in Figma.",
+            icon: PenTool,
+            href: "https://www.figma.com/design/3313bqDfu7fEa3bzJCvEQZ/Diamond-MUI-Component-Library?node-id=13609-5691&t=PuroKtaFZUWSsh9G-1",
+          },
         ].map((item) => {
           const Icon = item.icon;
           return (
-            <Grid key={item.title} size={{ xs: 12, md: 4 }}>
+            <Grid key={item.title} size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 variant="outlined"
                 sx={{
@@ -273,7 +280,7 @@ import {
                       >
                         <Icon size={24} aria-hidden="true" />
                       </Box>
-                      <ArrowUpRight
+                      <ExternalLink
                         size={18}
                         opacity={0.6}
                         aria-hidden="true"
