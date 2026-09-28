@@ -1,1 +1,102 @@
-# Fonts
+import { Box, Stack, Typography } from "@mui/material";
+
+# Typography
+
+DiamondDS's type scale, driven by `--ds-type-*` and `--ds-font-*` tokens.
+
+export const typographySections = [
+  {
+    title: "Display",
+    variants: [
+      { variant: "h1Display", sample: "Display H1" },
+      { variant: "h2Display", sample: "Display H2" },
+      { variant: "h3Display", sample: "Display H3" },
+      { variant: "h4Display", sample: "Display H4" },
+    ],
+  },
+  {
+    title: "Headings",
+    variants: [
+      { variant: "h1", sample: "Heading H1" },
+      { variant: "h2", sample: "Heading H2" },
+      { variant: "h3", sample: "Heading H3" },
+      { variant: "h4", sample: "Heading H4" },
+      { variant: "h5", sample: "Heading H5" },
+      { variant: "h6", sample: "Heading H6" },
+    ],
+  },
+  {
+    title: "Body",
+    variants: [
+      { variant: "lead", sample: "Lead paragraph text" },
+      { variant: "body1", sample: "Body 1 paragraph text" },
+      { variant: "body2", sample: "Body 2 paragraph text" },
+    ],
+  },
+  {
+    title: "Subtitle",
+    variants: [
+      { variant: "subtitle1", sample: "Subtitle 1" },
+      { variant: "subtitle2", sample: "Subtitle 2" },
+    ],
+  },
+  {
+    title: "Overline & caption",
+    variants: [
+      { variant: "overline", sample: "Overline" },
+      { variant: "overlineSmall", sample: "Overline small" },
+      { variant: "caption", sample: "Caption text" },
+      { variant: "meta", sample: "Meta text" },
+    ],
+  },
+  {
+    title: "Monospace",
+    variants: [
+      { variant: "mono1", sample: "Mono 1: const x = 1;" },
+      { variant: "mono2", sample: "Mono 2: const x = 1;" },
+      { variant: "mono3", sample: "Mono 3: const x = 1;" },
+    ],
+  },
+  {
+    title: "Other",
+    variants: [{ variant: "button", sample: "Button label" }],
+  },
+];
+
+export const TypographyRow = ({ variant, sample }) => (
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "baseline",
+      justifyContent: "space-between",
+      gap: 2,
+      py: 1,
+      borderBottom: "1px solid",
+      borderColor: "divider",
+    }}
+  >
+    <Typography variant={variant}>{sample}</Typography>
+    <Typography
+      variant="caption"
+      color="text.secondary"
+      sx={{ fontFamily: "monospace", flexShrink: 0 }}
+    >
+      {variant}
+    </Typography>
+  </Box>
+);
+
+<Stack spacing={4}>
+  {typographySections.map((section) => (
+    <Box key={section.title}>
+      <Typography variant="overline" color="text.secondary" gutterBottom>
+        {section.title}
+      </Typography>
+      <Stack>
+        {section.variants.map((item) => (
+          <TypographyRow key={item.variant} {...item} />
+        ))}
+      </Stack>
+    </Box>
+  ))}
+</Stack>
