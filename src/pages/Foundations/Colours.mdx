@@ -195,7 +195,12 @@ export const IntentGroupGrid = ({ groups }) => (
       <Typography variant="h6" gutterBottom>
         Intent colours
       </Typography>
-      <Typography variant="body2" color="text.secondary" gutterBottom>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        gutterBottom
+        sx={{ maxWidth: "66ch" }}
+      >
         Exposed as MUI palette roles (e.g.{" "}
         <code>theme.palette.primary.main</code>).
       </Typography>
@@ -206,7 +211,12 @@ export const IntentGroupGrid = ({ groups }) => (
       <Typography variant="h6" gutterBottom>
         Core brand colours
       </Typography>
-      <Typography variant="body2" color="text.secondary" gutterBottom>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        gutterBottom
+        sx={{ maxWidth: "66ch" }}
+      >
         <code>Brand</code> is exposed as a MUI palette role.{" "}
         <code>Tertiary</code> and <code>Highlight</code> are token families
         available as CSS variables, but are not currently exposed as MUI

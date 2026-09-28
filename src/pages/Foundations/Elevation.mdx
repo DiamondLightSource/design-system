@@ -116,7 +116,12 @@ export const ColourLayers = ({ layers }) => {
   <Typography variant="h6" gutterBottom>
     Layering
   </Typography>
-  <Typography variant="body2" color="text.secondary" gutterBottom>
+  <Typography
+    variant="body2"
+    color="text.secondary"
+    gutterBottom
+    sx={{ maxWidth: "66ch" }}
+  >
     Surfaces are meant to nest: each token sits on top of the one before it,
     from the page background up to a solid, high-emphasis surface. The
     elevated step reuses the same <code>surface.elevated()</code> token as
@@ -142,7 +147,12 @@ export const ColourLayers = ({ layers }) => {
   <Typography variant="subtitle2" sx={{ mt: 3 }} gutterBottom>
     Composed: elevated + Danger container
   </Typography>
-  <Typography variant="body2" color="text.secondary" gutterBottom>
+  <Typography
+    variant="body2"
+    color="text.secondary"
+    gutterBottom
+    sx={{ maxWidth: "66ch" }}
+  >
     A <code>Paper</code> with both <code>elevation</code> and a custom{" "}
     <code>backgroundColor</code>.
   </Typography>
@@ -169,7 +179,12 @@ export const ColourLayers = ({ layers }) => {
   <Typography variant="h6" gutterBottom>
     Shadow-restoring components
   </Typography>
-  <Typography variant="body2" color="text.secondary" gutterBottom>
+  <Typography
+    variant="body2"
+    color="text.secondary"
+    gutterBottom
+    sx={{ maxWidth: "66ch" }}
+  >
     A handful of components explicitly restore{" "}
     <code>var(--Paper-shadow)</code> on top of the tonal default, since they
     need to visually float above the page.
