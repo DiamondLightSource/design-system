@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@diamondlightsource/sci-react-ui':
-        specifier: ^0.7.1
-        version: 0.7.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/icons-material@7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-icons@5.7.0(react@18.3.1))(react@18.3.1)
+        specifier: ^0.7.2-rc.0
+        version: 0.7.2-rc.0(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/icons-material@7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-icons@5.7.0(react@18.3.1))(react@18.3.1)
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.17)(react@18.3.1)
@@ -160,8 +160,8 @@ packages:
       dayjs:
         optional: true
 
-  '@diamondlightsource/sci-react-ui@0.7.1':
-    resolution: {integrity: sha512-8i3/AwIaRF/XzBD3aAqiN9asDim/7Lz5ggI2F0ru+7agGC3gmskMKt80WvIFgU1AKXVmCzb9laMU+3//lHuVXg==}
+  '@diamondlightsource/sci-react-ui@0.7.2-rc.0':
+    resolution: {integrity: sha512-3m2eDY1SLiojnAz+JrfPap4IaFnVK53lc0XCcc9Nyj7U9SRTAl0QPMWTihDPULMsclO5IEjPf9k5SAZJ9r4siw==}
     peerDependencies:
       '@emotion/react': ^11.13.3
       '@emotion/styled': ^11.13.0
@@ -2034,7 +2034,7 @@ snapshots:
     optionalDependencies:
       dayjs: 1.10.7
 
-  ? '@diamondlightsource/sci-react-ui@0.7.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/icons-material@7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-icons@5.7.0(react@18.3.1))(react@18.3.1)'
+  ? '@diamondlightsource/sci-react-ui@0.7.2-rc.0(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@jsonforms/core@3.8.0)(@jsonforms/material-renderers@3.8.0(9dfb4a75605a8762e620eded48d9877d))(@jsonforms/react@3.8.0(@jsonforms/core@3.8.0)(react@18.3.1))(@mui/icons-material@7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-icons@5.7.0(react@18.3.1))(react@18.3.1)'
   : dependencies:
       '@emotion/react': 11.14.0(@types/react@19.2.17)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@18.3.1))(@types/react@19.2.17)(react@18.3.1)
