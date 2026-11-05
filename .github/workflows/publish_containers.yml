@@ -72,7 +72,11 @@ jobs:
 
       - name: Package and push Helm chart
         if: ${{ github.event_name == 'release' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
-          helm package helm/designsystem --version ${{ steps.meta.outputs.version }} --app-version ${{ steps.meta.outputs.version }} -d /tmp/
-          helm push /tmp/designsystem-${{ steps.meta.outputs.version }}.tgz oci://ghcr.io/diamondlightsource/charts
+          echo "$GITHUB_TOKEN" | helm registry login ghcr.io --username "$REPO_OWNER" --password-stdin
+          helm package helm/designsystem --version "$VERSION" --app-version "$VERSION" -d /tmp/
+          helm push "/tmp/designsystem-${VERSION}.tgz" oci://ghcr.io/diamondlightsource/charts

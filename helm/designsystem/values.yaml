@@ -17,6 +17,8 @@ podLabels: {}
 
 podSecurityContext:
   runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
 
 # nginx-unprivileged runs as uid 101 and listens on 8080
 securityContext:
