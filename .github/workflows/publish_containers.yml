@@ -65,3 +65,14 @@ jobs:
           subject-name: ${{ env.IMAGE_REPOSITORY }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+
+      - name: Install Helm
+        if: ${{ github.event_name == 'release' }}
+        uses: azure/setup-helm@v4
+
+      - name: Package and push Helm chart
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
+          helm package helm/designsystem --version ${{ steps.meta.outputs.version }} --app-version ${{ steps.meta.outputs.version }} -d /tmp/
+          helm push /tmp/designsystem-${{ steps.meta.outputs.version }}.tgz oci://ghcr.io/diamondlightsource/charts
