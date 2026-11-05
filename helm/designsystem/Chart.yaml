@@ -1,0 +1,8 @@
+apiVersion: v2
+name: designsystem
+description: Diamond Light Source design system documentation site
+type: application
+
+# Both are overridden by CI when the chart is published on a release.
+version: 0.1.0
+appVersion: "0.1.0"

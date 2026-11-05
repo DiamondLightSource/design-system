@@ -1,0 +1,6 @@
+coverage
+node_modules
+dist
+README.md
+.git
+.pnpm-store
