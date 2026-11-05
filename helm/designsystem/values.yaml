@@ -33,14 +33,15 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
-  className: ""
+  enabled: true
+  className: nginx
   annotations: {}
-  hosts: []
-  #  - host: designsystem.example.com
-  #    paths:
-  #      - path: /
-  #        pathType: Prefix
+  hosts:
+    - host: design-staging.diamond.ac.uk
+      paths:
+        - path: /
+          pathType: Prefix
+  # TLS is assumed to be handled by the cluster's ingress controller
   tls: []
 
 resources:
