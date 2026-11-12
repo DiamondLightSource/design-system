@@ -12,9 +12,10 @@ import Home from "./pages/Home.mdx";
 
 import Introduction from "./pages/GettingStarted/Introduction.mdx";
 import PracticalGuide from "./pages/GettingStarted/PracticalGuide.mdx";
-import More from "./pages/GettingStarted/More.mdx";
+import Outline from "./pages/GettingStarted/Outline.mdx";
 
 import Foundations from "./pages/Foundations/Overview.mdx";
+import FoundationsOutline from "./pages/Foundations/Outline.mdx";
 import ColoursIntro from "./pages/Foundations/ColoursIntro.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
 import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
@@ -67,8 +68,8 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={PracticalGuide} />,
           },
           {
-            name: "Yes!",
-            element: <MdxWrapper component={More} />,
+            name: "Outline",
+            element: <MdxWrapper component={Outline} />,
           },
         ],
       },
@@ -129,6 +130,10 @@ const navigation: SectionGroup[] = [
           {
             name: "Icons",
             element: <MdxWrapper component={Icons} />,
+          },
+          {
+            name: "Outline",
+            element: <MdxWrapper component={FoundationsOutline} />,
           },
         ],
       },
