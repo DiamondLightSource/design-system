@@ -1,11 +1,43 @@
+import { Lead } from "../../mdx/blocks";
+
 # Foundations
 
-- Colour
-- Typography
-- Spacing and layout
-- Elevation and surfaces
-- Icons
-- Motion
-- Accessibility
-- Responsive design
-- Design tokens
+<Lead>
+  Foundations are the shared building blocks every Diamond interface is made
+  from: colour, type, surfaces, borders and icons. Get these right and
+  components, patterns and whole applications look and behave consistently.
+</Lead>
+
+## How foundations work
+
+Foundations are defined as design tokens: CSS variables, named for their
+purpose, that hold the values for the system. The MUI theme maps those tokens
+into semantic roles, so components ask for what something means, such as
+`primary`, `surface.subtle` or `border.emphasis`, and not for a particular
+colour or size.
+
+This is what keeps interfaces consistent across products, lets every foundation
+work in both light and dark mode, and allows the system to change without
+rewriting every component.
+
+## In this section
+
+- [Colours](/foundations/colours): how to choose colour by meaning, with the
+  roles and tokens behind it, and every token shown in light and dark mode.
+- [Typography](/foundations/typography): typefaces, the type scale and how to
+  present technical values, with each variant shown.
+- [Elevation](/foundations/elevation): how surfaces layer, and which elevation
+  suits which element.
+- [Borders](/foundations/borders): the border roles for separation, grouping and
+  interaction.
+- [Icons](/foundations/icons): the Lucide icon family, sizes and when to use
+  icons at all.
+
+## Using foundations well
+
+- Use semantic roles and tokens, never raw values.
+- Build structure from neutral colours first, and add colour only to carry
+  meaning.
+- Check every choice in both light and dark mode.
+- Don't rely on colour, weight or an icon alone to communicate state.
+- Reuse what exists before adding something new.

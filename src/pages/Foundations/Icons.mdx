@@ -1,0 +1,262 @@
+import {
+  Plus,
+  Search,
+  ChevronDown,
+  Settings,
+  Trash2,
+  Download,
+  Upload,
+  CircleCheckBig,
+  Info,
+  TriangleAlert,
+  CircleX,
+} from "lucide-react";
+import { Callout, DoDont, Lead, ReferenceTable } from "../../mdx/blocks";
+
+export const iconProps = {
+  size: 20,
+  strokeWidth: 1.75,
+  "aria-hidden": true,
+  style: { verticalAlign: "middle", marginRight: "0.5rem" },
+};
+
+# Icons
+
+<Lead>
+  Icons support visual recognition. They should reinforce meaning, not replace
+  clear language. DiamondDS uses Lucide as its primary icon family.
+</Lead>
+
+## Overview
+
+DiamondDS uses [Lucide](https://lucide.dev) as its primary icon family. Lucide
+icons are simple and line-based, which suits dense scientific interfaces without
+adding visual noise.
+
+Applications should use Lucide icons wherever possible.
+
+When creating bespoke icons, follow the same visual language:
+
+- Line-based rather than filled.
+- Consistent stroke weights.
+- Rounded line caps and joins.
+- Simple, recognisable shapes.
+- Minimal detail at small sizes.
+
+Avoid mixing several icon families within the same application.
+
+<Callout>
+  Material Icons may remain in existing screens during the transition. For new
+  components, new patterns and new application work, use Lucide.
+</Callout>
+
+## Choosing icons
+
+Icons should communicate familiar concepts quickly. Good uses include:
+
+- Navigation
+- Actions
+- Status indicators
+- Object types
+- Menus and command lists
+- Toolbars
+
+Icons should not be used purely as decoration.
+
+### Prefer labels over icons
+
+Where understanding is important, pair icons with text. A settings button, for
+example, should show the gear icon beside the word "Settings", not the icon
+alone.
+
+Avoid relying on icons alone for unfamiliar, complex or high-risk actions.
+
+## Consistency
+
+Use the same icon for the same concept across products.
+
+<ReferenceTable
+  columns={["Concept", "Example icon"]}
+  rows={[
+    [
+      "Add",
+      <>
+        <Plus {...iconProps} />
+        <code>Plus</code>
+      </>,
+    ],
+    [
+      "Search",
+      <>
+        <Search {...iconProps} />
+        <code>Search</code>
+      </>,
+    ],
+    [
+      "Expand",
+      <>
+        <ChevronDown {...iconProps} />
+        <code>ChevronDown</code>
+      </>,
+    ],
+    [
+      "Settings",
+      <>
+        <Settings {...iconProps} />
+        <code>Settings</code>
+      </>,
+    ],
+    [
+      "Delete",
+      <>
+        <Trash2 {...iconProps} />
+        <code>Trash2</code>
+      </>,
+    ],
+    [
+      "Download",
+      <>
+        <Download {...iconProps} />
+        <code>Download</code>
+      </>,
+    ],
+    [
+      "Upload",
+      <>
+        <Upload {...iconProps} />
+        <code>Upload</code>
+      </>,
+    ],
+  ]}
+/>
+
+Changing icon metaphors between applications increases cognitive load and
+reduces predictability. When selecting or creating icons, follow the naming
+conventions of the underlying icon library to keep them consistent and easy to
+find.
+
+## Icon sizes
+
+DiamondDS defines five standard icon sizes.
+
+<ReferenceTable
+  columns={["Icon size", "Size", "Stroke weight"]}
+  rows={[
+    ["XS", "16px", "1.5px"],
+    ["SM", "20px", "1.75px"],
+    ["MD", "24px", "2px"],
+    ["LG", "32px", "2.25px"],
+    ["XL", "40px", "2.25px"],
+  ]}
+/>
+
+Use the smallest icon size that stays recognisable and readable.
+
+<Callout>
+  The `LucideIcon` wrapper is still in development. Until it ships, import icons
+  directly from `lucide-react` and size them by hand using the sizes and stroke
+  weights above.
+</Callout>
+
+## Icons in navigation
+
+Icons may support navigation but should rarely replace labels in desktop
+scientific applications. Keep navigation labels visible wherever space allows.
+
+Icons are most useful for:
+
+- Application launchers
+- Navigation rails
+- Collapsed side navigation
+- Toolbar actions
+
+## Status and feedback
+
+Icons can reinforce status messages but should not be the only indicator.
+
+<ReferenceTable
+  columns={["Status", "Typical icon"]}
+  rows={[
+    [
+      "Success",
+      <>
+        <CircleCheckBig {...iconProps} />
+        <code>CircleCheckBig</code>
+      </>,
+    ],
+    [
+      "Information",
+      <>
+        <Info {...iconProps} />
+        <code>Info</code>
+      </>,
+    ],
+    [
+      "Warning",
+      <>
+        <TriangleAlert {...iconProps} />
+        <code>TriangleAlert</code>
+      </>,
+    ],
+    [
+      "Error",
+      <>
+        <CircleX {...iconProps} />
+        <code>CircleX</code>
+      </>,
+    ],
+  ]}
+/>
+
+Always combine icons with text and colour.
+
+## Accessibility
+
+### Decorative icons
+
+Hide decorative icons from assistive technologies by marking them
+`aria-hidden`.
+
+### Interactive icons
+
+Give icon-only controls a meaningful accessible name. Use icon-only buttons when
+space is limited, the action is widely understood and the icon is clear without
+text. Set an `aria-label` that says what the button does, such as "Open
+settings".
+
+### Status icons
+
+Do not rely on icon shape or colour alone to communicate meaning. Always provide
+accompanying text.
+
+## Do and don’t
+
+<DoDont
+  dos={[
+    "Use Lucide icons consistently.",
+    "Pair icons with text where clarity matters.",
+    "Let components control icon sizing.",
+    "Use icons to improve visual recognition.",
+    "Follow Lucide conventions for bespoke icons.",
+  ]}
+  donts={[
+    "Don’t mix several icon families.",
+    "Don’t use icons purely as decoration.",
+    "Don’t depend on icons alone for critical actions.",
+    "Don’t resize button icons manually.",
+    "Don’t use different icons for the same concept across products.",
+  ]}
+/>
+
+## Scientific and operational interfaces
+
+In scientific applications, icons should support task completion rather than
+branding. Prefer clear text labels for:
+
+- Instrument controls
+- Acquisition actions
+- Safety-related actions
+- Experimental workflows
+- Administrative actions
+
+Icons work best as supporting cues alongside clear terminology.

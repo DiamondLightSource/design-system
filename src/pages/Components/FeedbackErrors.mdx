@@ -1,0 +1,72 @@
+import { Callout, ReferenceTable } from "../../mdx/blocks";
+
+Error handling should help users recover safely and confidently. Focus on
+clarity, next steps, and preventing further mistakes.
+
+## Make errors actionable
+
+Good error messages explain:
+
+- what happened
+- what caused the issue, if known
+- what the user can do next
+
+Avoid vague or technical-only messaging where possible.
+
+<ReferenceTable
+  columns={["Avoid", "Prefer"]}
+  rows={[
+    [<code>Operation failed</code>, <code>Unable to connect to detector</code>],
+    [
+      <code>Validation error</code>,
+      <code>Exposure time must be greater than 0</code>,
+    ],
+    [
+      <code>Device unavailable</code>,
+      <>
+        <code>Motor controller is offline.</code> A further line can say what to
+        do: <code>Reconnect or contact beamline staff.</code>
+      </>,
+    ],
+  ]}
+/>
+
+## Prefer recovery over dead ends
+
+Where possible, help users continue safely. Provide:
+
+- retry actions
+- alternative paths
+- clear recovery guidance
+- safe defaults
+
+Avoid trapping users in blocked states without explanation.
+
+## Error severity
+
+Not all errors need the same visual weight.
+
+<ReferenceTable
+  columns={["Severity", "Typical treatment"]}
+  rows={[
+    ["Minor", "Inline validation or local helper text"],
+    ["Moderate", "Inline alert, panel warning, persistent message"],
+    ["Critical", "Blocking alert, dialog or operational interruption"],
+  ]}
+/>
+
+## Safety and operational awareness
+
+In scientific and operational environments, errors may affect hardware,
+beamtime, experiments or data integrity. Use stronger emphasis when actions may:
+
+- interrupt experiments
+- move hardware
+- discard data
+- affect safety
+- impact other users or systems
+
+<Callout>
+  Destructive or irreversible actions should require clear confirmation, and
+  should never compete visually with safe actions.
+</Callout>

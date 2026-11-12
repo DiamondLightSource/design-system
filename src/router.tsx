@@ -11,16 +11,29 @@ import { createRouter, type SectionGroup } from "./app-shell";
 import Home from "./pages/Home.mdx";
 
 import Introduction from "./pages/GettingStarted/Introduction.mdx";
-import More from "./pages/GettingStarted/More.mdx";
+import PracticalGuide from "./pages/GettingStarted/PracticalGuide.mdx";
+import Outline from "./pages/GettingStarted/Outline.mdx";
 
 import Foundations from "./pages/Foundations/Overview.mdx";
+import FoundationsOutline from "./pages/Foundations/Outline.mdx";
+import ColoursIntro from "./pages/Foundations/ColoursIntro.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
+import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
+import TypographyIntro from "./pages/Foundations/TypographyIntro.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
+import TypographySpecimens from "./pages/Foundations/TypographySpecimens.mdx";
+import ElevationIntro from "./pages/Foundations/ElevationIntro.mdx";
 import Elevation from "./pages/Foundations/Elevation.mdx";
+import ElevationExamples from "./pages/Foundations/ElevationExamples.mdx";
+import Borders from "./pages/Foundations/Borders.mdx";
+import Icons from "./pages/Foundations/Icons.mdx";
 
 import Components from "./pages/Components/Overview.mdx";
 import Inputs from "./pages/Components/Inputs.mdx";
 import Navigation from "./pages/Components/Navigation.mdx";
+import FeedbackIntro from "./pages/Components/FeedbackIntro.mdx";
+import Feedback from "./pages/Components/Feedback.mdx";
+import FeedbackErrors from "./pages/Components/FeedbackErrors.mdx";
 
 import Patterns from "./pages/Patterns/Overview.mdx";
 import ApplicationStructure from "./pages/Patterns/ApplicationStructure.mdx";
@@ -39,7 +52,7 @@ const navigation: SectionGroup[] = [
         name: "Home",
         icon: <HomeIcon />,
         path: "Home",
-        element: <MdxWrapper component={Home} />,
+        element: <MdxWrapper component={Home} prose={false} />,
       },
       {
         name: "Getting Started",
@@ -51,8 +64,12 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={Introduction} />,
           },
           {
-            name: "Yes!",
-            element: <MdxWrapper component={More} />,
+            name: "Practical guide",
+            element: <MdxWrapper component={PracticalGuide} />,
+          },
+          {
+            name: "Outline",
+            element: <MdxWrapper component={Outline} />,
           },
         ],
       },
@@ -66,15 +83,57 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Colours",
-            element: <MdxWrapper component={Colours} />,
+            header: <MdxWrapper component={ColoursIntro} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Colours} />,
+              },
+              {
+                name: "Theme colours",
+                element: <MdxWrapper component={ThemeColours} />,
+              },
+            ],
           },
           {
             name: "Typography",
-            element: <MdxWrapper component={Typography} />,
+            header: <MdxWrapper component={TypographyIntro} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Typography} />,
+              },
+              {
+                name: "Specimens",
+                element: <MdxWrapper component={TypographySpecimens} />,
+              },
+            ],
           },
           {
             name: "Elevation",
-            element: <MdxWrapper component={Elevation} />,
+            header: <MdxWrapper component={ElevationIntro} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Elevation} />,
+              },
+              {
+                name: "Examples",
+                element: <MdxWrapper component={ElevationExamples} />,
+              },
+            ],
+          },
+          {
+            name: "Borders",
+            element: <MdxWrapper component={Borders} />,
+          },
+          {
+            name: "Icons",
+            element: <MdxWrapper component={Icons} />,
+          },
+          {
+            name: "Outline",
+            element: <MdxWrapper component={FoundationsOutline} />,
           },
         ],
       },
@@ -93,6 +152,20 @@ const navigation: SectionGroup[] = [
           {
             name: "Navigation",
             element: <MdxWrapper component={Navigation} />,
+          },
+          {
+            name: "Feedback",
+            header: <MdxWrapper component={FeedbackIntro} />,
+            tabs: [
+              {
+                name: "Feedback and status",
+                element: <MdxWrapper component={Feedback} />,
+              },
+              {
+                name: "Errors and recovery",
+                element: <MdxWrapper component={FeedbackErrors} />,
+              },
+            ],
           },
         ],
       },
