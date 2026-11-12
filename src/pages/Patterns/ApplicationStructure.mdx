@@ -1,4 +1,4 @@
-import { Callout, Lead, ReferenceTable } from "../../mdx/blocks";
+import { Callout, LayoutFigure, Lead, ReferenceTable } from "../../mdx/blocks";
 
 # Application Structure
 
@@ -16,21 +16,6 @@ only when the task needs them.
   Pattern names are provisional. Some regions have no SciReactUI component yet,
   and the Components column says which.
 </Callout>
-
-## Legend
-
-<ReferenceTable
-  columns={["Symbol", "Meaning"]}
-  rows={[
-    ["□", "Icon or control"],
-    ["▬", "Placeholder text"],
-    ["▶", "Selected item"],
-    ["▴ ▾", "Expanded or collapsed group"],
-    ["✕", "Close control"],
-    ["[ ]", "Field or button"],
-    ["║ ═", "Overlay edge: floats above the content"],
-  ]}
-/>
 
 ## Regions
 
@@ -189,6 +174,8 @@ not fixed regions. Use the ones the task needs.
 The simplest pattern: a desktop shell with a global header (A), a navigation
 rail (B) and a flexible workspace (E).
 
+<LayoutFigure pattern="starting-app">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
@@ -211,6 +198,8 @@ rail (B) and a flexible workspace (E).
 └────────────────┴──────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`
@@ -221,6 +210,8 @@ Components:
 
 Desktop shell with a global header, a navigation rail, a tabbed workspace and a
 global status bar.
+
+<LayoutFigure pattern="tabs-and-status">
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
@@ -246,6 +237,8 @@ global status bar.
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`
@@ -259,12 +252,14 @@ Components:
 Streamlined desktop shell with persistent header, primary navigation, context
 navigation, and a flexible workspace.
 
+<LayoutFigure pattern="context-navigation">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
 ├────────────────┬────────────────┬─────────────────────────────────────────────┤
 │ B · Primary    │ C · Context    │                                             │
-│ navigation     │ navigation     │                                             │
+│ navigation     │ panel          │                                             │
 │                │                │                                             │
 │ □ ▬▬▬▬▬▬       │ Secondary      │                                             │
 │ □ ▬▬▬▬         │ navigation     │                                             │
@@ -281,6 +276,8 @@ navigation, and a flexible workspace.
 └────────────────┴────────────────┴─────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`
@@ -293,12 +290,14 @@ Components:
 Desktop shell with a docked side drawer beside the workspace and a global status
 footer.
 
+<LayoutFigure pattern="persistent-side-drawer">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
 ├────────────────┬────────────────┬────────────────────────┬────────────────────┤
 │ B · Primary    │ C · Context    │                        │ F · Auxiliary  □ □ │
-│ navigation     │ navigation     │                        │                    │
+│ navigation     │ panel          │                        │                    │
 │                │ [Search/filter]│                        │ Secondary content  │
 │ □ ▬▬▬▬▬▬       │ [▬▬▬] [▬▬▬]    │                        │ ▬▬▬▬▬▬▬▬▬▬▬▬       │
 │ □ ▬▬▬▬         │                │                        │ ▬▬▬▬▬▬▬▬▬▬▬▬▬▬     │
@@ -317,6 +316,8 @@ footer.
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`
@@ -332,12 +333,14 @@ Components:
 Desktop shell with persistent tabs, a split workspace, and a dedicated status
 footer.
 
+<LayoutFigure pattern="persistent-bottom-drawer">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬ / ▬▬▬▬▬ / ▬▬▬▬▬             Global utilities  □ □ □ │
 ├────────────────┬────────────────┬─────────────────────────────────────────────┤
 │ B · Primary    │ C · Context    │                                             │
-│ navigation     │ navigation     │                                             │
+│ navigation     │ panel          │                                             │
 │                │ [Search/filter]│                                             │
 │ □ ▬▬▬▬▬▬       │ [▬▬▬] [▬▬▬]    │            E · Primary workspace            │
 │ □ ▬▬▬▬         │                │                                             │
@@ -355,6 +358,8 @@ footer.
 │ G · Global status                                                 ▬▬▬▬▬▬  ▬▬▬ │
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
+
+</LayoutFigure>
 
 Components:
 
@@ -388,6 +393,11 @@ is a modal, so it can still hide the rest of the page from screen readers and
 close on Escape. Test keyboard and screen-reader access to the workspace. If it
 cannot be reached that way, keep the workspace blocked.
 
+The diagram shows the still usable behaviour: the drawer has no backdrop, so
+the workspace behind it isn’t dimmed.
+
+<LayoutFigure pattern="temporary-side-drawer">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
@@ -412,6 +422,8 @@ cannot be reached that way, keep the workspace blocked.
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`
@@ -423,15 +435,17 @@ Components:
 
 ### 7. Inner workspace options
 
-Desktop shell with context navigation, tabs, toolbar, content, inspector, and
+Desktop shell with a context panel, tabs, toolbar, content, inspector, and
 local status.
+
+<LayoutFigure pattern="inner-workspace-options">
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬ / ▬▬▬▬▬ / ▬▬▬▬▬             Global utilities  □ □ □ │
 ├────────────────┬────────────────┬─────────────────────────────────────────────┤
 │ B · Primary    │ C · Context    │ D · Workspace selector                      │
-│ navigation     │ navigation     │ □ ▬▬▬▬▬▬   □ ▬▬▬▬▬▬   □ ▬▬▬▬▬▬              │
+│ navigation     │ panel          │ □ ▬▬▬▬▬▬   □ ▬▬▬▬▬▬   □ ▬▬▬▬▬▬              │
 │                │ [Search/filter]├─────────────────────────────────────────────┤
 │ □ ▬▬▬▬▬▬       │ [▬▬▬] [▬▬▬]    │ E3 · Workspace toolbar  □ □ □               │
 │ □ ▬▬▬▬         │                ├──────────────────────┬──────────────────────┤
@@ -454,6 +468,8 @@ local status.
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`, plus a breadcrumb trail
@@ -470,6 +486,8 @@ Components:
 ### 8. Inner workspace navigation
 
 Desktop shell with tabs, workspace navigation, content.
+
+<LayoutFigure pattern="inner-workspace-navigation">
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
@@ -495,6 +513,8 @@ Desktop shell with tabs, workspace navigation, content.
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
+</LayoutFigure>
+
 Components:
 
 - **A** Global header: `Navbar`, or MUI `AppBar`, plus a breadcrumb trail
@@ -511,12 +531,14 @@ Desktop shell with a modal pane for a form or other content, laid over the
 context panel and the workspace. A backdrop, not drawn here, dims and blocks the
 whole screen, including the header and navigation.
 
+<LayoutFigure pattern="modal-pane">
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
 │ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
 ├────────────────┬────────────────┬─────────────────────────────────────────────┤
 │ B · Primary    │ C · Context    │                                             │
-│ navigation     │ na╔═════════════════════════════════════╗                    │
+│ navigation     │ pa╔═════════════════════════════════════╗                    │
 │                │   ║ H · Modal pane                  □ ✕ ║                    │
 │ □ ▬▬▬▬▬▬       │ Se║ ─────────────────────────────────── ║                    │
 │ □ ▬▬▬▬         │ na║ Form or content                     ║                    │
@@ -532,6 +554,8 @@ whole screen, including the header and navigation.
 │ Some more text │                │               Content viewport              │
 └────────────────┴────────────────┴─────────────────────────────────────────────┘
 ```
+
+</LayoutFigure>
 
 Components:
 

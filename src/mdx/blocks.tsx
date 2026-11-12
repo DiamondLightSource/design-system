@@ -8,6 +8,8 @@ import {
   DataTableHead,
   DataTableRow,
 } from "./elements";
+import type { LayoutConfig } from "./diagrams/layout";
+import { LayoutDiagram, type PatternName } from "./diagrams/patterns";
 import { readingWidth } from "./layout";
 
 /** A table from column headings and rows of cell content */
@@ -276,6 +278,50 @@ export function TreeList({
       }}
     >
       <Branch nodes={nodes} depth={0} />
+    </Box>
+  );
+}
+
+/**
+ * A layout drawn as a skeleton diagram: one of the named patterns, with any
+ * changes passed as `layout`, or a layout of its own. The children, usually a
+ * text drawing of the same layout, sit in a collapsed "Text version" beneath it.
+ */
+export function LayoutFigure({
+  children,
+  ...diagram
+}: {
+  pattern?: PatternName;
+  layout?: LayoutConfig;
+  title?: string;
+  description?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <Box component="figure" sx={{ m: 0, mb: 3 }}>
+      <Box
+        sx={{
+          overflowX: "auto",
+          borderRadius: 1,
+          border: "1px solid",
+          borderColor: "border.subtle",
+        }}
+      >
+        <LayoutDiagram {...diagram} />
+      </Box>
+      {children && (
+        <Box component="details" sx={{ mt: 1 }}>
+          <Typography
+            component="summary"
+            variant="body2"
+            color="text.secondary"
+            sx={{ cursor: "pointer", mb: 1 }}
+          >
+            Text version
+          </Typography>
+          {children}
+        </Box>
+      )}
     </Box>
   );
 }
