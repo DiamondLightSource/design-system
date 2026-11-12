@@ -40,12 +40,6 @@ export const H4 = ({ children }: Children) => (
   </Typography>
 );
 
-export const Paragraph = ({ children }: Children) => (
-  <Typography variant="body1" sx={{ mb: 2, maxWidth: readingWidth }}>
-    {children}
-  </Typography>
-);
-
 export const UnorderedList = ({ children }: Children) => (
   <Box component="ul" sx={{ mt: 0, mb: 2, pl: 3, maxWidth: readingWidth }}>
     {children}

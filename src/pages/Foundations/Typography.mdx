@@ -1,6 +1,16 @@
 import { Typography } from "@mui/material";
 import { Callout, DoDont, ReferenceTable } from "../../mdx/blocks";
 
+export const Typeface = ({ name, family }) => (
+  <Typography
+    variant="h5"
+    component="h3"
+    sx={{ fontFamily: family, mt: 3.5, mb: 1 }}
+  >
+    {name}
+  </Typography>
+);
+
 ## Typefaces
 
 <ReferenceTable
@@ -259,13 +269,7 @@ heading hierarchy inside operational interfaces.
 
 ## Choosing a typeface
 
-<Typography
-  variant="h5"
-  component="h3"
-  sx={{ fontFamily: "var(--ds-font-family-default)", mt: 3.5, mb: 1 }}
->
-  Inter
-</Typography>
+<Typeface name="Inter" family="var(--ds-font-family-default)" />
 
 The default interface typeface. Use it for:
 
@@ -282,13 +286,7 @@ The default interface typeface. Use it for:
 Inter should be the default choice unless there is a specific reason to use
 Outfit or IBM Plex Mono.
 
-<Typography
-  variant="h5"
-  component="h3"
-  sx={{ fontFamily: "var(--ds-font-family-display)", mt: 3.5, mb: 1 }}
->
-  Outfit
-</Typography>
+<Typeface name="Outfit" family="var(--ds-font-family-display)" />
 
 Used for display and high-level headings. Use it sparingly for:
 
@@ -299,13 +297,7 @@ Used for display and high-level headings. Use it sparingly for:
 
 Do not use Outfit for dense application UI, tables, forms or technical values.
 
-<Typography
-  variant="h5"
-  component="h3"
-  sx={{ fontFamily: "var(--ds-font-family-mono)", mt: 3.5, mb: 1 }}
->
-  IBM Plex Mono
-</Typography>
+<Typeface name="IBM Plex Mono" family="var(--ds-font-family-mono)" />
 
 Used for technical and aligned information. Use it for:
 

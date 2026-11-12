@@ -86,6 +86,7 @@ export function Callout({
         borderLeft: "4px solid",
         borderLeftColor: "primary.accent",
         backgroundColor: "surface.subtle",
+        "& > p": { typography: "body1", mb: 2 },
         "& > :last-child": { mb: 0 },
       }}
     >

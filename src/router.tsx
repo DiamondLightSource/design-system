@@ -44,7 +44,7 @@ const navigation: SectionGroup[] = [
         name: "Home",
         icon: <HomeIcon />,
         path: "Home",
-        element: <MdxWrapper component={Home} />,
+        element: <MdxWrapper component={Home} prose={false} />,
       },
       {
         name: "Getting Started",

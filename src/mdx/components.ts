@@ -14,7 +14,6 @@ import {
   ListItem,
   MdxLink,
   OrderedList,
-  Paragraph,
   Rule,
   UnorderedList,
 } from "./elements";
@@ -25,7 +24,6 @@ export const mdxComponents = {
   h2: H2,
   h3: H3,
   h4: H4,
-  p: Paragraph,
   ul: UnorderedList,
   ol: OrderedList,
   li: ListItem,
