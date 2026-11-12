@@ -28,9 +28,12 @@ export function ReferenceTable({
   columns,
   rows,
   equalColumns = false,
+  noWrapColumns = [],
 }: {
   columns: string[];
   rows: ReactNode[][];
+  /** Indexes of columns to keep on one line, such as names and tokens */
+  noWrapColumns?: number[];
   /** Give every column the same width instead of sizing to content */
   equalColumns?: boolean;
 }) {
@@ -49,7 +52,15 @@ export function ReferenceTable({
             const tone = columnTone[column as keyof typeof columnTone];
             if (!tone) {
               return (
-                <DataTableCell key={columnIndex} sx={divider(columnIndex)}>
+                <DataTableCell
+                  key={columnIndex}
+                  sx={{
+                    ...(noWrapColumns.includes(columnIndex)
+                      ? { whiteSpace: "nowrap" }
+                      : {}),
+                    ...divider(columnIndex),
+                  }}
+                >
                   {column}
                 </DataTableCell>
               );
@@ -79,7 +90,13 @@ export function ReferenceTable({
             {row.map((cell, cellIndex) => (
               <DataTableCell
                 key={cellIndex}
-                sx={{ verticalAlign: "top", ...divider(cellIndex) }}
+                sx={{
+                  verticalAlign: "top",
+                  ...(noWrapColumns.includes(cellIndex)
+                    ? { whiteSpace: "nowrap" }
+                    : {}),
+                  ...divider(cellIndex),
+                }}
               >
                 {cell}
               </DataTableCell>
