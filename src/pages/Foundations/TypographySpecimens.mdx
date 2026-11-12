@@ -87,7 +87,12 @@ export const TypographyRow = ({ variant, sample }) => (
 <Stack spacing={4}>
   {typographySections.map((section) => (
     <Box key={section.title}>
-      <Typography variant="overline" color="text.secondary" gutterBottom>
+      <Typography
+        variant="overline"
+        component="h2"
+        color="text.secondary"
+        gutterBottom
+      >
         {section.title}
       </Typography>
       <Stack>

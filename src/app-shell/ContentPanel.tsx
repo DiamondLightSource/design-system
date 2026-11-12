@@ -1,18 +1,10 @@
 import Box from "@mui/material/Box";
 import type { ReactNode } from "react";
 
-/** Padded, scrollable content area for a page */
+/**
+ * Padded content area for a page. It must not scroll on its own: the page
+ * scrolls instead, so that sticky elements inside it can stay in view.
+ */
 export function ContentPanel({ children }: { children: ReactNode }) {
-  return (
-    <Box
-      sx={{
-        flex: 1,
-        minHeight: 0,
-        overflow: "auto",
-        p: 2,
-      }}
-    >
-      {children}
-    </Box>
-  );
+  return <Box sx={{ p: 2 }}>{children}</Box>;
 }
