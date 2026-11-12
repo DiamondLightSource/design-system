@@ -16,7 +16,7 @@ function useCurrentPagedSection(navigation: SectionGroup[]) {
     .flatMap((group) => group.sections)
     .find(
       (section): section is PagedSection =>
-        "pages" in section && routePath(section) === currentPath,
+        section.pages !== undefined && routePath(section) === currentPath,
     );
 }
 

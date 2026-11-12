@@ -18,8 +18,13 @@ export function TabbedPanel({ tabs, basePath }: TabbedPanelProps) {
   const navigate = useNavigate();
 
   const currentTab =
-    tabs.find((tab) => location.pathname.startsWith(`${basePath}/${tab.path}`))
-      ?.path ?? false;
+    tabs.find((tab) => {
+      const tabPath = `${basePath}/${tab.path}`;
+      return (
+        location.pathname === tabPath ||
+        location.pathname.startsWith(`${tabPath}/`)
+      );
+    })?.path ?? false;
 
   const handleChange = (_: React.SyntheticEvent, value: string) => {
     navigate(`${basePath}/${value}`);

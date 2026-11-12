@@ -44,18 +44,24 @@ interface BaseSection extends LabelledRoute {
 /** A section rendering a single page, with no sub navigation or child routes */
 export interface SingleSection extends BaseSection {
   element: ReactNode;
+  tabs?: never;
+  pages?: never;
 }
 
 /** A section rendering several tabs, with no sub navigation */
 export interface TabbedSection extends BaseSection {
   /** First one is default */
   tabs: Tab[];
+  element?: never;
+  pages?: never;
 }
 
 /** A section rendering multiple pages behind a sub navigation */
 export interface PagedSection extends BaseSection {
   /** First one is default */
   pages: Page[];
+  element?: never;
+  tabs?: never;
 }
 
 /**
@@ -66,12 +72,14 @@ export type Section = SingleSection | TabbedSection | PagedSection;
 /** A page rendering its content directly */
 export interface ContentPage extends LabelledRoute {
   element: ReactNode;
+  tabs?: never;
 }
 
 /** A page rendering several tabs, one level below the sub navigation */
 export interface TabbedPage extends LabelledRoute {
   /** First one is default */
   tabs: Tab[];
+  element?: never;
 }
 
 export type Page = ContentPage | TabbedPage;
@@ -130,7 +138,7 @@ function tabbedRoute(
 function pageRoute(page: Page, sectionPath: string): RouteObject {
   const pagePath = routePath(page);
 
-  if ("tabs" in page) {
+  if (page.tabs) {
     return tabbedRoute(
       pagePath,
       `/${sectionPath}/${pagePath}`,
@@ -149,7 +157,7 @@ function pageRoute(page: Page, sectionPath: string): RouteObject {
 function childRoute(section: Section): RouteObject {
   const sectionPath = routePath(section);
 
-  if ("tabs" in section) {
+  if (section.tabs) {
     return tabbedRoute(
       sectionPath,
       `/${sectionPath}`,
@@ -158,7 +166,7 @@ function childRoute(section: Section): RouteObject {
     );
   }
 
-  if (!("pages" in section)) {
+  if (!section.pages) {
     return {
       path: sectionPath,
       element: <ContentPanel>{section.element}</ContentPanel>,
