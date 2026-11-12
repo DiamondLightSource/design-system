@@ -17,28 +17,72 @@ import { LayoutDiagram } from "./diagrams/patterns";
 import { resolveLayout, type PatternName } from "./diagrams/presets";
 import { readingWidth } from "./layout";
 
+/** Column headings that carry a positive or negative meaning */
+const columnTone = {
+  Prefer: { Icon: Check, intent: "success" },
+  Avoid: { Icon: X, intent: "error" },
+} as const;
+
 /** A table from column headings and rows of cell content */
 export function ReferenceTable({
   columns,
   rows,
+  equalColumns = false,
 }: {
   columns: string[];
   rows: ReactNode[][];
+  /** Give every column the same width instead of sizing to content */
+  equalColumns?: boolean;
 }) {
+  // Prefer/Avoid tables compare side by side, so divide their columns
+  const isComparison = columns.some((column) => column in columnTone);
+  const divider = (columnIndex: number) =>
+    isComparison && columnIndex > 0
+      ? { borderLeft: "1px solid", borderLeftColor: "border.subtle" }
+      : {};
+
   return (
-    <DataTable>
+    <DataTable equalColumns={equalColumns}>
       <DataTableHead>
         <DataTableRow>
-          {columns.map((column, columnIndex) => (
-            <DataTableCell key={columnIndex}>{column}</DataTableCell>
-          ))}
+          {columns.map((column, columnIndex) => {
+            const tone = columnTone[column as keyof typeof columnTone];
+            if (!tone) {
+              return (
+                <DataTableCell key={columnIndex} sx={divider(columnIndex)}>
+                  {column}
+                </DataTableCell>
+              );
+            }
+            const { Icon, intent } = tone;
+            return (
+              <DataTableCell
+                key={columnIndex}
+                sx={{
+                  backgroundColor: `${intent}.container`,
+                  color: `${intent}.onContainer`,
+                  ...divider(columnIndex),
+                }}
+              >
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Icon size={16} strokeWidth={2} aria-hidden="true" />
+                  <span>{column}</span>
+                </Stack>
+              </DataTableCell>
+            );
+          })}
         </DataTableRow>
       </DataTableHead>
       <DataTableBody>
         {rows.map((row, rowIndex) => (
           <DataTableRow key={rowIndex}>
             {row.map((cell, cellIndex) => (
-              <DataTableCell key={cellIndex}>{cell}</DataTableCell>
+              <DataTableCell
+                key={cellIndex}
+                sx={{ verticalAlign: "top", ...divider(cellIndex) }}
+              >
+                {cell}
+              </DataTableCell>
             ))}
           </DataTableRow>
         ))}
