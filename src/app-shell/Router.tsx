@@ -97,9 +97,30 @@ export interface Tab extends LabelledRoute {
   element: ReactNode;
 }
 
-/** Custom data attached to each leaf route, read via `useMatches()` for the page title */
-export interface RouteHandle {
+/** Custom data attached to each page route, read via `useMatches()` */
+export interface PageHandle {
   title: string;
+  /** Set on tab routes, so switching tab is not treated as changing page */
+  tab?: boolean;
+}
+
+/** Attached to routes that only redirect: not a page the reader arrived at */
+export interface RedirectHandle {
+  redirect: true;
+}
+
+export type RouteHandle = PageHandle | RedirectHandle;
+
+export const isRedirectHandle = (handle: unknown): handle is RedirectHandle =>
+  !!handle && "redirect" in (handle as object);
+
+/** An index route that sends the reader on to `to` */
+function redirectRoute(to: string): RouteObject {
+  return {
+    index: true,
+    element: <Navigate to={to} replace />,
+    handle: { redirect: true } satisfies RedirectHandle,
+  };
 }
 
 /** When paths not given, derive from name through this function */
@@ -127,25 +148,17 @@ function tabbedRoute(
   return {
     path,
     element: (
-      <TabbedPanel
-        basePath={basePath}
-        tabs={tabDescriptions}
-        header={header}
-      />
+      <TabbedPanel basePath={basePath} tabs={tabDescriptions} header={header} />
     ),
     children: [
-      ...(firstTab
-        ? [
-            {
-              index: true,
-              element: <Navigate to={routePath(firstTab)} replace />,
-            },
-          ]
-        : []),
+      ...(firstTab ? [redirectRoute(routePath(firstTab))] : []),
       ...tabs.map((tab) => ({
         path: routePath(tab),
         element: tab.element,
-        handle: { title: `${parentName} / ${tab.name}` } satisfies RouteHandle,
+        handle: {
+          title: `${parentName} / ${tab.name}`,
+          tab: true,
+        } satisfies PageHandle,
       })),
     ],
   };
@@ -167,7 +180,7 @@ function pageRoute(page: Page, sectionPath: string): RouteObject {
   return {
     path: pagePath,
     element: <ContentPanel>{page.element}</ContentPanel>,
-    handle: { title: page.name } satisfies RouteHandle,
+    handle: { title: page.name } satisfies PageHandle,
   };
 }
 
@@ -195,14 +208,7 @@ function childRoute(section: Section): RouteObject {
   return {
     path: sectionPath,
     children: [
-      ...(firstPage
-        ? [
-            {
-              index: true,
-              element: <Navigate to={routePath(firstPage)} replace />,
-            },
-          ]
-        : []),
+      ...(firstPage ? [redirectRoute(routePath(firstPage))] : []),
       ...section.pages.map((page) => pageRoute(page, sectionPath)),
     ],
   };
@@ -230,13 +236,7 @@ export function createRouter(props: RouterProps) {
   const route: RouteObject = {
     path: "/",
     element: <Layout {...props} />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to={`/${firstRoute.path}`} replace />,
-      },
-      ...children,
-    ],
+    children: [redirectRoute(`/${firstRoute.path}`), ...children],
   };
   return createBrowserRouter([route]);
 }

@@ -5,7 +5,11 @@ import { ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { routePath, type PagedSection, type SectionGroup } from "./Router";
 import { APP_BAR_HEIGHT } from "./dimensions";
+import { MAIN_CONTENT_ID } from "./SkipLink";
 import { NAV_WIDTH, SubNavContent } from "./SubNav";
+
+/** The navigation beside the primary one, when it is on screen */
+export const SECTION_NAV_ID = "section-nav";
 
 function useCurrentPagedSection(navigation: SectionGroup[]) {
   const { pathname } = useLocation();
@@ -72,6 +76,7 @@ export function SectionNav({
       {subNavProps && isWide && (
         <Box
           component="nav"
+          id={SECTION_NAV_ID}
           aria-label={`${subNavProps.title} pages`}
           sx={{
             width: NAV_WIDTH + 1, // +1 pixel for the border
@@ -94,7 +99,22 @@ export function SectionNav({
         </Box>
       )}
 
-      <Box component="main" sx={{ flexGrow: 1, minWidth: 0, pt: 6 }}>
+      <Box
+        component="main"
+        id={MAIN_CONTENT_ID}
+        // Focusable by script only, as the skip link's target. Without this
+        // the skip link scrolls but leaves the next Tab starting back at the top.
+        tabIndex={-1}
+        sx={{
+          flexGrow: 1,
+          minWidth: 0,
+          pt: 6,
+          outline: "none",
+          // Focused by script after a page change so it is read out; it is
+          // not a control, so a ring on it would suggest it can be used
+          "& h1:focus": { outline: "none" },
+        }}
+      >
         {subNavProps && !isWide && (
           <Box sx={{ px: 2, pt: 1 }}>
             <Button
@@ -117,10 +137,7 @@ export function SectionNav({
           onClick={() => setDrawerOpen(false)}
           slotProps={{ paper: { sx: { width: NAV_WIDTH, pt: 6 } } }}
         >
-          <SubNavContent
-            {...subNavProps}
-            onBack={() => setDrawerOpen(false)}
-          />
+          <SubNavContent {...subNavProps} onBack={() => setDrawerOpen(false)} />
         </Drawer>
       )}
     </>
