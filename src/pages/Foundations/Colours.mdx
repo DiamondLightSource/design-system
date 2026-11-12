@@ -1,6 +1,7 @@
 import {
   Callout,
   DoDont,
+  PrincipleCards,
   ReferenceTable,
   Swatch,
   TreeList,
@@ -22,32 +23,35 @@ interaction patterns.
 
 ## Colour principles
 
-### Colour supports scientific work
-
-Colour should help users understand information, state and action without
-becoming visual noise. Scientific applications often show a lot of information
-at once, so colour must be deliberate, predictable and accessible.
-
-### Structure before meaning
-
-Use neutral colours to build hierarchy, grouping and layout. Apply semantic
-colours only when meaning needs to be communicated.
-
-### Meaning before brand
-
-Action and status colours communicate behaviour and system state. Brand colours
-communicate Diamond identity, and should rarely be responsible for functional
-meaning.
-
-### Consistency over decoration
-
-The same colour role should always communicate the same thing throughout the
-system. Avoid using colour only to make an interface feel more decorative.
-
-### Accessible by default
-
-Colour must never be the only way something is communicated. Use labels, icons,
-typography and spatial cues alongside it.
+<PrincipleCards
+  items={[
+    {
+      title: "Colour supports scientific work",
+      children:
+        "Colour should help users understand information, state and action without becoming visual noise. Scientific applications often show a lot of information at once, so colour must be deliberate, predictable and accessible.",
+    },
+    {
+      title: "Structure before meaning",
+      children:
+        "Use neutral colours to build hierarchy, grouping and layout. Apply semantic colours only when meaning needs to be communicated.",
+    },
+    {
+      title: "Meaning before brand",
+      children:
+        "Action and status colours communicate behaviour and system state. Brand colours communicate Diamond identity, and should rarely be responsible for functional meaning.",
+    },
+    {
+      title: "Consistency over decoration",
+      children:
+        "The same colour role should always communicate the same thing throughout the system. Avoid using colour only to make an interface feel more decorative.",
+    },
+    {
+      title: "Accessible by default",
+      children:
+        "Colour must never be the only way something is communicated. Use labels, icons, typography and spatial cues alongside it.",
+    },
+  ]}
+/>
 
 ## Colour model
 

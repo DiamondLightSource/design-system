@@ -167,6 +167,17 @@ export function Callout({
   );
 }
 
+/** Shared look for the small cards used in grids */
+const cardSx = {
+  display: "flex",
+  flexDirection: "column",
+  p: 2,
+  borderRadius: 1,
+  border: "1px solid",
+  borderColor: "border.subtle",
+  backgroundColor: "surface.subtle",
+} as const;
+
 export type TypefaceCardProps = {
   name: string;
   /** CSS font-family value, such as a --ds-font-family-* variable */
@@ -190,19 +201,7 @@ export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
       }}
     >
       {items.map(({ name, family, summary, uses, note }) => (
-        <Box
-          key={name}
-          component="section"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            p: 2,
-            borderRadius: 1,
-            border: "1px solid",
-            borderColor: "border.subtle",
-            backgroundColor: "surface.subtle",
-          }}
-        >
+        <Box key={name} component="section" sx={cardSx}>
           <Typography
             variant="h5"
             component="h3"
@@ -238,6 +237,55 @@ export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
           </Typography>
         </Box>
       ))}
+    </Box>
+  );
+}
+
+export type PrincipleCardProps = {
+  title: string;
+  children: ReactNode;
+};
+
+/**
+ * Short principles as cards, three to a row on wide screens. When the last row
+ * holds two cards they share it equally rather than leaving a gap.
+ */
+export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
+  const orphans = items.length % 3 === 2 ? 2 : 0;
+
+  return (
+    <Box
+      sx={{
+        mb: 3,
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "repeat(6, 1fr)" },
+        gap: 2,
+      }}
+    >
+      {items.map(({ title, children }, index) => {
+        const inLastTwo = orphans > 0 && index >= items.length - orphans;
+        return (
+          <Box
+            key={title}
+            component="section"
+            sx={{
+              ...cardSx,
+              gridColumn: { md: inLastTwo ? "span 3" : "span 2" },
+            }}
+          >
+            <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+              {title}
+            </Typography>
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ "& > p": { m: 0 } }}
+            >
+              {children}
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 }
