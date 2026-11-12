@@ -1,15 +1,4 @@
-import { Typography } from "@mui/material";
-import { Callout, DoDont, ReferenceTable } from "../../mdx/blocks";
-
-export const Typeface = ({ name, family }) => (
-  <Typography
-    variant="h5"
-    component="h3"
-    sx={{ fontFamily: family, mt: 3.5, mb: 1 }}
-  >
-    {name}
-  </Typography>
-);
+import { Callout, DoDont, ReferenceTable, TypefaceCards } from "../../mdx/blocks";
 
 ## Typefaces
 
@@ -269,50 +258,58 @@ heading hierarchy inside operational interfaces.
 
 ## Choosing a typeface
 
-<Typeface name="Inter" family="var(--ds-font-family-default)" />
-
-The default interface typeface. Use it for:
-
-- Navigation
-- Body text
-- Buttons
-- Forms
-- Tables
-- Dialogues
-- Cards
-- Labels
-- Status messages
-
-Inter should be the default choice unless there is a specific reason to use
-Outfit or IBM Plex Mono.
-
-<Typeface name="Outfit" family="var(--ds-font-family-display)" />
-
-Used for display and high-level headings. Use it sparingly for:
-
-- Product names
-- Major page titles
-- Welcome or landing areas
-- Documentation hero headings
-
-Do not use Outfit for dense application UI, tables, forms or technical values.
-
-<Typeface name="IBM Plex Mono" family="var(--ds-font-family-mono)" />
-
-Used for technical and aligned information. Use it for:
-
-- Code
-- Logs
-- Console output
-- Timestamps
-- Numeric values where alignment helps comparison
-- IDs (proposals, samples, beamlines)
-- Numeric columns
-- Technical table values
-- File paths
-- API-like values
-
-Do not use mono type for general UI text.
+<TypefaceCards
+  items={[
+    {
+      name: "Inter",
+      family: "var(--ds-font-family-default)",
+      summary: "The default interface typeface. Use it for:",
+      uses: [
+        "Navigation",
+        "Body text",
+        "Buttons",
+        "Forms",
+        "Tables",
+        "Dialogues",
+        "Cards",
+        "Labels",
+        "Status messages",
+      ],
+      note: "Inter should be the default choice unless there is a specific reason to use Outfit or IBM Plex Mono.",
+    },
+    {
+      name: "Outfit",
+      family: "var(--ds-font-family-display)",
+      summary:
+        "Used for display and high-level headings. Use it sparingly for:",
+      uses: [
+        "Product names",
+        "Major page titles",
+        "Welcome or landing areas",
+        "Documentation hero headings",
+      ],
+      note: "Do not use Outfit for dense application UI, tables, forms or technical values.",
+    },
+    {
+      name: "IBM Plex Mono",
+      family: "var(--ds-font-family-mono)",
+      summary: "Used for technical and aligned information. Use it for:",
+      uses: [
+        "Code",
+        "Logs",
+        "Console output",
+        "Timestamps",
+        "Numeric values where alignment helps comparison",
+        "IDs (proposals, samples, beamlines)",
+        "Numeric columns",
+        "Technical table values",
+        "File paths",
+        "API-like values",
+      ],
+      note: "Do not use mono type for general UI text.",
+    },
+  ]}
+/>
 
 ## Technical values
 

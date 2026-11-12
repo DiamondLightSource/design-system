@@ -150,13 +150,82 @@ export function Callout({
   );
 }
 
-function Guidance({
-  kind,
-  items,
-}: {
-  kind: "do" | "dont";
-  items: string[];
-}) {
+export type TypefaceCardProps = {
+  name: string;
+  /** CSS font-family value, such as a --ds-font-family-* variable */
+  family: string;
+  /** One line on what the typeface is for */
+  summary: string;
+  uses: string[];
+  /** Closing guidance, such as when not to use it */
+  note: string;
+};
+
+/** Typefaces side by side, each name set in its own font */
+export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
+  return (
+    <Box
+      sx={{
+        mb: 3,
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+        gap: 2,
+      }}
+    >
+      {items.map(({ name, family, summary, uses, note }) => (
+        <Box
+          key={name}
+          component="section"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            p: 2,
+            borderRadius: 1,
+            border: "1px solid",
+            borderColor: "border.subtle",
+            backgroundColor: "surface.subtle",
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="h3"
+            sx={{ fontFamily: family, mb: 1 }}
+          >
+            {name}
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 1.5 }}>
+            {summary}
+          </Typography>
+          <Box component="ul" sx={{ m: 0, mb: 2, pl: 2.5, flexGrow: 1 }}>
+            {uses.map((use) => (
+              <Typography
+                key={use}
+                component="li"
+                variant="body2"
+                sx={{ mb: 0.5 }}
+              >
+                {use}
+              </Typography>
+            ))}
+          </Box>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              pt: 1.5,
+              borderTop: "1px solid",
+              borderColor: "border.subtle",
+            }}
+          >
+            {note}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+function Guidance({ kind, items }: { kind: "do" | "dont"; items: string[] }) {
   const isDo = kind === "do";
   const Icon = isDo ? Check : X;
   const intent = isDo ? "success" : "error";
@@ -190,7 +259,12 @@ function Guidance({
       </Stack>
       <Box component="ul" sx={{ m: 0, py: 1.5, pl: 5, pr: 2 }}>
         {items.map((item) => (
-          <Typography key={item} component="li" variant="body2" sx={{ mb: 0.5 }}>
+          <Typography
+            key={item}
+            component="li"
+            variant="body2"
+            sx={{ mb: 0.5 }}
+          >
             {item}
           </Typography>
         ))}
@@ -200,13 +274,7 @@ function Guidance({
 }
 
 /** Side-by-side lists of what to do and what to avoid */
-export function DoDont({
-  dos,
-  donts,
-}: {
-  dos: string[];
-  donts: string[];
-}) {
+export function DoDont({ dos, donts }: { dos: string[]; donts: string[] }) {
   return (
     <Box
       sx={{
@@ -259,11 +327,7 @@ const connector = {
 
 function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
   return (
-    <Box
-      component="ul"
-      role="list"
-      sx={{ listStyle: "none", m: 0, p: 0 }}
-    >
+    <Box component="ul" role="list" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {nodes.map((node, index) => (
         <Box
           component="li"
@@ -295,9 +359,7 @@ function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
           <Typography component="span" variant="body1">
             {node.label}
           </Typography>
-          {node.children && (
-            <Branch nodes={node.children} depth={depth + 1} />
-          )}
+          {node.children && <Branch nodes={node.children} depth={depth + 1} />}
         </Box>
       ))}
     </Box>
@@ -335,9 +397,11 @@ export function TreeList({
 function WithCode({ text }: { text: string }) {
   return (
     <>
-      {text.split("`").map((part, i) =>
-        i % 2 === 1 ? <InlineCode key={i}>{part}</InlineCode> : part,
-      )}
+      {text
+        .split("`")
+        .map((part, i) =>
+          i % 2 === 1 ? <InlineCode key={i}>{part}</InlineCode> : part,
+        )}
     </>
   );
 }
