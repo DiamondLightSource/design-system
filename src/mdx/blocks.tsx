@@ -133,7 +133,7 @@ function Guidance({
         }}
       >
         <Icon size={16} strokeWidth={2} aria-hidden="true" />
-        <Typography variant="subtitle2" component="p">
+        <Typography variant="subtitle2" component="p" aria-hidden="true">
           {isDo ? "Do" : "Don’t"}
         </Typography>
       </Stack>

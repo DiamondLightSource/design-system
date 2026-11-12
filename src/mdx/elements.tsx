@@ -147,18 +147,18 @@ export const MdxLink = ({
   href = "",
   children,
 }: { href?: string } & Children) => {
-  // Anchors, mail and phone links stay in the page
-  if (/^(#|mailto:|tel:)/i.test(href)) {
-    return <MuiLink href={href}>{children}</MuiLink>;
-  }
-
-  // A scheme, or "//host/path", points to another site
-  if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(href)) {
+  // A web address, or "//host/path", points to another site
+  if (/^(https?:)?\/\//i.test(href)) {
     return (
       <MuiLink href={href} target="_blank" rel="noopener noreferrer">
         {children}
       </MuiLink>
     );
+  }
+
+  // Anchors and other schemes, such as mailto: and tel:, stay as they are
+  if (/^(#|[a-z][a-z0-9+.-]*:)/i.test(href)) {
+    return <MuiLink href={href}>{children}</MuiLink>;
   }
 
   return (

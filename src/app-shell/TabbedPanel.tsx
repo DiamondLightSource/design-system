@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { APP_BAR_HEIGHT } from "./dimensions";
 
 export interface TabDescription {
@@ -34,8 +34,9 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
   const previousTab = useRef(currentTab);
 
   // Tabs stay pinned while the page scrolls, so switching tab from far down a
-  // long page would otherwise land partway down, or at the bottom, of the next
-  useEffect(() => {
+  // long page would otherwise land partway down, or at the bottom, of the next.
+  // Done before paint, so the wrong position is never shown.
+  useLayoutEffect(() => {
     if (previousTab.current === currentTab) return;
     previousTab.current = currentTab;
 
