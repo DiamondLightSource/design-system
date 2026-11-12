@@ -50,6 +50,12 @@ function useBackdropCycle(enabled: boolean) {
   return { backdropOn, playing, toggle: () => setPaused(playing) };
 }
 
+function toneFor(column: string) {
+  return Object.hasOwn(columnTone, column)
+    ? columnTone[column as keyof typeof columnTone]
+    : undefined;
+}
+
 /** A table from column headings and rows of cell content */
 export function ReferenceTable({
   columns,
@@ -65,7 +71,7 @@ export function ReferenceTable({
   equalColumns?: boolean;
 }) {
   // Prefer/Avoid tables compare side by side, so divide their columns
-  const isComparison = columns.some((column) => column in columnTone);
+  const isComparison = columns.some((column) => toneFor(column));
   const divider = (columnIndex: number) =>
     isComparison && columnIndex > 0
       ? { borderLeft: "1px solid", borderLeftColor: "border.subtle" }
@@ -76,7 +82,7 @@ export function ReferenceTable({
       <DataTableHead>
         <DataTableRow>
           {columns.map((column, columnIndex) => {
-            const tone = columnTone[column as keyof typeof columnTone];
+            const tone = toneFor(column);
             if (!tone) {
               return (
                 <DataTableCell
@@ -275,11 +281,18 @@ export type PrincipleCardProps = {
 };
 
 /**
- * Short principles as cards, three to a row on wide screens. When the last row
- * holds two cards they share it equally rather than leaving a gap.
+ * Short principles as cards, three to a row on wide screens. A last row of two
+ * or one cards shares the row equally rather than leaving a gap.
  */
 export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
-  const orphans = items.length % 3 === 2 ? 2 : 0;
+  // Columns a card spans, on a grid of six: a full row of three takes two each
+  const spanFor = (index: number) => {
+    const remaining = items.length - index;
+    const lastRow = items.length % 3;
+    if (lastRow === 1 && remaining === 1) return 6;
+    if (lastRow === 2 && remaining <= 2) return 3;
+    return 2;
+  };
 
   return (
     <Box
@@ -292,14 +305,13 @@ export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
       }}
     >
       {items.map(({ title, children }, index) => {
-        const inLastTwo = orphans > 0 && index >= items.length - orphans;
         return (
           <Box
             key={title}
             component="section"
             sx={{
               ...cardSx,
-              gridColumn: { md: inLastTwo ? "span 3" : "span 2" },
+              gridColumn: { md: `span ${spanFor(index)}` },
             }}
           >
             <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
