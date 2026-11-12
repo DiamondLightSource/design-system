@@ -76,10 +76,14 @@ export const Rule = () => (
   />
 );
 
-export const InlineCode = ({ children }: Children) => (
+export const InlineCode = ({
+  children,
+  className,
+}: Children & { className?: string }) => (
   <Typography
     component="code"
     variant="mono2"
+    className={className}
     sx={{
       px: 0.5,
       py: 0.25,
@@ -111,6 +115,8 @@ export const CodeBlock = ({ children }: Children) => (
         backgroundColor: "transparent",
         whiteSpace: "pre",
       },
+      // Diagrams drawn with box characters need lines that touch to join up
+      "& > code.language-text": { display: "block", lineHeight: 1.2 },
     }}
   >
     {children}
