@@ -193,6 +193,7 @@ export type TypefaceCardProps = {
 export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
   return (
     <Box
+      data-outline="skip"
       sx={{
         mb: 3,
         display: "grid",
@@ -255,6 +256,7 @@ export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
 
   return (
     <Box
+      data-outline="skip"
       sx={{
         mb: 3,
         display: "grid",

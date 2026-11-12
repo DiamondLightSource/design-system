@@ -62,6 +62,9 @@ function firstHeadingOffset(root: HTMLElement, heading: HTMLElement) {
   return heading.getBoundingClientRect().top - root.getBoundingClientRect().top;
 }
 
+/** Marks a block whose headings should not be listed in the outline */
+const OUTLINE_SKIP = '[data-outline="skip"]';
+
 /**
  * Finds the h2 and h3 headings under `root`, giving each one an id to link to.
  * When there is a good deal of text above the first heading, and that heading
@@ -70,7 +73,10 @@ function firstHeadingOffset(root: HTMLElement, heading: HTMLElement) {
  */
 function collectHeadings(root: HTMLElement): OutlineHeading[] {
   const taken = new Set<string>();
-  const elements = Array.from(root.querySelectorAll<HTMLElement>("h2, h3"));
+  // Headings inside a card group stay in the document but not the outline
+  const elements = Array.from(
+    root.querySelectorAll<HTMLElement>("h2, h3"),
+  ).filter((heading) => !heading.closest(OUTLINE_SKIP));
 
   const headings = elements.map((heading): OutlineHeading => {
     const text = heading.textContent?.trim() ?? "";
