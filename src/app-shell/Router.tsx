@@ -52,6 +52,8 @@ export interface SingleSection extends BaseSection {
 export interface TabbedSection extends BaseSection {
   /** First one is default */
   tabs: Tab[];
+  /** Shown above the tabs, shared by every tab */
+  header?: ReactNode;
   element?: never;
   pages?: never;
 }
@@ -79,6 +81,8 @@ export interface ContentPage extends LabelledRoute {
 export interface TabbedPage extends LabelledRoute {
   /** First one is default */
   tabs: Tab[];
+  /** Shown above the tabs, shared by every tab */
+  header?: ReactNode;
   element?: never;
 }
 
@@ -108,6 +112,7 @@ function tabbedRoute(
   basePath: string,
   parentName: string,
   tabs: Tab[],
+  header?: ReactNode,
 ): RouteObject {
   const tabDescriptions: TabDescription[] = tabs.map((tab) => ({
     label: tab.name,
@@ -116,7 +121,13 @@ function tabbedRoute(
   const firstTab = tabs[0];
   return {
     path,
-    element: <TabbedPanel basePath={basePath} tabs={tabDescriptions} />,
+    element: (
+      <TabbedPanel
+        basePath={basePath}
+        tabs={tabDescriptions}
+        header={header}
+      />
+    ),
     children: [
       ...(firstTab
         ? [
@@ -144,6 +155,7 @@ function pageRoute(page: Page, sectionPath: string): RouteObject {
       `/${sectionPath}/${pagePath}`,
       page.name,
       page.tabs,
+      page.header,
     );
   }
 
@@ -163,6 +175,7 @@ function childRoute(section: Section): RouteObject {
       `/${sectionPath}`,
       section.name,
       section.tabs,
+      section.header,
     );
   }
 

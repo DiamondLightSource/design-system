@@ -1,15 +1,5 @@
 import { Typography } from "@mui/material";
-import { Callout, DoDont, Lead, ReferenceTable } from "../../mdx/blocks";
-
-# Typography
-
-<Lead>
-  Typography in DiamondDS should support readability and technical clarity.
-  Interfaces are often used in dense scientific workflows, so type should feel
-  consistent and easy to parse.
-</Lead>
-
-To see each variant rendered, use the **Specimens** tab.
+import { Callout, DoDont, ReferenceTable } from "../../mdx/blocks";
 
 ## Typefaces
 
@@ -270,7 +260,7 @@ heading hierarchy inside operational interfaces.
 ## Choosing a typeface
 
 <Typography
-  variant="h4"
+  variant="h5"
   component="h3"
   sx={{ fontFamily: "var(--ds-font-family-default)", mt: 3.5, mb: 1 }}
 >
@@ -293,7 +283,7 @@ Inter should be the default choice unless there is a specific reason to use
 Outfit or IBM Plex Mono.
 
 <Typography
-  variant="h4"
+  variant="h5"
   component="h3"
   sx={{ fontFamily: "var(--ds-font-family-display)", mt: 3.5, mb: 1 }}
 >
@@ -310,7 +300,7 @@ Used for display and high-level headings. Use it sparingly for:
 Do not use Outfit for dense application UI, tables, forms or technical values.
 
 <Typography
-  variant="h4"
+  variant="h5"
   component="h3"
   sx={{ fontFamily: "var(--ds-font-family-mono)", mt: 3.5, mb: 1 }}
 >

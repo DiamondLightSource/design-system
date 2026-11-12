@@ -17,25 +17,25 @@ import { readingWidth } from "./layout";
 type Children = { children?: ReactNode };
 
 export const H1 = ({ children }: Children) => (
-  <Typography variant="h1" component="h1" sx={{ mb: 2 }}>
+  <Typography variant="h2Display" component="h1" sx={{ mb: 2 }}>
     {children}
   </Typography>
 );
 
 export const H2 = ({ children }: Children) => (
-  <Typography variant="h3" component="h2" sx={{ mt: 5, mb: 1.5 }}>
+  <Typography variant="h4" component="h2" sx={{ mt: 5, mb: 1.5 }}>
     {children}
   </Typography>
 );
 
 export const H3 = ({ children }: Children) => (
-  <Typography variant="h4" component="h3" sx={{ mt: 3.5, mb: 1 }}>
+  <Typography variant="h5" component="h3" sx={{ mt: 3.5, mb: 1 }}>
     {children}
   </Typography>
 );
 
 export const H4 = ({ children }: Children) => (
-  <Typography variant="h5" component="h4" sx={{ mt: 3, mb: 1 }}>
+  <Typography variant="h6" component="h4" sx={{ mt: 3, mb: 1 }}>
     {children}
   </Typography>
 );

@@ -4,9 +4,8 @@ import type { Theme } from "@mui/material/styles";
 import { ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { routePath, type PagedSection, type SectionGroup } from "./Router";
+import { APP_BAR_HEIGHT } from "./dimensions";
 import { NAV_WIDTH, SubNavContent } from "./SubNav";
-
-const APP_BAR_HEIGHT = 48;
 
 function useCurrentPagedSection(navigation: SectionGroup[]) {
   const { pathname } = useLocation();

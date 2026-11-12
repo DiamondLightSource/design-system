@@ -14,8 +14,10 @@ import Introduction from "./pages/GettingStarted/Introduction.mdx";
 import More from "./pages/GettingStarted/More.mdx";
 
 import Foundations from "./pages/Foundations/Overview.mdx";
+import ColoursIntro from "./pages/Foundations/ColoursIntro.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
 import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
+import TypographyIntro from "./pages/Foundations/TypographyIntro.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
 import TypographySpecimens from "./pages/Foundations/TypographySpecimens.mdx";
 import Elevation from "./pages/Foundations/Elevation.mdx";
@@ -69,6 +71,7 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Colours",
+            header: <MdxWrapper component={ColoursIntro} />,
             tabs: [
               {
                 name: "Guidance",
@@ -82,6 +85,7 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Typography",
+            header: <MdxWrapper component={TypographyIntro} />,
             tabs: [
               {
                 name: "Guidance",
