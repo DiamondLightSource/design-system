@@ -97,17 +97,31 @@ export interface Tab extends LabelledRoute {
   element: ReactNode;
 }
 
-/** Custom data attached to each leaf route, read via `useMatches()` for the page title */
-export interface RouteHandle {
-  /** Absent on redirects, which are never shown */
-  title?: string;
+/** Custom data attached to each page route, read via `useMatches()` */
+export interface PageHandle {
+  title: string;
   /** Set on tab routes, so switching tab is not treated as changing page */
   tab?: boolean;
-  /** Set on routes that only redirect, which are not a page the reader arrived at */
-  redirect?: boolean;
 }
 
-const redirectHandle = { redirect: true } satisfies RouteHandle;
+/** Attached to routes that only redirect: not a page the reader arrived at */
+export interface RedirectHandle {
+  redirect: true;
+}
+
+export type RouteHandle = PageHandle | RedirectHandle;
+
+export const isRedirectHandle = (handle: unknown): handle is RedirectHandle =>
+  !!handle && "redirect" in (handle as object);
+
+/** An index route that sends the reader on to `to` */
+function redirectRoute(to: string): RouteObject {
+  return {
+    index: true,
+    element: <Navigate to={to} replace />,
+    handle: { redirect: true } satisfies RedirectHandle,
+  };
+}
 
 /** When paths not given, derive from name through this function */
 export function sanitisePath(name: string) {
@@ -137,22 +151,14 @@ function tabbedRoute(
       <TabbedPanel basePath={basePath} tabs={tabDescriptions} header={header} />
     ),
     children: [
-      ...(firstTab
-        ? [
-            {
-              index: true,
-              element: <Navigate to={routePath(firstTab)} replace />,
-              handle: redirectHandle,
-            },
-          ]
-        : []),
+      ...(firstTab ? [redirectRoute(routePath(firstTab))] : []),
       ...tabs.map((tab) => ({
         path: routePath(tab),
         element: tab.element,
         handle: {
           title: `${parentName} / ${tab.name}`,
           tab: true,
-        } satisfies RouteHandle,
+        } satisfies PageHandle,
       })),
     ],
   };
@@ -174,7 +180,7 @@ function pageRoute(page: Page, sectionPath: string): RouteObject {
   return {
     path: pagePath,
     element: <ContentPanel>{page.element}</ContentPanel>,
-    handle: { title: page.name } satisfies RouteHandle,
+    handle: { title: page.name } satisfies PageHandle,
   };
 }
 
@@ -202,15 +208,7 @@ function childRoute(section: Section): RouteObject {
   return {
     path: sectionPath,
     children: [
-      ...(firstPage
-        ? [
-            {
-              index: true,
-              element: <Navigate to={routePath(firstPage)} replace />,
-              handle: redirectHandle,
-            },
-          ]
-        : []),
+      ...(firstPage ? [redirectRoute(routePath(firstPage))] : []),
       ...section.pages.map((page) => pageRoute(page, sectionPath)),
     ],
   };
@@ -238,14 +236,7 @@ export function createRouter(props: RouterProps) {
   const route: RouteObject = {
     path: "/",
     element: <Layout {...props} />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to={`/${firstRoute.path}`} replace />,
-        handle: redirectHandle,
-      },
-      ...children,
-    ],
+    children: [redirectRoute(`/${firstRoute.path}`), ...children],
   };
   return createBrowserRouter([route]);
 }
