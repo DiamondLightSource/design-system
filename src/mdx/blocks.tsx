@@ -7,7 +7,14 @@ import {
   DataTableCell,
   DataTableHead,
   DataTableRow,
+  InlineCode,
+  ListItem,
+  UnorderedList,
 } from "./elements";
+import { describeLayout } from "./diagrams/describe";
+import type { LayoutConfig } from "./diagrams/layout";
+import { LayoutDiagram } from "./diagrams/patterns";
+import { resolveLayout, type PatternName } from "./diagrams/presets";
 import { readingWidth } from "./layout";
 
 /** A table from column headings and rows of cell content */
@@ -276,6 +283,68 @@ export function TreeList({
       }}
     >
       <Branch nodes={nodes} depth={0} />
+    </Box>
+  );
+}
+
+/** Text with `code` marked in backticks, as inline code */
+function WithCode({ text }: { text: string }) {
+  return (
+    <>
+      {text.split("`").map((part, i) =>
+        i % 2 === 1 ? <InlineCode key={i}>{part}</InlineCode> : part,
+      )}
+    </>
+  );
+}
+
+/**
+ * A layout drawn as a skeleton diagram, with a list of its regions and the
+ * components to use for each. Name one of the patterns, and change parts of it
+ * by passing `layout`. Or pass `layout` and `title` to draw a layout of its own.
+ * The list is generated from the same layout as the diagram, so they agree.
+ */
+export function LayoutFigure({
+  pattern,
+  layout,
+  title,
+  description,
+}: {
+  pattern?: PatternName;
+  layout?: LayoutConfig;
+  title?: string;
+  description?: string;
+}) {
+  const regions = describeLayout(resolveLayout(pattern, layout).layout);
+
+  return (
+    <Box component="figure" sx={{ m: 0, mb: 3 }}>
+      <Box
+        sx={{
+          overflowX: "auto",
+          borderRadius: 1,
+          border: "1px solid",
+          borderColor: "border.subtle",
+        }}
+      >
+        <LayoutDiagram
+          pattern={pattern}
+          layout={layout}
+          title={title}
+          description={description}
+        />
+      </Box>
+      <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+        Components:
+      </Typography>
+      <UnorderedList>
+        {regions.map((region) => (
+          <ListItem key={region.id}>
+            <strong>{region.id}</strong> {region.name}:{" "}
+            <WithCode text={region.components} />
+          </ListItem>
+        ))}
+      </UnorderedList>
     </Box>
   );
 }

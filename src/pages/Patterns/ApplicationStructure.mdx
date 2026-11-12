@@ -1,1 +1,252 @@
+import { Callout, LayoutFigure, Lead, ReferenceTable } from "../../mdx/blocks";
+
 # Application Structure
+
+<Lead>
+  Skeleton diagrams of the core regions of a Diamond application, such as
+  navigation, workspace controls, content and auxiliary drawers, combined into
+  reusable layouts. The patterns cover desktop screens.
+</Lead>
+
+The patterns are examples, not fixed templates. Mix and match regions to suit
+your application, and start with the simplest pattern that fits. Add regions
+only when the task needs them.
+
+<Callout title="Work in progress">
+  Pattern names are provisional. Some regions have no SciReactUI component yet,
+  and the Components column says which.
+</Callout>
+
+## Regions
+
+Every region has a letter. E is the whole workspace. Patterns 1 to 6 and 9 draw
+it as one block of content. Patterns 7 and 8 split it into example parts, E1 to
+E4, listed after this table. Use the SciReactUI component where there is one.
+Otherwise compose from MUI.
+
+<ReferenceTable
+  columns={["Region", "Details", "Size", "Components"]}
+  rows={[
+    [
+      <>
+        <strong>A</strong> · Global header
+      </>,
+      "App identity, breadcrumb (patterns 5, 7 and 8), global actions, search and account controls.",
+      "48 px high",
+      <>
+        <code>Navbar</code>, or MUI <code>AppBar</code> with <code>Toolbar</code>.{" "}
+        <code>Logo</code>, <code>User</code> and <code>ColourSchemeButton</code>{" "}
+        for identity and utilities. Search: MUI <code>TextField</code>.
+        Breadcrumb: to be decided. The SciReactUI <code>Breadcrumbs</code> is a
+        separate bar, not the header breadcrumb.
+      </>,
+    ],
+    [
+      <>
+        <strong>B</strong> · Primary navigation
+      </>,
+      "Navigation between the app’s main destinations.",
+      "256 px rail",
+      <>
+        <code>SidebarNav</code>. Use <code>footerSlot</code> for the “actions /
+        text” block at the foot.
+      </>,
+    ],
+    [
+      <>
+        <strong>C</strong> · Context panel
+      </>,
+      "Items that set what the workspace shows, outside the workspace. Either links to other content, or a list of items of the same kind to choose from.",
+      "Max 320 px rail",
+      <>
+        Links to other content: <code>SubNav</code> (once available). Choosing
+        items: <code>ContextPanel</code> (cards option, once available). Search
+        or filter field: MUI <code>TextField</code>.
+      </>,
+    ],
+    [
+      <>
+        <strong>D</strong> · Workspace selector
+      </>,
+      "Tabs for switching between open or available workspaces.",
+      "",
+      <>
+        MUI <code>Tabs</code> and <code>Tab</code>.
+      </>,
+    ],
+    [
+      <>
+        <strong>E</strong> · Primary workspace
+      </>,
+      "The active workspace and its task-specific interface. The container for any of E1 to E4, or just content when it is not split.",
+      "Flexible",
+      "Your own content, or E1 to E4.",
+    ],
+    [
+      <>
+        <strong>F</strong> · Auxiliary pane
+      </>,
+      "Supporting information or tools beside or below the primary workspace. It can be driven by the workspace.",
+      "Dynamic, up to about 75% wide on the right",
+      <>
+        MUI <code>Drawer</code>: <code>persistent</code> to sit alongside the
+        workspace, <code>temporary</code> to open over it. Anchor{" "}
+        <code>right</code> or <code>bottom</code>. Toolbar, status and actions:{" "}
+        <code>Toolbar</code>, <code>Divider</code>, <code>Typography</code>,{" "}
+        <code>Button</code>.
+      </>,
+    ],
+    [
+      <>
+        <strong>G</strong> · Global status
+      </>,
+      "App-wide connection, synchronisation, background activity or system status.",
+      "29 px high",
+      "Not yet available. A new component is planned.",
+    ],
+    [
+      <>
+        <strong>H</strong> · Modal pane
+      </>,
+      "A pane laid over existing content, for a form or other content. It holds the user’s focus until closed. For a short confirmation or warning, use an alert dialog instead.",
+      "",
+      <>
+        MUI <code>Dialog</code>, sized for a form or content. Give it a title
+        and link it with <code>aria-labelledby</code>.
+      </>,
+    ],
+  ]}
+/>
+
+### Example workspace parts
+
+Patterns 7 and 8 split E into parts. E1 to E4 are examples of how to do that,
+not fixed regions. Use the ones the task needs.
+
+<ReferenceTable
+  columns={["Part", "Details", "Components"]}
+  rows={[
+    [
+      <>
+        <strong>E1</strong> · Workspace content
+      </>,
+      "The content itself: canvas, document, table or editor. The workspace selector (D) switches between open items or views.",
+      <>
+        Your own content. For tables, use MUI <code>Table</code> or Material
+        React Table.
+      </>,
+    ],
+    [
+      <>
+        <strong>E2</strong> · Workspace navigation
+      </>,
+      "Internal navigation lists or trees that update the workspace content. Mainly used when the workspace has tabs (D).",
+      <>
+        MUI <code>List</code>, with a <code>TextField</code> for search or
+        filter.
+      </>,
+    ],
+    [
+      <>
+        <strong>E3</strong> · Workspace toolbar
+      </>,
+      "Local tools, view controls and contextual actions.",
+      <>
+        <code>Bar</code>, or MUI <code>Toolbar</code>.
+      </>,
+    ],
+    [
+      <>
+        <strong>E4</strong> · Workspace status
+      </>,
+      "Selection counts, validation or progress for the active workspace only.",
+      <>
+        <code>Bar</code>, or MUI <code>Toolbar</code>.
+      </>,
+    ],
+  ]}
+/>
+
+## The patterns
+
+### 1. Starting app
+
+The simplest pattern: a desktop shell with a global header (A), a navigation
+rail (B) and a flexible workspace (E).
+
+<LayoutFigure pattern="starting-app" />
+
+### 2. Context navigation
+
+Streamlined desktop shell with persistent header, primary navigation, context
+navigation, and a flexible workspace.
+
+<LayoutFigure pattern="context-navigation" />
+
+### 3. Tabs and status
+
+Desktop shell with a global header, a navigation rail, a tabbed workspace and a
+global status bar.
+
+<LayoutFigure pattern="tabs-and-status" />
+
+### 4. Persistent side drawer
+
+Desktop shell with a docked side drawer beside the workspace and a global status
+footer.
+
+<LayoutFigure pattern="persistent-side-drawer" />
+
+### 5. Persistent bottom drawer
+
+Desktop shell with persistent tabs, a split workspace, and a dedicated status
+footer.
+
+<LayoutFigure pattern="persistent-bottom-drawer" />
+
+### 6. Temporary side drawer
+
+Desktop shell with an on-demand side drawer over the workspace and a global
+status footer. Selecting a row in a table view can open the drawer with that
+row’s details. The drawer can hold different kinds of content, such as a form or
+tabbed views. Make it wider for larger content, up to about 75% of the width.
+
+The workspace behind the drawer can behave in two ways:
+
+- Blocked: clicking outside closes the drawer. This is the default for a
+  `temporary` `Drawer`.
+- Still usable: selecting another row swaps the drawer’s content. In MUI, set
+  `hideBackdrop`, `disableEnforceFocus`, `disableAutoFocus` and
+  `disableScrollLock`, and `pointerEvents: "none"` on the drawer’s root, and keep
+  the drawer itself interactive. There is no single prop for it.
+
+Review the requirements before choosing “still usable”. A `temporary` `Drawer`
+is a modal, so it can still hide the rest of the page from screen readers and
+close on Escape. Test keyboard and screen-reader access to the workspace. If it
+cannot be reached that way, keep the workspace blocked.
+
+The diagram shows the still usable behaviour: the drawer has no backdrop, so
+the workspace behind it isn’t dimmed.
+
+<LayoutFigure pattern="temporary-side-drawer" />
+
+### 7. Inner workspace options
+
+Desktop shell with a context panel, tabs, toolbar, content, inspector, and
+local status.
+
+<LayoutFigure pattern="inner-workspace-options" />
+
+### 8. Inner workspace navigation
+
+Desktop shell with tabs, workspace navigation, content.
+
+<LayoutFigure pattern="inner-workspace-navigation" />
+
+### 9. Modal pane
+
+Desktop shell with a modal pane for a form or other content, laid over the
+workspace. A backdrop dims and blocks the whole screen, including the header and
+navigation.
+
+<LayoutFigure pattern="modal-pane" />

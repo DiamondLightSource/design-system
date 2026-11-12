@@ -36,6 +36,7 @@ import Feedback from "./pages/Components/Feedback.mdx";
 import FeedbackErrors from "./pages/Components/FeedbackErrors.mdx";
 
 import Patterns from "./pages/Patterns/Overview.mdx";
+import PatternsOutline from "./pages/Patterns/Outline.mdx";
 import ApplicationStructure from "./pages/Patterns/ApplicationStructure.mdx";
 import NavigationP from "./pages/Patterns/Navigation.mdx";
 
@@ -184,6 +185,10 @@ const navigation: SectionGroup[] = [
           {
             name: "Navigation",
             element: <MdxWrapper component={NavigationP} />,
+          },
+          {
+            name: "Outline",
+            element: <MdxWrapper component={PatternsOutline} />,
           },
         ],
       },

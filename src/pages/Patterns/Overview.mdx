@@ -1,17 +1,36 @@
+import { Lead } from "../../mdx/blocks";
+
 # Patterns
 
-- Application structure
-- Navigation
-- Forms and configuration
-- Search and filtering
-- Tables and data exploration
-- Queues and task management
-- Status and progress
-- Notifications and alerts
-- Errors and recovery
-- Confirmation and destructive actions
-- Empty states
-- Loading and long-running processes
-- Scientific data visualisation
-- Experiment setup
-- Live acquisition and monitoring
+<Lead>
+  Patterns combine foundations and components into solutions for the tasks
+  people repeat in scientific software: laying out an application, moving around
+  it, and setting up, running and reviewing work.
+</Lead>
+
+## How patterns work
+
+A component is a single building block. A pattern shows how to arrange several of
+them, with the regions, behaviour and states a task needs, so that similar tasks
+look and work the same way across tools.
+
+Patterns are examples to adapt, not fixed templates. Start with the simplest one
+that fits, and add to it only when the task needs more. Where the system has no
+component for part of a pattern yet, the pattern says so.
+
+## In this section
+
+- [Application structure](/patterns/application_structure): the regions of a
+  Diamond application, and nine layouts that combine them, from a navigation
+  rail and a workspace to drawers and modal panes.
+
+More patterns are planned. The [Outline](/patterns/outline) lists what is to
+come.
+
+## Using patterns well
+
+- Reuse an existing pattern before creating a new one.
+- Start with the simplest pattern that fits, and add regions only when the task
+  needs them.
+- Build each pattern from existing components, and say when one is missing.
+- Keep behaviour consistent for the same task wherever it appears.
