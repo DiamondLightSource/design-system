@@ -231,6 +231,11 @@ The diagram alternates between the two. With the default backdrop the whole
 screen is dimmed and blocked. With `hideBackdrop` nothing is dimmed, and the
 workspace stays usable.
 
+The drawer sits between the global header and the global status bar, so the
+header stays visible. MUI’s backdrop still covers the whole screen. By default a
+`temporary` `Drawer` is full height and covers the header. To get this layout,
+set `top` and `height` on the drawer’s paper.
+
 <LayoutFigure pattern="temporary-side-drawer" />
 
 ### 7. Inner workspace options
