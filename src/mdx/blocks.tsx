@@ -1,6 +1,6 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { Check, X } from "lucide-react";
-import type { ReactNode } from "react";
+import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Check, Pause, Play, X } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   DataTable,
   DataTableBody,
@@ -22,6 +22,33 @@ const columnTone = {
   Prefer: { Icon: Check, intent: "success" },
   Avoid: { Icon: X, intent: "error" },
 } as const;
+
+/** How long the diagram holds each backdrop state, in milliseconds */
+const backdropCycleMs = 2000;
+
+/**
+ * Alternates a diagram's backdrop on a timer. It starts paused for people who
+ * ask for reduced motion, and anyone can pause or resume it.
+ */
+function useBackdropCycle(enabled: boolean) {
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [backdropOn, setBackdropOn] = useState(true);
+  const [paused, setPaused] = useState<boolean | undefined>(undefined);
+
+  // Until the person chooses, follow their motion preference
+  const playing = enabled && !(paused ?? reduceMotion);
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = setInterval(
+      () => setBackdropOn((on) => !on),
+      backdropCycleMs,
+    );
+    return () => clearInterval(timer);
+  }, [playing]);
+
+  return { backdropOn, playing, toggle: () => setPaused(playing) };
+}
 
 /** A table from column headings and rows of cell content */
 export function ReferenceTable({
@@ -490,7 +517,11 @@ export function LayoutFigure({
   title?: string;
   description?: string;
 }) {
-  const regions = describeLayout(resolveLayout(pattern, layout).layout);
+  const resolved = resolveLayout(pattern, layout).layout;
+  const regions = describeLayout(resolved);
+  const cycling =
+    resolved.aux?.overlay === true && resolved.aux.cycleBackdrop === true;
+  const { backdropOn, playing, toggle } = useBackdropCycle(cycling);
 
   return (
     <Box component="figure" sx={{ m: 0, mb: 3 }}>
@@ -507,8 +538,35 @@ export function LayoutFigure({
           layout={layout}
           title={title}
           description={description}
+          backdropOn={backdropOn}
         />
       </Box>
+      {cycling && (
+        <Stack
+          direction="row"
+          spacing={1.5}
+          alignItems="center"
+          sx={{ mt: 1.5 }}
+        >
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={toggle}
+            startIcon={
+              playing ? (
+                <Pause size={16} aria-hidden="true" />
+              ) : (
+                <Play size={16} aria-hidden="true" />
+              )
+            }
+          >
+            {playing ? "Pause animation" : "Play animation"}
+          </Button>
+          <Typography variant="body2" color="text.secondary">
+            {backdropOn ? "With the default backdrop" : "With hideBackdrop"}
+          </Typography>
+        </Stack>
+      )}
       <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
         Components:
       </Typography>

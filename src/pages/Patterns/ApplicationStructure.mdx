@@ -227,8 +227,9 @@ is a modal, so it can still hide the rest of the page from screen readers and
 close on Escape. Test keyboard and screen-reader access to the workspace. If it
 cannot be reached that way, keep the workspace blocked.
 
-The diagram shows the still usable behaviour: the drawer has no backdrop, so
-the workspace behind it isn’t dimmed.
+The diagram alternates between the two. With the default backdrop the whole
+screen is dimmed and blocked. With `hideBackdrop` nothing is dimmed, and the
+workspace stays usable.
 
 <LayoutFigure pattern="temporary-side-drawer" />
 

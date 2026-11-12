@@ -1,6 +1,12 @@
-import { useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { useColorScheme } from "@mui/material/styles";
-import { createContext, Fragment, useContext, useId, type ReactNode } from "react";
+import {
+  createContext,
+  Fragment,
+  useContext,
+  useId,
+  type ReactNode,
+} from "react";
 
 /**
  * Building blocks for schematic layout diagrams.
@@ -273,7 +279,15 @@ export function Chevron({
 }
 
 /** A circled cross for a close control */
-export function CloseIcon({ x, y, r = 5.5 }: { x: number; y: number; r?: number }) {
+export function CloseIcon({
+  x,
+  y,
+  r = 5.5,
+}: {
+  x: number;
+  y: number;
+  r?: number;
+}) {
   const { ink } = usePalette();
   const arm = r * 0.4;
 
@@ -302,22 +316,28 @@ export function Line({
 }) {
   const { ink } = usePalette();
 
-  return (
-    <line
-      x1={x1}
-      y1={y1}
-      x2={x2}
-      y2={y2}
-      style={hairline(ink.line)}
-    />
-  );
+  return <line x1={x1} y1={y1} x2={x2} y2={y2} style={hairline(ink.line)} />;
 }
 
-/** Dims what sits behind an overlay, such as a temporary drawer or a modal */
-export function Scrim({ x, y, w, h }: Rect) {
+/**
+ * Dims what sits behind an overlay, such as a temporary drawer or a modal.
+ * With `animate`, a change in `visible` fades rather than switching.
+ */
+export function Scrim({
+  x,
+  y,
+  w,
+  h,
+  visible = true,
+  animate = false,
+}: Rect & { visible?: boolean; animate?: boolean }) {
   const { backdrop } = usePalette();
   const { mode, systemMode } = useColorScheme();
   const dark = (mode === "system" ? systemMode : mode) === "dark";
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+
+  // A dark surface needs more of the backdrop than a light one to read as dimmed
+  const opacity = visible ? (dark ? 0.4 : 0.12) : 0;
 
   return (
     <rect
@@ -325,9 +345,12 @@ export function Scrim({ x, y, w, h }: Rect) {
       y={y}
       width={w}
       height={h}
-      style={{ fill: backdrop }}
-      // A dark surface needs more of the backdrop than a light one to read as dimmed
-      fillOpacity={dark ? 0.4 : 0.12}
+      style={{
+        fill: backdrop,
+        fillOpacity: opacity,
+        transition:
+          animate && !reduceMotion ? "fill-opacity 400ms ease" : undefined,
+      }}
     />
   );
 }
