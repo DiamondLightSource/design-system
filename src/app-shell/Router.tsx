@@ -2,10 +2,10 @@ import { Layout } from "./Layout";
 import {
   createBrowserRouter,
   Navigate,
-  Outlet,
   type RouteObject,
 } from "react-router-dom";
 import { ContentPanel } from "./ContentPanel";
+import { TabbedPanel, type TabDescription } from "./TabbedPanel";
 
 import type { ReactNode } from "react";
 
@@ -46,6 +46,12 @@ export interface SingleSection extends BaseSection {
   element: ReactNode;
 }
 
+/** A section rendering several tabs, with no sub navigation */
+export interface TabbedSection extends BaseSection {
+  /** First one is default */
+  tabs: Tab[];
+}
+
 /** A section rendering multiple pages behind a sub navigation */
 export interface PagedSection extends BaseSection {
   /** First one is default */
@@ -55,9 +61,22 @@ export interface PagedSection extends BaseSection {
 /**
  * This describes a top-level screen,
  * accessible via main navigation component */
-export type Section = SingleSection | PagedSection;
+export type Section = SingleSection | TabbedSection | PagedSection;
 
-export interface Page extends LabelledRoute {
+/** A page rendering its content directly */
+export interface ContentPage extends LabelledRoute {
+  element: ReactNode;
+}
+
+/** A page rendering several tabs, one level below the sub navigation */
+export interface TabbedPage extends LabelledRoute {
+  /** First one is default */
+  tabs: Tab[];
+}
+
+export type Page = ContentPage | TabbedPage;
+
+export interface Tab extends LabelledRoute {
   element: ReactNode;
 }
 
@@ -75,8 +94,69 @@ export function routePath(route: LabelledRoute) {
   return route.path ?? sanitisePath(route.name);
 }
 
+/** Tabs above an outlet, redirecting to the first tab by default */
+function tabbedRoute(
+  path: string,
+  basePath: string,
+  parentName: string,
+  tabs: Tab[],
+): RouteObject {
+  const tabDescriptions: TabDescription[] = tabs.map((tab) => ({
+    label: tab.name,
+    path: routePath(tab),
+  }));
+  const firstTab = tabs[0];
+  return {
+    path,
+    element: <TabbedPanel basePath={basePath} tabs={tabDescriptions} />,
+    children: [
+      ...(firstTab
+        ? [
+            {
+              index: true,
+              element: <Navigate to={routePath(firstTab)} replace />,
+            },
+          ]
+        : []),
+      ...tabs.map((tab) => ({
+        path: routePath(tab),
+        element: tab.element,
+        handle: { title: `${parentName} / ${tab.name}` } satisfies RouteHandle,
+      })),
+    ],
+  };
+}
+
+function pageRoute(page: Page, sectionPath: string): RouteObject {
+  const pagePath = routePath(page);
+
+  if ("tabs" in page) {
+    return tabbedRoute(
+      pagePath,
+      `/${sectionPath}/${pagePath}`,
+      page.name,
+      page.tabs,
+    );
+  }
+
+  return {
+    path: pagePath,
+    element: <ContentPanel>{page.element}</ContentPanel>,
+    handle: { title: page.name } satisfies RouteHandle,
+  };
+}
+
 function childRoute(section: Section): RouteObject {
   const sectionPath = routePath(section);
+
+  if ("tabs" in section) {
+    return tabbedRoute(
+      sectionPath,
+      `/${sectionPath}`,
+      section.name,
+      section.tabs,
+    );
+  }
 
   if (!("pages" in section)) {
     return {
@@ -85,34 +165,19 @@ function childRoute(section: Section): RouteObject {
     };
   }
 
-  const element = (
-    <ContentPanel>
-      <Outlet />
-    </ContentPanel>
-  );
-  const childPageRoutes: RouteObject[] = section.pages.map((page) => {
-    return {
-      path: routePath(page),
-      element: page.element,
-      handle: { title: page.name } satisfies RouteHandle,
-    };
-  });
-
-  const firstTab = section.pages[0];
-  const firstTabPath = routePath(firstTab);
+  const firstPage = section.pages[0];
   return {
     path: sectionPath,
-    element: element,
     children: [
-      ...(firstTab
+      ...(firstPage
         ? [
             {
               index: true,
-              element: <Navigate to={firstTabPath} replace />,
+              element: <Navigate to={routePath(firstPage)} replace />,
             },
           ]
         : []),
-      ...childPageRoutes,
+      ...section.pages.map((page) => pageRoute(page, sectionPath)),
     ],
   };
 }
@@ -127,7 +192,8 @@ function getRoutes(navigation: SectionGroup[]): Section[] {
  *
  * Adds an index child which redirects to the first given route.
  * Sections with pages are listed in a sub navigation beside the side
- * navigation, and redirect to their first page.
+ * navigation, and redirect to their first page. A section or a page may
+ * show tabs instead, and redirects to its first tab.
  *
  */
 export function createRouter(props: RouterProps) {
