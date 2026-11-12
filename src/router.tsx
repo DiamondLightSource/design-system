@@ -21,6 +21,8 @@ import Colours from "./pages/Foundations/Colours.mdx";
 import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
 import TypographyIntro from "./pages/Foundations/TypographyIntro.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
+import TypographyScales from "./pages/Foundations/TypographyScales.mdx";
+import TypographyInPractice from "./pages/Foundations/TypographyInPractice.mdx";
 import TypographySpecimens from "./pages/Foundations/TypographySpecimens.mdx";
 import ElevationIntro from "./pages/Foundations/ElevationIntro.mdx";
 import Elevation from "./pages/Foundations/Elevation.mdx";
@@ -103,6 +105,14 @@ const navigation: SectionGroup[] = [
               {
                 name: "Guidance",
                 element: <MdxWrapper component={Typography} />,
+              },
+              {
+                name: "In practice",
+                element: <MdxWrapper component={TypographyInPractice} />,
+              },
+              {
+                name: "Scales",
+                element: <MdxWrapper component={TypographyScales} />,
               },
               {
                 name: "Specimens",
