@@ -1,12 +1,12 @@
 import { MDXProvider } from "@mdx-js/react";
-import { Box } from "@mui/material";
 import { mdxComponents } from "./mdx/components";
-import { readingWidth } from "./mdx/layout";
+import { ProsePage } from "./mdx/ProsePage";
 
 type PageProps = {
   component: React.ComponentType;
   /**
-   * Style markdown elements (headings, lists, tables, code) as documentation.
+   * Style markdown elements (headings, lists, tables, code) as documentation,
+   * with an outline of the page's sections.
    * Turn off for pages that are laid out by hand.
    */
   prose?: boolean;
@@ -20,15 +20,9 @@ export default function MdxWrapper({
 
   return (
     <MDXProvider components={mdxComponents}>
-      {/* Only top-level paragraphs: MDX also wraps text inside JSX tags (a
-          button label, say) in a paragraph, which must keep its parent's style */}
-      <Box
-        sx={{
-          "& > p": { typography: "body1", mb: 2, maxWidth: readingWidth },
-        }}
-      >
+      <ProsePage>
         <Component />
-      </Box>
+      </ProsePage>
     </MDXProvider>
   );
 }
