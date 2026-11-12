@@ -1,6 +1,6 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { Check, X } from "lucide-react";
-import type { ReactNode } from "react";
+import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Check, Pause, Play, X } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   DataTable,
   DataTableBody,
@@ -17,28 +17,122 @@ import { LayoutDiagram } from "./diagrams/patterns";
 import { resolveLayout, type PatternName } from "./diagrams/presets";
 import { readingWidth } from "./layout";
 
+/** Column headings that carry a positive or negative meaning */
+const columnTone = {
+  Prefer: { Icon: Check, intent: "success" },
+  Avoid: { Icon: X, intent: "error" },
+} as const;
+
+/** How long the diagram holds each backdrop state, in milliseconds */
+const backdropCycleMs = 2000;
+
+/**
+ * Alternates a diagram's backdrop on a timer. It starts paused for people who
+ * ask for reduced motion, and anyone can pause or resume it.
+ */
+function useBackdropCycle(enabled: boolean) {
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [backdropOn, setBackdropOn] = useState(true);
+  const [paused, setPaused] = useState<boolean | undefined>(undefined);
+
+  // Until the person chooses, follow their motion preference
+  const playing = enabled && !(paused ?? reduceMotion);
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = setInterval(
+      () => setBackdropOn((on) => !on),
+      backdropCycleMs,
+    );
+    return () => clearInterval(timer);
+  }, [playing]);
+
+  return { backdropOn, playing, toggle: () => setPaused(playing) };
+}
+
+function toneFor(column: string) {
+  return Object.hasOwn(columnTone, column)
+    ? columnTone[column as keyof typeof columnTone]
+    : undefined;
+}
+
 /** A table from column headings and rows of cell content */
 export function ReferenceTable({
   columns,
   rows,
+  equalColumns = false,
+  noWrapColumns = [],
 }: {
   columns: string[];
   rows: ReactNode[][];
+  /** Indexes of columns to keep on one line, such as names and tokens */
+  noWrapColumns?: number[];
+  /** Give every column the same width instead of sizing to content */
+  equalColumns?: boolean;
 }) {
+  // Prefer/Avoid tables compare side by side, so divide their columns
+  const isComparison = columns.some((column) => toneFor(column));
+  const divider = (columnIndex: number) =>
+    isComparison && columnIndex > 0
+      ? { borderLeft: "1px solid", borderLeftColor: "border.subtle" }
+      : {};
+
   return (
-    <DataTable>
+    <DataTable equalColumns={equalColumns}>
       <DataTableHead>
         <DataTableRow>
-          {columns.map((column, columnIndex) => (
-            <DataTableCell key={columnIndex}>{column}</DataTableCell>
-          ))}
+          {columns.map((column, columnIndex) => {
+            const tone = toneFor(column);
+            if (!tone) {
+              return (
+                <DataTableCell
+                  key={columnIndex}
+                  sx={{
+                    ...(noWrapColumns.includes(columnIndex)
+                      ? { whiteSpace: "nowrap" }
+                      : {}),
+                    ...divider(columnIndex),
+                  }}
+                >
+                  {column}
+                </DataTableCell>
+              );
+            }
+            const { Icon, intent } = tone;
+            return (
+              <DataTableCell
+                key={columnIndex}
+                sx={{
+                  backgroundColor: `${intent}.container`,
+                  color: `${intent}.onContainer`,
+                  ...divider(columnIndex),
+                }}
+              >
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Icon size={16} strokeWidth={2} aria-hidden="true" />
+                  <span>{column}</span>
+                </Stack>
+              </DataTableCell>
+            );
+          })}
         </DataTableRow>
       </DataTableHead>
       <DataTableBody>
         {rows.map((row, rowIndex) => (
           <DataTableRow key={rowIndex}>
             {row.map((cell, cellIndex) => (
-              <DataTableCell key={cellIndex}>{cell}</DataTableCell>
+              <DataTableCell
+                key={cellIndex}
+                sx={{
+                  verticalAlign: "top",
+                  ...(noWrapColumns.includes(cellIndex)
+                    ? { whiteSpace: "nowrap" }
+                    : {}),
+                  ...divider(cellIndex),
+                }}
+              >
+                {cell}
+              </DataTableCell>
             ))}
           </DataTableRow>
         ))}
@@ -106,13 +200,138 @@ export function Callout({
   );
 }
 
-function Guidance({
-  kind,
-  items,
-}: {
-  kind: "do" | "dont";
-  items: string[];
-}) {
+/** Shared look for the small cards used in grids */
+const cardSx = {
+  display: "flex",
+  flexDirection: "column",
+  p: 2,
+  borderRadius: 1,
+  border: "1px solid",
+  borderColor: "border.subtle",
+  backgroundColor: "surface.subtle",
+} as const;
+
+export type TypefaceCardProps = {
+  name: string;
+  /** CSS font-family value, such as a --ds-font-family-* variable */
+  family: string;
+  /** One line on what the typeface is for */
+  summary: string;
+  uses: string[];
+  /** Closing guidance, such as when not to use it */
+  note: string;
+};
+
+/** Typefaces side by side, each name set in its own font */
+export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
+  return (
+    <Box
+      data-outline="skip"
+      sx={{
+        mb: 3,
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+        gap: 2,
+      }}
+    >
+      {items.map(({ name, family, summary, uses, note }) => (
+        <Box key={name} component="section" sx={cardSx}>
+          <Typography
+            variant="h5"
+            component="h3"
+            sx={{ fontFamily: family, mb: 1 }}
+          >
+            {name}
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 1.5 }}>
+            {summary}
+          </Typography>
+          <Box component="ul" sx={{ m: 0, mb: 2, pl: 2.5, flexGrow: 1 }}>
+            {uses.map((use) => (
+              <Typography
+                key={use}
+                component="li"
+                variant="body2"
+                sx={{ mb: 0.5 }}
+              >
+                {use}
+              </Typography>
+            ))}
+          </Box>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              pt: 1.5,
+              borderTop: "1px solid",
+              borderColor: "border.subtle",
+            }}
+          >
+            {note}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+export type PrincipleCardProps = {
+  title: string;
+  children: ReactNode;
+};
+
+/**
+ * Short principles as cards, three to a row on wide screens. A last row of two
+ * or one cards shares the row equally rather than leaving a gap.
+ */
+export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
+  // Columns a card spans, on a grid of six: a full row of three takes two each
+  const spanFor = (index: number) => {
+    const remaining = items.length - index;
+    const lastRow = items.length % 3;
+    if (lastRow === 1 && remaining === 1) return 6;
+    if (lastRow === 2 && remaining <= 2) return 3;
+    return 2;
+  };
+
+  return (
+    <Box
+      data-outline="skip"
+      sx={{
+        mb: 3,
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "repeat(6, 1fr)" },
+        gap: 2,
+      }}
+    >
+      {items.map(({ title, children }, index) => {
+        return (
+          <Box
+            key={title}
+            component="section"
+            sx={{
+              ...cardSx,
+              gridColumn: { md: `span ${spanFor(index)}` },
+            }}
+          >
+            <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+              {title}
+            </Typography>
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ "& > p": { m: 0 } }}
+            >
+              {children}
+            </Typography>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+}
+
+function Guidance({ kind, items }: { kind: "do" | "dont"; items: string[] }) {
   const isDo = kind === "do";
   const Icon = isDo ? Check : X;
   const intent = isDo ? "success" : "error";
@@ -146,7 +365,12 @@ function Guidance({
       </Stack>
       <Box component="ul" sx={{ m: 0, py: 1.5, pl: 5, pr: 2 }}>
         {items.map((item) => (
-          <Typography key={item} component="li" variant="body2" sx={{ mb: 0.5 }}>
+          <Typography
+            key={item}
+            component="li"
+            variant="body2"
+            sx={{ mb: 0.5 }}
+          >
             {item}
           </Typography>
         ))}
@@ -156,13 +380,7 @@ function Guidance({
 }
 
 /** Side-by-side lists of what to do and what to avoid */
-export function DoDont({
-  dos,
-  donts,
-}: {
-  dos: string[];
-  donts: string[];
-}) {
+export function DoDont({ dos, donts }: { dos: string[]; donts: string[] }) {
   return (
     <Box
       sx={{
@@ -215,11 +433,7 @@ const connector = {
 
 function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
   return (
-    <Box
-      component="ul"
-      role="list"
-      sx={{ listStyle: "none", m: 0, p: 0 }}
-    >
+    <Box component="ul" role="list" sx={{ listStyle: "none", m: 0, p: 0 }}>
       {nodes.map((node, index) => (
         <Box
           component="li"
@@ -251,9 +465,7 @@ function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
           <Typography component="span" variant="body1">
             {node.label}
           </Typography>
-          {node.children && (
-            <Branch nodes={node.children} depth={depth + 1} />
-          )}
+          {node.children && <Branch nodes={node.children} depth={depth + 1} />}
         </Box>
       ))}
     </Box>
@@ -291,9 +503,11 @@ export function TreeList({
 function WithCode({ text }: { text: string }) {
   return (
     <>
-      {text.split("`").map((part, i) =>
-        i % 2 === 1 ? <InlineCode key={i}>{part}</InlineCode> : part,
-      )}
+      {text
+        .split("`")
+        .map((part, i) =>
+          i % 2 === 1 ? <InlineCode key={i}>{part}</InlineCode> : part,
+        )}
     </>
   );
 }
@@ -315,7 +529,11 @@ export function LayoutFigure({
   title?: string;
   description?: string;
 }) {
-  const regions = describeLayout(resolveLayout(pattern, layout).layout);
+  const resolved = resolveLayout(pattern, layout).layout;
+  const regions = describeLayout(resolved);
+  const cycling =
+    resolved.aux?.overlay === true && resolved.aux.cycleBackdrop === true;
+  const { backdropOn, playing, toggle } = useBackdropCycle(cycling);
 
   return (
     <Box component="figure" sx={{ m: 0, mb: 3 }}>
@@ -332,8 +550,35 @@ export function LayoutFigure({
           layout={layout}
           title={title}
           description={description}
+          backdropOn={backdropOn}
         />
       </Box>
+      {cycling && (
+        <Stack
+          direction="row"
+          spacing={1.5}
+          alignItems="center"
+          sx={{ mt: 1.5 }}
+        >
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={toggle}
+            startIcon={
+              playing ? (
+                <Pause size={16} aria-hidden="true" />
+              ) : (
+                <Play size={16} aria-hidden="true" />
+              )
+            }
+          >
+            {playing ? "Pause animation" : "Play animation"}
+          </Button>
+          <Typography variant="body2" color="text.secondary">
+            {backdropOn ? "With the default backdrop" : "With hideBackdrop"}
+          </Typography>
+        </Stack>
+      )}
       <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
         Components:
       </Typography>

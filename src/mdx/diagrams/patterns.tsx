@@ -15,11 +15,14 @@ export function LayoutDiagram({
   layout,
   title,
   description,
+  backdropOn,
 }: {
   pattern?: PatternName;
   layout?: LayoutConfig;
   title?: string;
   description?: string;
+  /** Whether the backdrop shows, for a layout whose overlay cycles it */
+  backdropOn?: boolean;
 }) {
   const resolved = resolveLayout(pattern, layout);
 
@@ -32,7 +35,7 @@ export function LayoutDiagram({
       width={grid.width}
       height={grid.height}
     >
-      <Layout {...resolved.layout} />
+      <Layout {...resolved.layout} backdropOn={backdropOn} />
     </Canvas>
   );
 }

@@ -18,9 +18,14 @@ import Foundations from "./pages/Foundations/Overview.mdx";
 import FoundationsOutline from "./pages/Foundations/Outline.mdx";
 import ColoursIntro from "./pages/Foundations/ColoursIntro.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
+import ColoursSurfaces from "./pages/Foundations/ColoursSurfaces.mdx";
+import ColoursInPractice from "./pages/Foundations/ColoursInPractice.mdx";
+import ColoursTokens from "./pages/Foundations/ColoursTokens.mdx";
 import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
 import TypographyIntro from "./pages/Foundations/TypographyIntro.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
+import TypographyScales from "./pages/Foundations/TypographyScales.mdx";
+import TypographyInPractice from "./pages/Foundations/TypographyInPractice.mdx";
 import TypographySpecimens from "./pages/Foundations/TypographySpecimens.mdx";
 import ElevationIntro from "./pages/Foundations/ElevationIntro.mdx";
 import Elevation from "./pages/Foundations/Elevation.mdx";
@@ -29,6 +34,7 @@ import Borders from "./pages/Foundations/Borders.mdx";
 import Icons from "./pages/Foundations/Icons.mdx";
 
 import Components from "./pages/Components/Overview.mdx";
+import ComponentsOutline from "./pages/Components/Outline.mdx";
 import Inputs from "./pages/Components/Inputs.mdx";
 import Navigation from "./pages/Components/Navigation.mdx";
 import FeedbackIntro from "./pages/Components/FeedbackIntro.mdx";
@@ -41,6 +47,7 @@ import ApplicationStructure from "./pages/Patterns/ApplicationStructure.mdx";
 import NavigationP from "./pages/Patterns/Navigation.mdx";
 
 import Standards from "./pages/Standards/Overview.mdx";
+import StandardsOutline from "./pages/Standards/Outline.mdx";
 import Accessibility from "./pages/Standards/Accessibility.mdx";
 import InteractionStandards from "./pages/Standards/InteractionStandards.mdx";
 
@@ -69,7 +76,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={PracticalGuide} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={Outline} />,
           },
         ],
@@ -91,6 +98,18 @@ const navigation: SectionGroup[] = [
                 element: <MdxWrapper component={Colours} />,
               },
               {
+                name: "Surfaces and states",
+                element: <MdxWrapper component={ColoursSurfaces} />,
+              },
+              {
+                name: "In practice",
+                element: <MdxWrapper component={ColoursInPractice} />,
+              },
+              {
+                name: "Tokens",
+                element: <MdxWrapper component={ColoursTokens} />,
+              },
+              {
                 name: "Theme colours",
                 element: <MdxWrapper component={ThemeColours} />,
               },
@@ -103,6 +122,14 @@ const navigation: SectionGroup[] = [
               {
                 name: "Guidance",
                 element: <MdxWrapper component={Typography} />,
+              },
+              {
+                name: "In practice",
+                element: <MdxWrapper component={TypographyInPractice} />,
+              },
+              {
+                name: "Scales",
+                element: <MdxWrapper component={TypographyScales} />,
               },
               {
                 name: "Specimens",
@@ -133,7 +160,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={Icons} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={FoundationsOutline} />,
           },
         ],
@@ -144,6 +171,7 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Overview",
+            soon: true,
             element: <MdxWrapper component={Components} />,
           },
           {
@@ -170,6 +198,10 @@ const navigation: SectionGroup[] = [
               },
             ],
           },
+          {
+            name: "Outline plan",
+            element: <MdxWrapper component={ComponentsOutline} />,
+          },
         ],
       },
       {
@@ -190,7 +222,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={NavigationP} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={PatternsOutline} />,
           },
         ],
@@ -201,6 +233,7 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Overview",
+            soon: true,
             element: <MdxWrapper component={Standards} />,
           },
           {
@@ -212,6 +245,10 @@ const navigation: SectionGroup[] = [
             name: "Interaction Standards",
             soon: true,
             element: <MdxWrapper component={InteractionStandards} />,
+          },
+          {
+            name: "Outline plan",
+            element: <MdxWrapper component={StandardsOutline} />,
           },
         ],
       },

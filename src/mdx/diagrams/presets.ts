@@ -48,7 +48,7 @@ const presets = {
       breadcrumb: true,
       toolbar: true,
       content: "table",
-      aux: { placement: "side", overlay: true, backdrop: false },
+      aux: { placement: "side", overlay: true, cycleBackdrop: true },
       globalStatus: true,
     },
   },

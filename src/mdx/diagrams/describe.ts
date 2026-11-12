@@ -105,9 +105,11 @@ export function describeLayout(layout: LayoutConfig): RegionDescription[] {
   if (aux) {
     const where = {
       side: overlay
-        ? aux.backdrop === false
-          ? "opens over the right of the workspace without dimming it"
-          : "opens over the right of the workspace, dimming it"
+        ? aux.cycleBackdrop
+          ? "opens over the right of the workspace, shown with and without a backdrop that dims the whole screen"
+          : aux.backdrop === false
+            ? "opens over the right of the workspace without dimming it"
+            : "opens over the right of the workspace, dimming the whole screen"
         : "docked on the right",
       inner: "on the right, beside the workspace content",
       bottom: "below the workspace content",

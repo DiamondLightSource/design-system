@@ -342,7 +342,7 @@ export function WorkspaceSelector({ x, y, w, h }: Frame) {
               y={y + 24}
               w={tab.w}
               h={24}
-              tone={tab.active ? "paper" : "subtle"}
+              tone={tab.active ? "subtle" : "paper"}
             />
             <IconBox x={tabLeft + 8.333} y={y + 31} />
             <Bar x={tabLeft + 24} y={y + 33.333} w={tab.label} />

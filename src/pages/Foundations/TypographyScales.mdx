@@ -1,0 +1,106 @@
+import { ReferenceTable } from "../../mdx/blocks";
+
+## Typography scale
+
+DiamondDS provides a shared typography scale that underpins all typography
+variants.
+
+<ReferenceTable
+  columns={["Token", "Size"]}
+  rows={[
+    [<code>--ds-font-size-100</code>, "0.6875rem (11px)"],
+    [<code>--ds-font-size-200</code>, "0.75rem (12px)"],
+    [<code>--ds-font-size-300</code>, "0.875rem (14px)"],
+    [<code>--ds-font-size-400</code>, "1rem (16px)"],
+    [<code>--ds-font-size-500</code>, "1.125rem (18px)"],
+    [<code>--ds-font-size-600</code>, "1.25rem (20px)"],
+    [<code>--ds-font-size-700</code>, "1.75rem (28px)"],
+    [<code>--ds-font-size-800</code>, "2rem (32px)"],
+    [<code>--ds-font-size-900</code>, "2.125rem (34px)"],
+    [<code>--ds-font-size-1000</code>, "3rem (48px)"],
+    [<code>--ds-font-size-1100</code>, "4.5rem (72px)"],
+  ]}
+/>
+
+Use typography variants directly in most cases. Font size tokens are mainly for
+building reusable components, defining typography variants and keeping the scale
+consistent across the design system.
+
+Avoid applying arbitrary font sizes when an existing variant already
+communicates the right hierarchy and meaning.
+
+## Font weight scale
+
+<ReferenceTable
+  columns={["Token", "Weight", "Typical use"]}
+  rows={[
+    [
+      <code>--ds-font-weight-light</code>,
+      "300",
+      "Not used by any variant. Reserve for deliberate light treatments in large display type.",
+    ],
+    [
+      <code>--ds-font-weight-regular</code>,
+      "400",
+      "Body copy, captions, meta text and mono values",
+    ],
+    [
+      <code>--ds-font-weight-medium</code>,
+      "500",
+      <>
+        <code>h1</code> and <code>h2</code>, <code>h1Display</code> and{" "}
+        <code>h2Display</code>
+      </>,
+    ],
+    [
+      <code>--ds-font-weight-semibold</code>,
+      "600",
+      <>
+        <code>h3</code> to <code>h6</code>, <code>h3Display</code> and{" "}
+        <code>h4Display</code>, subtitles, overlines and buttons
+      </>,
+    ],
+    [
+      <code>--ds-font-weight-bold</code>,
+      "700",
+      "Not used by any variant. Reserve for inline emphasis within body text rather than a whole heading.",
+    ],
+  ]}
+/>
+
+## Line height scale
+
+<ReferenceTable
+  columns={["Token", "Value", "Typical use"]}
+  rows={[
+    [<code>--ds-line-height-tight</code>, "1.1", "Large display headings"],
+    [<code>--ds-line-height-condensed</code>, "1.2", "Headings and utility text"],
+    [<code>--ds-line-height-normal</code>, "1.4", "Captions and dense text"],
+    [
+      <code>--ds-line-height-relaxed</code>,
+      "1.5",
+      "Body copy and long-form reading",
+    ],
+  ]}
+/>
+
+## Letter spacing scale
+
+<ReferenceTable
+  columns={["Token", "Value", "Typical use"]}
+  rows={[
+    [<code>--ds-letter-spacing-tight</code>, "-0.03em", "Large display headings"],
+    [<code>--ds-letter-spacing-condensed</code>, "-0.01em", "Headings"],
+    [<code>--ds-letter-spacing-normal</code>, "0", "Body and most UI text"],
+    [
+      <code>--ds-letter-spacing-wide</code>,
+      "0.08em",
+      "Overlines and uppercase labels",
+    ],
+  ]}
+/>
+
+Weight, line height and letter spacing tokens are mainly for building reusable
+components, defining typography variants and keeping the scale consistent.
+Avoid applying arbitrary values when an existing variant already communicates
+the right hierarchy and meaning.

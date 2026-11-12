@@ -26,6 +26,7 @@ Otherwise compose from MUI.
 
 <ReferenceTable
   columns={["Region", "Details", "Size", "Components"]}
+  noWrapColumns={[0]}
   rows={[
     [
       <>
@@ -125,6 +126,7 @@ not fixed regions. Use the ones the task needs.
 
 <ReferenceTable
   columns={["Part", "Details", "Components"]}
+  noWrapColumns={[0]}
   rows={[
     [
       <>
@@ -225,8 +227,14 @@ is a modal, so it can still hide the rest of the page from screen readers and
 close on Escape. Test keyboard and screen-reader access to the workspace. If it
 cannot be reached that way, keep the workspace blocked.
 
-The diagram shows the still usable behaviour: the drawer has no backdrop, so
-the workspace behind it isn’t dimmed.
+The diagram alternates between the two. With the default backdrop the whole
+screen is dimmed and blocked. With `hideBackdrop` nothing is dimmed, and the
+workspace stays usable.
+
+The drawer sits between the global header and the global status bar, so the
+header stays visible. MUI’s backdrop still covers the whole screen. By default a
+`temporary` `Drawer` is full height and covers the header. To get this layout,
+set `top` and `height` on the drawer’s paper.
 
 <LayoutFigure pattern="temporary-side-drawer" />
 

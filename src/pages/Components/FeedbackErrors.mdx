@@ -14,19 +14,20 @@ Good error messages explain:
 Avoid vague or technical-only messaging where possible.
 
 <ReferenceTable
-  columns={["Avoid", "Prefer"]}
+  columns={["Prefer", "Avoid"]}
+  equalColumns
   rows={[
-    [<code>Operation failed</code>, <code>Unable to connect to detector</code>],
+    [<code>Unable to connect to detector</code>, <code>Operation failed</code>],
     [
-      <code>Validation error</code>,
       <code>Exposure time must be greater than 0</code>,
+      <code>Validation error</code>,
     ],
     [
-      <code>Device unavailable</code>,
       <>
         <code>Motor controller is offline.</code> A further line can say what to
         do: <code>Reconnect or contact beamline staff.</code>
       </>,
+      <code>Device unavailable</code>,
     ],
   ]}
 />

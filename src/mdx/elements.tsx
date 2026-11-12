@@ -117,7 +117,10 @@ export const CodeBlock = ({ children }: Children) => (
   </Box>
 );
 
-export const DataTable = ({ children }: Children) => (
+export const DataTable = ({
+  children,
+  equalColumns = false,
+}: Children & { equalColumns?: boolean }) => (
   <TableContainer
     sx={{
       mb: 3,
@@ -126,7 +129,12 @@ export const DataTable = ({ children }: Children) => (
       borderRadius: 1,
     }}
   >
-    <Table size="small">{children}</Table>
+    <Table
+      size="small"
+      sx={equalColumns ? { tableLayout: "fixed" } : undefined}
+    >
+      {children}
+    </Table>
   </TableContainer>
 );
 

@@ -28,13 +28,18 @@ export type AuxPlacement =
 
 export type AuxConfig = {
   placement: AuxPlacement;
-  /** Opens over the workspace, which is dimmed behind it. Only for "side". */
+  /** Opens over the workspace, with the screen dimmed behind it. Only for "side". */
   overlay?: boolean;
   /**
-   * Dim the workspace behind an overlay pane. On by default. Turn it off for a
+   * Dim the screen behind an overlay pane. On by default. Turn it off for a
    * pane that leaves the workspace usable, like MUI's `hideBackdrop`.
    */
   backdrop?: boolean;
+  /**
+   * Alternate between dimming the screen and not, to show both behaviours.
+   * The figure drives the timing. Overrides `backdrop`. Only for an overlay.
+   */
+  cycleBackdrop?: boolean;
   /** Width, in diagram units, instead of the default. Not for "bottom". */
   width?: number;
   /** Height, in diagram units, instead of the default. Only for "bottom". */
@@ -100,7 +105,11 @@ export function Layout({
   workspaceStatus = false,
   aux,
   modal,
-}: LayoutConfig) {
+  backdropOn = true,
+}: LayoutConfig & {
+  /** Whether the backdrop is showing, for an overlay that cycles it */
+  backdropOn?: boolean;
+}) {
   const overlay = aux?.placement === "side" && aux.overlay === true;
   const persistentSide = aux?.placement === "side" && !overlay;
   const auxWidth = aux
@@ -116,8 +125,7 @@ export function Layout({
   // The body, left to right: navigation, context, workspace, a persistent side pane
   const contextWidth = context ? grid.context : 0;
   const columnX = grid.nav + contextWidth;
-  const columnWidth =
-    grid.width - columnX - (persistentSide ? auxWidth : 0);
+  const columnWidth = grid.width - columnX - (persistentSide ? auxWidth : 0);
 
   // The workspace column, top to bottom: selector, toolbar, row, drawer, status
   const selectorHeight = selector ? grid.selector : 0;
@@ -135,7 +143,8 @@ export function Layout({
   const contentX = columnX + navWidth;
   const contentWidth = columnWidth - navWidth - innerWidth;
 
-  const dimmed = overlay && aux?.backdrop !== false;
+  const cycling = overlay && aux?.cycleBackdrop === true;
+  const dimmed = overlay && (cycling ? backdropOn : aux?.backdrop !== false);
 
   return (
     <>
@@ -236,19 +245,17 @@ export function Layout({
         />
       )}
 
-      {/* Floating surfaces go last, over a scrim. A modal blocks the whole
-          screen. An overlay pane dims only the workspace it covers. */}
-      {modal ? (
-        <Scrim x={0} y={0} w={grid.width} h={grid.height} />
-      ) : (
-        dimmed && (
-          <Scrim
-            x={columnX}
-            y={bodyY}
-            w={grid.width - columnX}
-            h={bodyHeight}
-          />
-        )
+      {/* Floating surfaces go last, over a scrim. Like MUI's backdrop, it
+          covers the whole screen for both a modal and an overlay pane. */}
+      {(modal || cycling || dimmed) && (
+        <Scrim
+          x={0}
+          y={0}
+          w={grid.width}
+          h={grid.height}
+          visible={Boolean(modal) || dimmed}
+          animate={cycling}
+        />
       )}
       {overlay && (
         // The pane floats over the workspace only, so its shadow stops at the
