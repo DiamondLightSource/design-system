@@ -206,7 +206,45 @@ Components:
 - **B** Primary navigation: `SidebarNav`
 - **E** Primary workspace: Your own content
 
-### 2. Tabs and status
+### 2. Context navigation
+
+Streamlined desktop shell with persistent header, primary navigation, context
+navigation, and a flexible workspace.
+
+<LayoutFigure pattern="context-navigation">
+
+```text
+┌───────────────────────────────────────────────────────────────────────────────┐
+│ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
+├────────────────┬────────────────┬─────────────────────────────────────────────┤
+│ B · Primary    │ C · Context    │                                             │
+│ navigation     │ panel          │                                             │
+│                │                │                                             │
+│ □ ▬▬▬▬▬▬       │ Secondary      │                                             │
+│ □ ▬▬▬▬         │ navigation     │                                             │
+│ ▶ ▬▬▬▬▬▬▬      │ ▶ ▬▬▬▬▬▬▬      │                                             │
+│ □ ▬▬▬▬▬        │ □ ▬▬▬▬▬        │            E · Primary workspace            │
+│ □ ▬▬▬▬▬▬       │ □ ▬▬▬▬▬▬▬▬     │                                             │
+│                │ □ ▬▬▬          │               Content viewport              │
+│                │ □ ▬▬▬▬▬▬       │                                             │
+│                │ □ ▬▬▬▬▬        │                                             │
+│ ────────────── │                │                                             │
+│ actions / text │                │                                             │
+│ [ ▬▬▬▬▬▬▬▬ ]   │                │                                             │
+│ Some more text │                │                                             │
+└────────────────┴────────────────┴─────────────────────────────────────────────┘
+```
+
+</LayoutFigure>
+
+Components:
+
+- **A** Global header: `Navbar`, or MUI `AppBar`
+- **B** Primary navigation: `SidebarNav`
+- **C** Context panel: use a local component for now (`SubNav`, once available)
+- **E** Primary workspace: Your own content
+
+### 3. Tabs and status
 
 Desktop shell with a global header, a navigation rail, a tabbed workspace and a
 global status bar.
@@ -246,44 +284,6 @@ Components:
 - **D** Workspace selector: MUI `Tabs`
 - **E** Primary workspace: Your own content
 - **G** Global status: New component, not yet available
-
-### 3. Context navigation
-
-Streamlined desktop shell with persistent header, primary navigation, context
-navigation, and a flexible workspace.
-
-<LayoutFigure pattern="context-navigation">
-
-```text
-┌───────────────────────────────────────────────────────────────────────────────┐
-│ □ A · Global header ▬▬▬▬▬▬▬                           Global utilities  □ □ □ │
-├────────────────┬────────────────┬─────────────────────────────────────────────┤
-│ B · Primary    │ C · Context    │                                             │
-│ navigation     │ panel          │                                             │
-│                │                │                                             │
-│ □ ▬▬▬▬▬▬       │ Secondary      │                                             │
-│ □ ▬▬▬▬         │ navigation     │                                             │
-│ ▶ ▬▬▬▬▬▬▬      │ ▶ ▬▬▬▬▬▬▬      │                                             │
-│ □ ▬▬▬▬▬        │ □ ▬▬▬▬▬        │            E · Primary workspace            │
-│ □ ▬▬▬▬▬▬       │ □ ▬▬▬▬▬▬▬▬     │                                             │
-│                │ □ ▬▬▬          │               Content viewport              │
-│                │ □ ▬▬▬▬▬▬       │                                             │
-│                │ □ ▬▬▬▬▬        │                                             │
-│ ────────────── │                │                                             │
-│ actions / text │                │                                             │
-│ [ ▬▬▬▬▬▬▬▬ ]   │                │                                             │
-│ Some more text │                │                                             │
-└────────────────┴────────────────┴─────────────────────────────────────────────┘
-```
-
-</LayoutFigure>
-
-Components:
-
-- **A** Global header: `Navbar`, or MUI `AppBar`
-- **B** Primary navigation: `SidebarNav`
-- **C** Context panel: use a local component for now (`SubNav`, once available)
-- **E** Primary workspace: Your own content
 
 ### 4. Persistent side drawer
 

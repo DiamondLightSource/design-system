@@ -21,17 +21,17 @@ const patterns = {
       "A global header sits above a primary navigation rail and a flexible workspace.",
     layout: {},
   },
-  "tabs-and-status": {
-    title: "Tabs and status",
-    description:
-      "A global header sits above a primary navigation rail and a tabbed workspace. A global status bar runs along the foot.",
-    layout: { selector: true, globalStatus: true },
-  },
   "context-navigation": {
     title: "Context navigation",
     description:
       "A global header sits above a primary navigation rail, a context panel of links and a flexible workspace.",
     layout: { context: "links" },
+  },
+  "tabs-and-status": {
+    title: "Tabs and status",
+    description:
+      "A global header sits above a primary navigation rail and a tabbed workspace. A global status bar runs along the foot.",
+    layout: { selector: true, globalStatus: true },
   },
   "persistent-side-drawer": {
     title: "Persistent side drawer",
