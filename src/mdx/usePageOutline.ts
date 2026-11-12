@@ -21,6 +21,9 @@ export interface OutlineHeading {
 
 const INTRO_TEXT = "Introduction";
 
+/** A first heading with one of these names already serves as the introduction */
+const INTRO_HEADING = /^(overview|introduction)$/i;
+
 function slugify(text: string) {
   return (
     text
@@ -58,8 +61,9 @@ function hasTextBefore(root: HTMLElement, element: HTMLElement) {
 
 /**
  * Finds the h2 and h3 headings under `root`, giving each one an id to link to.
- * When there is text above the first heading, it is listed first as an
- * introduction, linked to the top of `root`.
+ * When there is text above the first heading, and that heading is not itself
+ * an overview, the text is listed first as an introduction, linked to the top
+ * of `root`.
  */
 function collectHeadings(root: HTMLElement): OutlineHeading[] {
   const taken = new Set<string>();
@@ -74,7 +78,12 @@ function collectHeadings(root: HTMLElement): OutlineHeading[] {
     };
   });
 
-  if (elements.length > 0 && hasTextBefore(root, elements[0])) {
+  const [first] = headings;
+  if (
+    first &&
+    !INTRO_HEADING.test(first.text) &&
+    hasTextBefore(root, elements[0])
+  ) {
     headings.unshift({
       id: ensureId(root, INTRO_TEXT, taken),
       text: INTRO_TEXT,
