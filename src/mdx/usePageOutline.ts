@@ -21,6 +21,12 @@ export interface OutlineHeading {
 
 const INTRO_TEXT = "Introduction";
 
+/**
+ * A first heading closer than this to the top of the content (px) is already in
+ * the first part of the page, so there is no introduction to jump to
+ */
+const INTRO_MIN_OFFSET = 320;
+
 /** A first heading with one of these names already serves as the introduction */
 const INTRO_HEADING = /^(overview|introduction)$/i;
 
@@ -59,11 +65,15 @@ function hasTextBefore(root: HTMLElement, element: HTMLElement) {
   return range.toString().trim().length > 0;
 }
 
+function firstHeadingOffset(root: HTMLElement, heading: HTMLElement) {
+  return heading.getBoundingClientRect().top - root.getBoundingClientRect().top;
+}
+
 /**
  * Finds the h2 and h3 headings under `root`, giving each one an id to link to.
- * When there is text above the first heading, and that heading is not itself
- * an overview, the text is listed first as an introduction, linked to the top
- * of `root`.
+ * When there is a good deal of text above the first heading, and that heading
+ * is not itself an overview, the text is listed first as an introduction,
+ * linked to the top of `root`.
  */
 function collectHeadings(root: HTMLElement): OutlineHeading[] {
   const taken = new Set<string>();
@@ -82,6 +92,7 @@ function collectHeadings(root: HTMLElement): OutlineHeading[] {
   if (
     first &&
     !INTRO_HEADING.test(first.text) &&
+    firstHeadingOffset(root, elements[0]) >= INTRO_MIN_OFFSET &&
     hasTextBefore(root, elements[0])
   ) {
     headings.unshift({
