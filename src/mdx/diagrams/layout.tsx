@@ -35,8 +35,10 @@ export type AuxConfig = {
    * pane that leaves the workspace usable, like MUI's `hideBackdrop`.
    */
   backdrop?: boolean;
-  /** Width, in diagram units, instead of the default for its placement */
+  /** Width, in diagram units, instead of the default. Not for "bottom". */
   width?: number;
+  /** Height, in diagram units, instead of the default. Only for "bottom". */
+  height?: number;
   /** Which parts the pane carries, instead of the defaults for its placement */
   parts?: PaneParts;
 };
@@ -60,14 +62,17 @@ export type LayoutConfig = {
   workspaceNav?: ContextKind;
   /** The workspace content (E or E1), as a viewport or a data table */
   content?: ContentKind;
-  /** Name of the workspace content region */
-  contentLabel?: string;
+  /** The letter and name of the workspace content region, "E" by default */
+  contentRegion?: { id: string; name: string };
   /** Workspace status bar (E4) */
   workspaceStatus?: boolean;
   /** Auxiliary pane (F) */
   aux?: AuxConfig;
-  /** Modal pane (H), placed by its rectangle in diagram units */
-  modal?: Frame & PaneParts;
+  /**
+   * Modal pane (H). Place it by its rectangle in diagram units, or leave that
+   * out to use the default place on the grid.
+   */
+  modal?: Partial<Frame> & PaneParts;
 };
 
 const defaultWidth: Record<AuxPlacement, number> = {
@@ -91,7 +96,7 @@ export function Layout({
   toolbar = false,
   workspaceNav,
   content = "viewport",
-  contentLabel,
+  contentRegion = { id: "E", name: "Primary workspace" },
   workspaceStatus = false,
   aux,
   modal,
@@ -118,7 +123,8 @@ export function Layout({
   const selectorHeight = selector ? grid.selector : 0;
   const toolbarHeight = toolbar ? grid.toolbar : 0;
   const statusHeight = workspaceStatus ? grid.workspaceStatus : 0;
-  const drawerHeight = aux?.placement === "bottom" ? grid.bottom : 0;
+  const drawerHeight =
+    aux?.placement === "bottom" ? (aux.height ?? grid.bottom) : 0;
   const rowY = bodyY + selectorHeight + toolbarHeight;
   const rowBottom = bodyBottom - statusHeight - drawerHeight;
   const rowHeight = rowBottom - rowY;
@@ -183,7 +189,7 @@ export function Layout({
         w={contentWidth}
         h={rowHeight}
         kind={content}
-        label={contentLabel}
+        label={`${contentRegion.id} · ${contentRegion.name}`}
       />
       {aux?.placement === "inner" && (
         <AuxiliaryPane
@@ -200,6 +206,7 @@ export function Layout({
           y={rowBottom}
           w={columnWidth}
           h={drawerHeight}
+          edge="top"
           {...auxParts}
         />
       )}
@@ -258,7 +265,7 @@ export function Layout({
       )}
       {modal && (
         <Elevated>
-          <ModalPane {...modal} />
+          <ModalPane {...grid.modal} {...modal} />
         </Elevated>
       )}
     </>

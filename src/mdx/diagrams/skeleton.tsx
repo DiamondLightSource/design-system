@@ -1,4 +1,5 @@
 import { useTheme } from "@mui/material";
+import { useColorScheme } from "@mui/material/styles";
 import { createContext, Fragment, useContext, useId, type ReactNode } from "react";
 
 /**
@@ -49,7 +50,7 @@ function usePalette() {
     placeholder: palette.border.strong,
   };
 
-  return { tone, ink };
+  return { tone, ink, backdrop: palette.common?.backdrop ?? "#000" };
 }
 
 type Rect = { x: number; y: number; w: number; h: number };
@@ -314,8 +315,20 @@ export function Line({
 
 /** Dims what sits behind an overlay, such as a temporary drawer or a modal */
 export function Scrim({ x, y, w, h }: Rect) {
+  const { backdrop } = usePalette();
+  const { mode, systemMode } = useColorScheme();
+  const dark = (mode === "system" ? systemMode : mode) === "dark";
+
   return (
-    <rect x={x} y={y} width={w} height={h} fill="#000" fillOpacity={0.12} />
+    <rect
+      x={x}
+      y={y}
+      width={w}
+      height={h}
+      style={{ fill: backdrop }}
+      // A dark surface needs more of the backdrop than a light one to read as dimmed
+      fillOpacity={dark ? 0.4 : 0.12}
+    />
   );
 }
 

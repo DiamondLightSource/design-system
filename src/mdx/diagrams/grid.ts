@@ -22,4 +22,6 @@ export const grid = {
   bottom: 160.667,
   /** Width of a list of items inside the workspace */
   workspaceNav: 200,
+  /** Where a modal pane goes, and its size, unless a layout says otherwise */
+  modal: { x: 309, y: 83, w: 508, h: 470 },
 };

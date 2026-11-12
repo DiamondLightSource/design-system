@@ -382,14 +382,19 @@ const rowBarFactors = [1, 0.75, 1.1, 0.6, 0.9];
  * A data table: a header row, a checkbox column, rows of placeholder cells with
  * the first row selected, and a pagination footer.
  */
-export function DataTable({ x, y, w }: Omit<Frame, "h">) {
+export function DataTable({ x, y, w, h }: Frame) {
+  // As many rows as fit, up to ten, between the header and the footer
+  const rows = Math.max(
+    1,
+    Math.min(tableRows, Math.floor(h / tableRowHeight) - 2),
+  );
   const columnLeft = tableColumns.reduce<number[]>(
     (lefts, width) => [...lefts, lefts[lefts.length - 1] + width],
     [0],
   );
   const dividers = columnLeft.slice(1);
   const bodyTop = y + tableRowHeight;
-  const footerTop = bodyTop + tableRows * tableRowHeight;
+  const footerTop = bodyTop + rows * tableRowHeight;
 
   return (
     <g>
@@ -406,7 +411,7 @@ export function DataTable({ x, y, w }: Omit<Frame, "h">) {
           <Bar key={c} x={x + columnLeft[c + 1] + 8} y={y + 12} w={width} />
         ))}
       </Block>
-      {Array.from({ length: tableRows }, (_, r) => {
+      {Array.from({ length: rows }, (_, r) => {
         const top = bodyTop + r * tableRowHeight;
         return (
           <Block
@@ -436,7 +441,7 @@ export function DataTable({ x, y, w }: Omit<Frame, "h">) {
       ))}
       <Block x={x} y={footerTop} w={w} h={tableRowHeight} tone="subtle">
         <Hint x={x + 8.5} y={footerTop + 18.7}>
-          1–10 of 48
+          {`1–${rows} of 48`}
         </Hint>
         <Outlined x={x + w - 56} y={footerTop + 7} w={21} h={15.333} />
         <Outlined x={x + w - 29} y={footerTop + 7} w={21} h={15.333} />
@@ -468,7 +473,7 @@ export function WorkspaceContent({
         <Hint x={x + 16} y={y + 60.6} size={14}>
           Content viewport
         </Hint>
-        <DataTable x={x + 16} y={y + 76} w={w - 32} />
+        <DataTable x={x + 16} y={y + 76} w={w - 32} h={h - 76 - 16} />
       </Block>
     );
   }
@@ -509,7 +514,6 @@ const columnRows = [
   [220, 260, 193.333, 240],
   [173.333, 260, 206.667, 233.333],
 ];
-const columnGap = 370.667;
 
 /** What a pane carries besides its toolbar and body */
 export type PaneParts = {
@@ -521,6 +525,8 @@ export type PaneParts = {
   actions?: boolean;
   /** One column of body content, or two for a wide pane */
   columns?: 1 | 2;
+  /** The side that meets the workspace, and carries the divider */
+  edge?: "left" | "top";
 };
 
 /**
@@ -538,6 +544,7 @@ export function Pane({
   status = false,
   actions = false,
   columns = 1,
+  edge = "left",
 }: Frame & { label: string } & PaneParts) {
   const toolbarHeight = 28;
   const statusHeight = 18.667;
@@ -547,7 +554,7 @@ export function Pane({
   const toolRight = close ? 77 : 45;
 
   return (
-    <Block x={x} y={y} w={w} h={h} tone="paper" sides={{ left: true }}>
+    <Block x={x} y={y} w={w} h={h} tone="paper" sides={{ [edge]: true }}>
       <Block
         x={x}
         y={y}
@@ -581,9 +588,9 @@ export function Pane({
           widths.map((width, i) => (
             <Bar
               key={`${column}-${i}`}
-              x={x + 16 + column * columnGap}
+              x={x + 16 + column * (w / 2)}
               y={y + 73 + i * 17.333}
-              w={width}
+              w={Math.min(width, w / 2 - 32)}
               light
             />
           )),

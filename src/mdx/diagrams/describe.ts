@@ -63,9 +63,10 @@ export function describeLayout(layout: LayoutConfig): RegionDescription[] {
     });
   }
 
-  const [contentId, contentName] = (
-    layout.contentLabel ?? "E · Primary workspace"
-  ).split(" · ");
+  const { id: contentId, name: contentName } = layout.contentRegion ?? {
+    id: "E",
+    name: "Primary workspace",
+  };
   const table = layout.content === "table";
   regions.push({
     id: contentId,

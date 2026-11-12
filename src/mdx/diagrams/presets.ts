@@ -59,7 +59,7 @@ const presets = {
       context: "accordion",
       selector: true,
       toolbar: true,
-      contentLabel: "E1 · Workspace content",
+      contentRegion: { id: "E1", name: "Workspace content" },
       aux: { placement: "inner" },
       workspaceStatus: true,
       globalStatus: true,
@@ -71,7 +71,7 @@ const presets = {
       breadcrumb: true,
       selector: true,
       workspaceNav: "cards",
-      contentLabel: "E1 · Workspace content",
+      contentRegion: { id: "E1", name: "Workspace content" },
       globalStatus: true,
     },
   },
@@ -80,17 +80,25 @@ const presets = {
     layout: {
       breadcrumb: true,
       content: "table",
-      modal: { x: 309, y: 83, w: 508, h: 470, close: true, actions: true },
+      modal: { close: true, actions: true },
     },
   },
 } satisfies Record<string, Preset>;
 
 export type PatternName = keyof typeof presets;
 
+/** A copy without the fields set to undefined, which would wipe a preset's */
+function defined<T extends object>(value: T): T {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, field]) => field !== undefined),
+  ) as T;
+}
+
 /**
  * The title and layout to draw: a named pattern, with any changes from
- * `layout` laid over it. The auxiliary pane merges field by field, so changing
- * one of its settings keeps the rest of the preset's.
+ * `layout` laid over it. Fields set to undefined are ignored. The auxiliary
+ * pane and the modal pane merge field by field, so changing one of their
+ * settings keeps the rest of the preset's.
  */
 export function resolveLayout(
   pattern?: PatternName,
@@ -98,14 +106,18 @@ export function resolveLayout(
 ): { title?: string; layout: LayoutConfig } {
   const preset: Preset | undefined = pattern && presets[pattern];
   const base = preset?.layout ?? {};
+  const changes = layout ? defined(layout) : {};
 
   return {
     title: preset?.title,
     layout: {
       ...base,
-      ...layout,
-      ...(base.aux && layout?.aux
-        ? { aux: { ...base.aux, ...layout.aux } }
+      ...changes,
+      ...(base.aux && changes.aux
+        ? { aux: { ...base.aux, ...defined(changes.aux) } }
+        : {}),
+      ...(base.modal && changes.modal
+        ? { modal: { ...base.modal, ...defined(changes.modal) } }
         : {}),
     },
   };
