@@ -2,9 +2,10 @@ import { Layout } from "./Layout";
 import {
   createBrowserRouter,
   Navigate,
+  Outlet,
   type RouteObject,
 } from "react-router-dom";
-import { ContentPanel, TabbedPanel, type TabDescription } from "./TabbedRoute";
+import { ContentPanel } from "./ContentPanel";
 
 import type { ReactNode } from "react";
 
@@ -40,13 +41,13 @@ interface BaseSection extends LabelledRoute {
   icon: ReactNode;
 }
 
-/** A section rendering a single page, with no tabs nav or child routes */
+/** A section rendering a single page, with no sub navigation or child routes */
 export interface SingleSection extends BaseSection {
   element: ReactNode;
 }
 
-/** A section rendering multiple pages behind a tabs nav */
-export interface TabbedSection extends BaseSection {
+/** A section rendering multiple pages behind a sub navigation */
+export interface PagedSection extends BaseSection {
   /** First one is default */
   pages: Page[];
 }
@@ -54,7 +55,7 @@ export interface TabbedSection extends BaseSection {
 /**
  * This describes a top-level screen,
  * accessible via main navigation component */
-export type Section = SingleSection | TabbedSection;
+export type Section = SingleSection | PagedSection;
 
 export interface Page extends LabelledRoute {
   element: ReactNode;
@@ -84,14 +85,10 @@ function childRoute(section: Section): RouteObject {
     };
   }
 
-  const tabbedPages: TabDescription[] = section.pages.map((page) => {
-    return {
-      label: page.name,
-      path: routePath(page),
-    };
-  });
   const element = (
-    <TabbedPanel basePath={`/${sectionPath}`} tabs={tabbedPages} />
+    <ContentPanel>
+      <Outlet />
+    </ContentPanel>
   );
   const childPageRoutes: RouteObject[] = section.pages.map((page) => {
     return {
@@ -129,8 +126,8 @@ function getRoutes(navigation: SectionGroup[]): Section[] {
  * consisting of app bar, side navigation panel, and main content panel (`<Outlet />`).
  *
  * Adds an index child which redirects to the first given route.
- * All given routes render a `<TabbedRoute />`, with tabs for each panel,
- * and a redirect to the first panel.
+ * Sections with pages are listed in a sub navigation beside the side
+ * navigation, and redirect to their first page.
  *
  */
 export function createRouter(props: RouterProps) {
