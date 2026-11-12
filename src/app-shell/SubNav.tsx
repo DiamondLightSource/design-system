@@ -1,6 +1,7 @@
 // Copied from sci-react-ui PR #262 (SubNav); import it from the package once that is released.
 import {
   Box,
+  Chip,
   Collapse,
   Divider,
   IconButton,
@@ -34,6 +35,8 @@ export type NavItem = {
   icon?: ReactNode;
   linkProps?: LinkProps;
   selected?: boolean;
+  /** Short status shown after the label, e.g. "Soon". Included in the accessible name. */
+  badge?: string;
 };
 
 export type NavItemWithChildren = NavItem & {
@@ -166,6 +169,26 @@ function getItemButtonSx(dense: boolean) {
   };
 }
 
+function getAccessibleName(item: NavItem) {
+  return item.badge ? `${item.label} (${item.badge})` : item.label;
+}
+
+function NavBadge({ badge }: { badge?: string }) {
+  if (!badge) {
+    return null;
+  }
+
+  return (
+    <Chip
+      label={badge}
+      size="small"
+      variant="outlined"
+      aria-hidden
+      sx={{ height: 20, typography: "caption", color: "text.secondary" }}
+    />
+  );
+}
+
 function SubNavItem({
   item,
   dense,
@@ -237,7 +260,7 @@ function SubNavItem({
           selected={item.selected}
           dense={dense}
           sx={{ ...buttonSx, pr: hasChildren ? 5 : buttonSx.px }}
-          aria-label={item.label}
+          aria-label={getAccessibleName(item)}
         >
           {item.icon && (
             <ListItemIcon
@@ -256,6 +279,7 @@ function SubNavItem({
             primary={item.label}
             slotProps={{ primary: { variant: dense ? "body2" : "body1" } }}
           />
+          <NavBadge badge={item.badge} />
         </ListItemButton>
       </ListItem>
       {hasChildren && (
@@ -281,7 +305,7 @@ function SubNavChildItem({ item, dense }: { item: NavItem; dense: boolean }) {
         selected={item.selected}
         dense={dense}
         sx={getItemButtonSx(dense)}
-        aria-label={item.label}
+        aria-label={getAccessibleName(item)}
       >
         {item.icon && (
           <ListItemIcon
@@ -300,6 +324,7 @@ function SubNavChildItem({ item, dense }: { item: NavItem; dense: boolean }) {
           primary={item.label}
           slotProps={{ primary: { variant: "body2" } }}
         />
+        <NavBadge badge={item.badge} />
       </ListItemButton>
     </ListItem>
   );

@@ -28,6 +28,7 @@ function toSubNavProps(section: PagedSection) {
       {
         items: section.pages.map((page) => ({
           label: page.name,
+          badge: page.soon ? "Soon" : undefined,
           linkProps: {
             component: NavLink,
             to: `/${sectionPath}/${routePath(page)}`,
