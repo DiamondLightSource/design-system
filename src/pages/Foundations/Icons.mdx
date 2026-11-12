@@ -65,11 +65,9 @@ Icons should not be used purely as decoration.
 
 ### Prefer labels over icons
 
-Where understanding is important, pair icons with text.
-
-```tsx
-<Button startIcon={<SettingsIcon />}>Settings</Button>
-```
+Where understanding is important, pair icons with text. A settings button, for
+example, should show the gear icon beside the word "Settings", not the icon
+alone.
 
 Avoid relying on icons alone for unfamiliar, complex or high-risk actions.
 
@@ -216,23 +214,15 @@ Always combine icons with text and colour.
 
 ### Decorative icons
 
-Hide decorative icons from assistive technologies.
-
-```tsx
-<InfoIcon aria-hidden="true" />
-```
+Hide decorative icons from assistive technologies by marking them
+`aria-hidden`.
 
 ### Interactive icons
 
 Give icon-only controls a meaningful accessible name. Use icon-only buttons when
 space is limited, the action is widely understood and the icon is clear without
-text.
-
-```tsx
-<IconButton aria-label="Open settings">
-  <SettingsIcon />
-</IconButton>
-```
+text. Set an `aria-label` that says what the button does, such as "Open
+settings".
 
 ### Status icons
 

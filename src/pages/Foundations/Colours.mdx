@@ -1,9 +1,9 @@
 import {
   Callout,
-  DecisionTree,
   DoDont,
   ReferenceTable,
   Swatch,
+  TreeList,
 } from "../../mdx/blocks";
 
 DiamondDS uses colour semantically. Colours are chosen for their purpose rather
@@ -184,7 +184,7 @@ we?_
 
 When choosing a colour role, start with purpose rather than appearance.
 
-<DecisionTree
+<TreeList
   label="Colour decision tree"
   nodes={[
     {
@@ -265,14 +265,32 @@ spacing, borders and layout before relying on elevation.
 
 ### Surface hierarchy
 
-```text
-Background
- └─ Surface
-     └─ Surface container
-         └─ Surface container high
-             └─ Overlay
-                 └─ Modal
-```
+<TreeList
+  label="Surface hierarchy"
+  nodes={[
+    {
+      label: "Background",
+      children: [
+        {
+          label: "Surface",
+          children: [
+            {
+              label: "Surface container",
+              children: [
+                {
+                  label: "Surface container high",
+                  children: [
+                    { label: "Overlay", children: [{ label: "Modal" }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]}
+/>
 
 ### Surface hierarchy and elevation
 
@@ -491,19 +509,12 @@ unavailable. Read-only content says a value is available but cannot be changed.
 
 When more than one state applies, use this order.
 
-```text
-Disabled
-  ↓
-Error
-  ↓
-Selected
-  ↓
-Active
-  ↓
-Hover
-  ↓
-Rest
-```
+1. Disabled
+2. Error
+3. Selected
+4. Active
+5. Hover
+6. Rest
 
 Disabled and error states always win over other visual states.
 

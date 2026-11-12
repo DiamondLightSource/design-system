@@ -1,6 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { Check, X } from "lucide-react";
-import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
 import type { ReactNode } from "react";
 import {
   DataTable,
@@ -194,51 +193,79 @@ export function Swatch({ colour }: { colour: string }) {
   );
 }
 
-interface TreeItemData {
-  id: string;
-  label: string;
-  children?: TreeItemData[];
-}
-
 export interface TreeNode {
   label: string;
   children?: TreeNode[];
 }
 
-function toTreeItems(
-  nodes: TreeNode[],
-  parentId = "",
-  expandable: string[] = [],
-): { items: TreeItemData[]; expandable: string[] } {
-  const items = nodes.map((node, index): TreeItemData => {
-    const id = parentId ? `${parentId}-${index}` : `${index}`;
-    if (!node.children?.length) return { id, label: node.label };
+const connector = {
+  position: "absolute",
+  content: '""',
+  backgroundColor: "border.emphasis",
+} as const;
 
-    expandable.push(id);
-    return {
-      id,
-      label: node.label,
-      children: toTreeItems(node.children, id, expandable).items,
-    };
-  });
-  return { items, expandable };
+function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
+  return (
+    <Box
+      component="ul"
+      role="list"
+      sx={{ listStyle: "none", m: 0, p: 0 }}
+    >
+      {nodes.map((node) => (
+        <Box
+          component="li"
+          key={node.label}
+          sx={{
+            position: "relative",
+            py: 0.5,
+            // Nested items sit in a gutter holding their connector lines
+            ...(depth > 0 && {
+              pl: 3,
+              "&::before": {
+                ...connector,
+                left: 8,
+                top: 0,
+                bottom: 0,
+                width: "1px",
+              },
+              "&:last-child::before": { bottom: "auto", height: "1.1em" },
+              "&::after": {
+                ...connector,
+                left: 8,
+                top: "1.1em",
+                width: 12,
+                height: "1px",
+              },
+            }),
+          }}
+        >
+          <Typography component="span" variant="body1">
+            {node.label}
+          </Typography>
+          {node.children && (
+            <Branch nodes={node.children} depth={depth + 1} />
+          )}
+        </Box>
+      ))}
+    </Box>
+  );
 }
 
-/** A read-only tree, fully expanded, for showing a sequence of choices */
-export function DecisionTree({
+/** A read-only tree, such as a sequence of choices or a hierarchy, shown as a nested list with connector lines */
+export function TreeList({
   label,
   nodes,
 }: {
   label: string;
   nodes: TreeNode[];
 }) {
-  const { items, expandable } = toTreeItems(nodes);
-
   return (
     <Box
+      aria-label={label}
+      role="group"
       sx={{
         mb: 3,
-        p: 1.5,
+        p: 2,
         maxWidth: readingWidth,
         borderRadius: 1,
         border: "1px solid",
@@ -246,13 +273,7 @@ export function DecisionTree({
         backgroundColor: "surface.subtle",
       }}
     >
-      <RichTreeView
-        aria-label={label}
-        items={items}
-        defaultExpandedItems={expandable}
-        disableSelection
-        itemChildrenIndentation={24}
-      />
+      <Branch nodes={nodes} depth={0} />
     </Box>
   );
 }

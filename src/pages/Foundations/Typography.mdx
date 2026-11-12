@@ -318,13 +318,8 @@ Do not use mono type for general UI text.
 
 Technical values should be easy to scan, compare and copy.
 
-Use mono type where users need to inspect precise values:
-
-```tsx
-<Typography variant="mono1">
-  energy=12.4 keV · exposure=0.5 s · frames=100
-</Typography>
-```
+Use mono type where users need to inspect precise values, such as an energy, an
+exposure time and a frame count shown together.
 
 For tables with mixed content, use mono only for the technical cells rather than
 the whole table.
@@ -336,17 +331,8 @@ such as a table cell or a narrow panel.
 
 Use `noWrap` inside a width-constrained container to cut the value to a single
 line with an ellipsis, and pair it with a tooltip so the full value is still
-available on hover or focus.
-
-```tsx
-<Box sx={{ maxWidth: 240 }}>
-  <Tooltip title="/dls/i15-1/data/2026/cm12345-1/processed/sample_0042.nxs">
-    <Typography variant="mono2" noWrap tabIndex={0}>
-      /dls/i15-1/data/2026/cm12345-1/processed/sample_0042.nxs
-    </Typography>
-  </Tooltip>
-</Box>
-```
+available on hover or focus. Make the truncated value focusable, so keyboard
+users can reach the tooltip too.
 
 Don’t truncate a value without also giving users a way to read it in full.
 Prefer a tooltip, or reflow the layout so the value has room to wrap.
@@ -355,22 +341,18 @@ Prefer a tooltip, or reflow the layout so the value has room to wrap.
 
 Keep numbers and units readable.
 
-```text
-12.4 keV
-0.5 s
-180 ms
-1,024 frames
-```
+<ReferenceTable
+  columns={["Prefer", "Avoid"]}
+  rows={[
+    ["12.4 keV", "12.4keV"],
+    ["0.5 s", "0.5sec"],
+    ["180 ms", "180 milliseconds"],
+    ["1,024 frames", "1024 Frames"],
+  ]}
+/>
 
 Prefer a space between number and unit unless the notation convention says
-otherwise. Avoid inconsistent formatting:
-
-```text
-12.4keV
-0.5sec
-180 milliseconds
-1024 Frames
-```
+otherwise, and keep the same format for the same kind of value.
 
 ## Overlines and grouping
 
@@ -386,11 +368,8 @@ Use overlines to:
 - Introduce collections of information
 - Provide context above headings or values
 
-```tsx
-<Typography variant="overline">Acquisition</Typography>
-
-<Typography variant="h4">Detector settings</Typography>
-```
+For example, put the overline "Acquisition" above a heading that reads
+"Detector settings".
 
 Prefer overlines when a full heading would add unnecessary visual weight.
 
@@ -435,17 +414,8 @@ Use meta for compact operational information such as:
 
 ## Logs and console output
 
-Logs and console output should use mono type.
-
-```tsx
-<Typography component="pre" variant="mono1">
-  [14:30:15] Starting data acquisition pipeline
-  <br />
-  [14:30:18] Detector initialised successfully
-  <br />
-  [14:30:22] Scan started — energy 12.4 keV, exposure 0.5 s
-</Typography>
-```
+Logs and console output should use mono type. Keep one entry per line, with the
+timestamp first, and preserve line breaks exactly as written.
 
 Use colour and status tokens carefully. Typography should not be the only way to
 communicate severity.
@@ -453,15 +423,8 @@ communicate severity.
 ## Light and dark behaviour
 
 Typography should stay readable in both light and dark modes. Use semantic
-foreground roles rather than raw colour values:
-
-```tsx
-<Typography color="text.primary">Primary text</Typography>
-
-<Typography color="text.secondary">Secondary text</Typography>
-
-<Typography color="text.disabled">Disabled text</Typography>
-```
+foreground roles rather than raw colour values: `text.primary` for main text,
+`text.secondary` for supporting text and `text.disabled` for disabled text.
 
 Avoid hard-coded greys for text. They may pass in one mode and fail in the
 other.
