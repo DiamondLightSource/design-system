@@ -1,0 +1,93 @@
+import { ReferenceTable, Swatch } from "../../mdx/blocks";
+
+## Communicate state clearly
+
+Provide feedback for important actions, transitions and system events. Users
+should understand:
+
+- what is happening
+- whether an action succeeded
+- whether attention is required
+- whether work is still in progress
+- what they can safely do next
+
+Avoid relying on colour alone. Combine colour with labels, icons, text or layout
+changes where appropriate.
+
+## Status intent meanings
+
+<ReferenceTable
+  columns={["Status", "Purpose", "Typical usage"]}
+  rows={[
+    [
+      <>
+        <Swatch colour="success.solid" />
+        Success
+      </>,
+      "Positive or valid outcome",
+      "Completed actions, successful operations, valid system state",
+    ],
+    [
+      <>
+        <Swatch colour="warning.solid" />
+        Warning
+      </>,
+      "Caution or attention required",
+      "Risk states, interruptions, unusual conditions, partial issues",
+    ],
+    [
+      <>
+        <Swatch colour="error.solid" />
+        Error / Danger
+      </>,
+      "Critical issue or failed action",
+      "Validation failures, failed operations, destructive actions",
+    ],
+    [
+      <>
+        <Swatch colour="info.solid" />
+        Info
+      </>,
+      "Informational or transitional state",
+      "Progress updates, guidance, active processes, system messages",
+    ],
+  ]}
+/>
+
+## Progress and transitional states
+
+Use informational feedback for active or changing system states. Examples
+include:
+
+- scanning in progress
+- moving motors
+- connecting to a device
+- processing data
+- queue paused
+
+Prefer persistent inline or contextual feedback over temporary notifications for
+long-running operations.
+
+## Success feedback
+
+Use success feedback sparingly. Not every successful action needs a
+notification. Prefer lightweight confirmation for routine actions, especially in
+repetitive scientific workflows.
+
+<ReferenceTable
+  columns={["Prefer", "Avoid"]}
+  rows={[
+    [
+      "Quiet inline confirmation after saving",
+      "Large celebratory success states for routine operations",
+    ],
+    [
+      "Small status update in a queue or table row",
+      "Stacking repeated success toasts during repetitive workflows",
+    ],
+    [
+      "Temporary confirmation for destructive actions",
+      "Interrupting workflow with unnecessary success messaging",
+    ],
+  ]}
+/>

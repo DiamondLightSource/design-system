@@ -1,0 +1,137 @@
+import { DoDont, Lead, ReferenceTable } from "../../mdx/blocks";
+
+# Practical guide
+
+<Lead>
+  The Diamond Design System uses MUI with Diamond semantic tokens layered on top.
+  These are the habits that matter most when you build with it, with links to
+  the detail.
+</Lead>
+
+## Use theme roles, not raw values
+
+Design tokens are CSS variables and remain the source of truth. The MUI theme
+maps them into semantic roles for colour, type, spacing, elevation and
+interaction states.
+
+Components should use theme roles. When you define or customise the theme, refer
+to the design tokens.
+
+<ReferenceTable
+  columns={["Prefer", "Avoid"]}
+  rows={[
+    [<code>theme.palette.primary.main</code>, <code>#005bbb</code>],
+    [<code>theme.palette.divider</code>, "Custom border greys"],
+    [<code>theme.spacing(2)</code>, "Arbitrary spacing values"],
+    [<code>surface.subtle</code>, "One-off background colours"],
+  ]}
+/>
+
+Semantic roles keep interfaces consistent across products, support light and
+dark themes, and let the system evolve without rewriting component styles.
+
+## Reuse components
+
+Build with existing components and patterns before creating new ones. Keep
+interfaces predictable, efficient, readable and consistent, so people can
+complete common tasks without extra explanation.
+
+<DoDont
+  dos={[
+    "Reuse established layouts, behaviours and interaction patterns.",
+    "Use standard component variants consistently.",
+    "Minimise unnecessary steps for common tasks.",
+    "Use spacing, typography and colour to create a clear hierarchy.",
+    "Keep disabled, read-only, selected and error states visually distinct.",
+    "Make visual styling match the meaning being communicated.",
+  ]}
+  donts={[
+    "Don’t restyle components screen by screen.",
+    "Don’t introduce custom colours unnecessarily.",
+    "Don’t create several patterns for the same interaction.",
+    "Don’t require extra interactions where a direct action would be expected.",
+    "Don’t use error or warning styling for normal states.",
+    "Don’t override the theme without a reusable reason.",
+  ]}
+/>
+
+## Choose colour by meaning
+
+Pick a colour for what something does or means, not how you want it to look.
+Use neutral roles for structure, intent roles (primary, secondary, success,
+warning, error, info) for actions and status, and brand colour only for Diamond
+identity. Intent colours are used through component props such as
+`color="primary"` or `color="error"`.
+
+Never rely on colour alone to communicate state. See [Colours](/foundations/colours)
+for the roles and tokens.
+
+## Group with surfaces and borders
+
+Show hierarchy with surface roles, spacing and borders before reaching for
+elevation. Use border roles rather than raw greys. See
+[Elevation](/foundations/elevation) and [Borders](/foundations/borders).
+
+## Pair buttons by priority
+
+Make the next safe action obvious. Use one contained button for the main action,
+then reduce emphasis for the actions beside it.
+
+<ReferenceTable
+  columns={["Pattern", "Use when", "Pairing"]}
+  rows={[
+    [
+      "Main action and cancel",
+      "The user needs a clear way to proceed or back out",
+      <>
+        <code>primary contained</code> and <code>text</code>
+      </>,
+    ],
+    [
+      "Main action and supporting action",
+      "The second action helps prepare or configure the main action",
+      <>
+        <code>primary contained</code> and <code>outlined</code>
+      </>,
+    ],
+    [
+      "Main action and more actions",
+      "Other actions are available but should not compete",
+      <>
+        <code>primary contained</code> and a menu button
+      </>,
+    ],
+    [
+      "Destructive confirmation",
+      "The user is confirming a destructive or irreversible action",
+      <>
+        <code>error contained</code> and a neutral <code>text</code> or{" "}
+        <code>outlined</code> button
+      </>,
+    ],
+    [
+      "Promoted secondary workflow",
+      "A secondary action is intentionally more useful in context",
+      <>
+        A lower-emphasis primary action and <code>secondary contained</code>
+      </>,
+    ],
+  ]}
+/>
+
+Avoid placing several high-emphasis actions next to each other unless they
+genuinely have equal priority. Don't use multiple contained buttons to solve
+unclear priority.
+
+## Tell people what is happening
+
+Communicate system state, progress, success and problems, and make errors
+actionable. See [Feedback](/components/feedback).
+
+## Principles
+
+- Prefer theme palette roles and component props over raw values.
+- Reuse patterns before creating new ones.
+- Keep interactions predictable.
+- Design for clarity and operational confidence.
+- Similar things should look and behave similarly.

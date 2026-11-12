@@ -1,0 +1,57 @@
+import { DoDont, Lead, ReferenceTable } from "../../mdx/blocks";
+
+# Borders
+
+<Lead>
+  Borders define separation, grouping and interaction boundaries. They should
+  support structure without creating visual noise.
+</Lead>
+
+Use border roles instead of raw greys.
+
+<ReferenceTable
+  columns={["Token", "MUI role", "Purpose", "Typical use"]}
+  rows={[
+    [
+      <code>--ds-border-subtle</code>,
+      <>
+        <code>divider</code> or <code>border.subtle</code>
+      </>,
+      "Default quiet border",
+      "Dividers, table separators, low-emphasis boundaries",
+    ],
+    [
+      <code>--ds-border-emphasis</code>,
+      <code>border.emphasis</code>,
+      "Elevated interaction or emphasis",
+      "Inputs, highlighted cards, panels, tables, important grouping",
+    ],
+    [
+      <code>--ds-border-strong</code>,
+      <code>border.strong</code>,
+      "Maximum border contrast",
+      "Hover states, active regions, selected neutral items",
+    ],
+  ]}
+/>
+
+MUI's native `divider` role and DiamondDS `border.subtle` use the same value.
+Use `divider` where an MUI component expects it, and `border.subtle` when
+writing DiamondDS border styles directly.
+
+<DoDont
+  dos={[
+    "Use border.subtle for quiet dividers, separators, table boundaries and disabled outlines.",
+    "Use border.emphasis for interactive component boundaries and elements that need a stronger visual cue.",
+    "Use border.strong for elevated interaction states such as hover, active or selected elements.",
+    "Use intent border colours only for meaningful states such as error or selected.",
+    "Let disabled and error borders override hover and focus styling.",
+  ]}
+  donts={[
+    "Don’t use raw grey values for component borders.",
+    "Don’t use borders as the only way to communicate status.",
+    "Don’t add heavy borders to compensate for weak spacing or grouping.",
+    "Don’t mix several border strengths in the same small area.",
+    "Don’t invent one-off border colours outside the theme.",
+  ]}
+/>
