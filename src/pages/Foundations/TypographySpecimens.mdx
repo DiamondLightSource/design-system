@@ -73,7 +73,9 @@ export const TypographyRow = ({ variant, sample }) => (
       borderColor: "divider",
     }}
   >
-    <Typography variant={variant}>{sample}</Typography>
+    <Typography variant={variant} component="span">
+      {sample}
+    </Typography>
     <Typography
       variant="caption"
       color="text.secondary"

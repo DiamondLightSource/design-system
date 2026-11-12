@@ -1,6 +1,6 @@
 import { Box, Link, Typography } from "@mui/material";
 import type { MouseEvent } from "react";
-import { OUTLINE_TOP, type OutlineHeading } from "./usePageOutline";
+import type { OutlineHeading } from "./usePageOutline";
 
 function OutlineLinks({
   headings,
@@ -70,9 +70,12 @@ export function OutlineRail({
 export function OutlineDisclosure({
   headings,
   activeId,
+  top,
 }: {
   headings: OutlineHeading[];
   activeId?: string;
+  /** Distance from the top of the window to where the list is pinned */
+  top: number;
 }) {
   return (
     <Box
@@ -95,7 +98,7 @@ export function OutlineDisclosure({
       <Box
         sx={{
           mt: 1,
-          maxHeight: `calc(100vh - ${OUTLINE_TOP + 120}px)`,
+          maxHeight: `calc(100vh - ${top + 120}px)`,
           overflowY: "auto",
         }}
       >

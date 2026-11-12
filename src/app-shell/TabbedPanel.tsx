@@ -1,7 +1,8 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
-import { APP_BAR_HEIGHT } from "./dimensions";
+import { APP_BAR_HEIGHT, PINNED_TABS_HEIGHT } from "./dimensions";
+import { PinnedOffsetContext } from "./pinnedOffset";
 
 export interface TabDescription {
   label: string;
@@ -90,7 +91,11 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
       </Paper>
 
       <Box ref={contentRef} sx={{ p: 2 }}>
-        <Outlet />
+        <PinnedOffsetContext.Provider
+          value={APP_BAR_HEIGHT + PINNED_TABS_HEIGHT}
+        >
+          <Outlet />
+        </PinnedOffsetContext.Provider>
       </Box>
     </Box>
   );

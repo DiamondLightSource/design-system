@@ -1,12 +1,5 @@
 import { useEffect, useState, type RefObject } from "react";
 import { useLocation } from "react-router-dom";
-import { APP_BAR_HEIGHT, PINNED_TABS_HEIGHT } from "../app-shell/dimensions";
-
-/** Distance from the top of the window to the first visible line of content */
-export const OUTLINE_TOP = APP_BAR_HEIGHT + PINNED_TABS_HEIGHT;
-
-/** Space left above a heading that is scrolled to, clear of the pinned bars */
-export const HEADING_SCROLL_MARGIN = OUTLINE_TOP + 16;
 
 /** Below this many headings a page is short enough to scroll without an outline */
 export const MIN_OUTLINE_HEADINGS = 3;
@@ -107,19 +100,32 @@ function collectHeadings(root: HTMLElement): OutlineHeading[] {
 }
 
 function findActiveId(headings: OutlineHeading[]) {
+  const page = document.documentElement;
+  const scrollable = page.scrollHeight > window.innerHeight + 1;
   const atBottom =
-    window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+    scrollable && window.innerHeight + window.scrollY >= page.scrollHeight - 2;
   if (atBottom) return headings[headings.length - 1]?.id;
 
   let activeId = headings[0]?.id;
   for (const { id } of headings) {
     const element = document.getElementById(id);
     if (!element) continue;
-    // A heading that was jumped to rests exactly at the scroll margin
-    if (element.getBoundingClientRect().top > HEADING_SCROLL_MARGIN + 1) break;
+    // A heading that was jumped to rests exactly at its scroll margin
+    const margin = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+    if (element.getBoundingClientRect().top > margin + 1) break;
     activeId = id;
   }
   return activeId;
+}
+
+/** The #hash of the address, which may not be valid percent-encoding */
+function readHash() {
+  const hash = window.location.hash.slice(1);
+  try {
+    return decodeURIComponent(hash);
+  } catch {
+    return hash;
+  }
 }
 
 /**
@@ -136,11 +142,14 @@ export function usePageOutline(contentRef: RefObject<HTMLElement | null>) {
     const content = contentRef.current;
     if (!content) return;
 
+    // The introduction entry gives the content an id; take it back off
+    // afterwards, as the same element holds the next tab's content
+    const hadId = content.id !== "";
     setHeadings(collectHeadings(content));
 
     // The browser tries to scroll to a #hash before the headings have ids, and
     // loading fonts reflows the page afterwards, so scroll again once they are in
-    const hash = decodeURIComponent(window.location.hash.slice(1));
+    const hash = readHash();
     const scrollToHash = () => document.getElementById(hash)?.scrollIntoView();
     let cancelled = false;
     if (hash) {
@@ -151,6 +160,7 @@ export function usePageOutline(contentRef: RefObject<HTMLElement | null>) {
     }
     return () => {
       cancelled = true;
+      if (!hadId) content.removeAttribute("id");
     };
   }, [contentRef, pathname]);
 
