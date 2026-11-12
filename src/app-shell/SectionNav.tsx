@@ -65,18 +65,14 @@ export function SectionNav({
     }
   }
 
-  if (!section) {
-    return <Box component="main" sx={{ flexGrow: 1, pt: 6 }}>{children}</Box>;
-  }
-
-  const subNavProps = toSubNavProps(section);
+  const subNavProps = section && toSubNavProps(section);
 
   return (
     <>
-      {isWide && (
+      {subNavProps && isWide && (
         <Box
           component="nav"
-          aria-label={`${section.name} pages`}
+          aria-label={`${subNavProps.title} pages`}
           sx={{
             width: NAV_WIDTH + 1, // +1 pixel for the border
             flexShrink: 0,
@@ -99,7 +95,7 @@ export function SectionNav({
       )}
 
       <Box component="main" sx={{ flexGrow: 1, minWidth: 0, pt: 6 }}>
-        {!isWide && (
+        {subNavProps && !isWide && (
           <Box sx={{ px: 2, pt: 1 }}>
             <Button
               size="small"
@@ -107,14 +103,14 @@ export function SectionNav({
               aria-haspopup="dialog"
               onClick={() => setDrawerOpen(true)}
             >
-              {section.name} pages
+              {subNavProps.title} pages
             </Button>
           </Box>
         )}
         {children}
       </Box>
 
-      {!isWide && (
+      {subNavProps && !isWide && (
         <Drawer
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
