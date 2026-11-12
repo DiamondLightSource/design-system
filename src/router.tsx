@@ -34,6 +34,7 @@ import Borders from "./pages/Foundations/Borders.mdx";
 import Icons from "./pages/Foundations/Icons.mdx";
 
 import Components from "./pages/Components/Overview.mdx";
+import ComponentsOutline from "./pages/Components/Outline.mdx";
 import Inputs from "./pages/Components/Inputs.mdx";
 import Navigation from "./pages/Components/Navigation.mdx";
 import FeedbackIntro from "./pages/Components/FeedbackIntro.mdx";
@@ -46,6 +47,7 @@ import ApplicationStructure from "./pages/Patterns/ApplicationStructure.mdx";
 import NavigationP from "./pages/Patterns/Navigation.mdx";
 
 import Standards from "./pages/Standards/Overview.mdx";
+import StandardsOutline from "./pages/Standards/Outline.mdx";
 import Accessibility from "./pages/Standards/Accessibility.mdx";
 import InteractionStandards from "./pages/Standards/InteractionStandards.mdx";
 
@@ -169,6 +171,7 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Overview",
+            soon: true,
             element: <MdxWrapper component={Components} />,
           },
           {
@@ -194,6 +197,10 @@ const navigation: SectionGroup[] = [
                 element: <MdxWrapper component={FeedbackErrors} />,
               },
             ],
+          },
+          {
+            name: "Outline plan",
+            element: <MdxWrapper component={ComponentsOutline} />,
           },
         ],
       },
@@ -226,6 +233,7 @@ const navigation: SectionGroup[] = [
         pages: [
           {
             name: "Overview",
+            soon: true,
             element: <MdxWrapper component={Standards} />,
           },
           {
@@ -237,6 +245,10 @@ const navigation: SectionGroup[] = [
             name: "Interaction Standards",
             soon: true,
             element: <MdxWrapper component={InteractionStandards} />,
+          },
+          {
+            name: "Outline plan",
+            element: <MdxWrapper component={StandardsOutline} />,
           },
         ],
       },
