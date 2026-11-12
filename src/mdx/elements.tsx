@@ -147,22 +147,22 @@ export const MdxLink = ({
   href = "",
   children,
 }: { href?: string } & Children) => {
-  // "//host/path" is a protocol-relative link to another site, not a route
-  if (href.startsWith("/") && !href.startsWith("//")) {
+  // Anchors, mail and phone links stay in the page
+  if (/^(#|mailto:|tel:)/i.test(href)) {
+    return <MuiLink href={href}>{children}</MuiLink>;
+  }
+
+  // A scheme, or "//host/path", points to another site
+  if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(href)) {
     return (
-      <MuiLink component={RouterLink} to={href}>
+      <MuiLink href={href} target="_blank" rel="noopener noreferrer">
         {children}
       </MuiLink>
     );
   }
 
-  // Anchors, mail and phone links stay in the page
-  if (!/^(https?:)?\/\//.test(href)) {
-    return <MuiLink href={href}>{children}</MuiLink>;
-  }
-
   return (
-    <MuiLink href={href} target="_blank" rel="noopener noreferrer">
+    <MuiLink component={RouterLink} to={href}>
       {children}
     </MuiLink>
   );

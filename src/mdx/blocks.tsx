@@ -112,6 +112,8 @@ function Guidance({
 
   return (
     <Box
+      role="group"
+      aria-label={isDo ? "Do" : "Don’t"}
       sx={{
         borderRadius: 1,
         border: "1px solid",
