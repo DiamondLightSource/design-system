@@ -99,8 +99,15 @@ export interface Tab extends LabelledRoute {
 
 /** Custom data attached to each leaf route, read via `useMatches()` for the page title */
 export interface RouteHandle {
-  title: string;
+  /** Absent on redirects, which are never shown */
+  title?: string;
+  /** Set on tab routes, so switching tab is not treated as changing page */
+  tab?: boolean;
+  /** Set on routes that only redirect, which are not a page the reader arrived at */
+  redirect?: boolean;
 }
+
+const redirectHandle = { redirect: true } satisfies RouteHandle;
 
 /** When paths not given, derive from name through this function */
 export function sanitisePath(name: string) {
@@ -127,11 +134,7 @@ function tabbedRoute(
   return {
     path,
     element: (
-      <TabbedPanel
-        basePath={basePath}
-        tabs={tabDescriptions}
-        header={header}
-      />
+      <TabbedPanel basePath={basePath} tabs={tabDescriptions} header={header} />
     ),
     children: [
       ...(firstTab
@@ -139,13 +142,17 @@ function tabbedRoute(
             {
               index: true,
               element: <Navigate to={routePath(firstTab)} replace />,
+              handle: redirectHandle,
             },
           ]
         : []),
       ...tabs.map((tab) => ({
         path: routePath(tab),
         element: tab.element,
-        handle: { title: `${parentName} / ${tab.name}` } satisfies RouteHandle,
+        handle: {
+          title: `${parentName} / ${tab.name}`,
+          tab: true,
+        } satisfies RouteHandle,
       })),
     ],
   };
@@ -200,6 +207,7 @@ function childRoute(section: Section): RouteObject {
             {
               index: true,
               element: <Navigate to={routePath(firstPage)} replace />,
+              handle: redirectHandle,
             },
           ]
         : []),
@@ -234,6 +242,7 @@ export function createRouter(props: RouterProps) {
       {
         index: true,
         element: <Navigate to={`/${firstRoute.path}`} replace />,
+        handle: redirectHandle,
       },
       ...children,
     ],
