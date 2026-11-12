@@ -18,6 +18,9 @@ import Foundations from "./pages/Foundations/Overview.mdx";
 import FoundationsOutline from "./pages/Foundations/Outline.mdx";
 import ColoursIntro from "./pages/Foundations/ColoursIntro.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
+import ColoursSurfaces from "./pages/Foundations/ColoursSurfaces.mdx";
+import ColoursInPractice from "./pages/Foundations/ColoursInPractice.mdx";
+import ColoursTokens from "./pages/Foundations/ColoursTokens.mdx";
 import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
 import TypographyIntro from "./pages/Foundations/TypographyIntro.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
@@ -91,6 +94,18 @@ const navigation: SectionGroup[] = [
               {
                 name: "Guidance",
                 element: <MdxWrapper component={Colours} />,
+              },
+              {
+                name: "Surfaces and states",
+                element: <MdxWrapper component={ColoursSurfaces} />,
+              },
+              {
+                name: "In practice",
+                element: <MdxWrapper component={ColoursInPractice} />,
+              },
+              {
+                name: "Tokens",
+                element: <MdxWrapper component={ColoursTokens} />,
               },
               {
                 name: "Theme colours",

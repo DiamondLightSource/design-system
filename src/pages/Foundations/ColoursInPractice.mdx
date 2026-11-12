@@ -1,0 +1,57 @@
+import {
+  DoDont,
+  ReferenceTable,
+} from "../../mdx/blocks";
+
+## Scientific workflow guidance
+
+Scientific interfaces often contain:
+
+- Large tables
+- Live data
+- Monitoring views
+- Control panels
+- Acquisition screens
+- Alerts and operational feedback
+
+In these environments, colour must keep a strong signal-to-noise ratio.
+
+<DoDont
+  dos={[
+    "Use neutral colours for most layout and structure.",
+    "Reserve semantic colours for meaningful changes in state.",
+    "Use warning and error colours only when attention or action is needed.",
+    "Make sure critical alerts stay visually distinct.",
+    "Let data visualisation colours stay distinct from UI colours.",
+  ]}
+  donts={[
+    "Don’t use large blocks of semantic colour as decoration.",
+    "Don’t colour every data point, metric or row.",
+    "Don’t use status colours for general layout structure.",
+    "Don’t create several competing status colours in the same view.",
+    "Don’t let visualisation colours compete with interface colours.",
+  ]}
+/>
+
+## Data visualisation
+
+UI colours and visualisation colours serve different purposes.
+
+<ReferenceTable
+  columns={["Colour system", "Purpose", "Examples"]}
+  rows={[
+    [
+      "UI colours",
+      "Communicate structure, actions and status",
+      "Buttons, alerts, text, borders, surfaces",
+    ],
+    [
+      "Visualisation colours",
+      "Communicate data categories, measurements and trends",
+      "Charts, plots, heatmaps, scientific visualisations",
+    ],
+  ]}
+/>
+
+Do not reuse UI intent colours as a general chart palette. Use visualisation
+colours for data and UI colours for interface meaning.

@@ -1,0 +1,160 @@
+import {
+  Callout,
+  ReferenceTable,
+} from "../../mdx/blocks";
+
+## Token reference
+
+The token reference connects DiamondDS semantic colour roles to CSS variables
+and MUI palette roles. Use semantic tokens and MUI palette roles in components,
+and avoid hardcoded hex values.
+
+### Intent and brand roles
+
+Intent and brand colours follow a shared structure. In the patterns below,
+`[token]` stands for a role such as `primary` or `danger`, and `[role]` for its
+MUI palette name.
+
+<ReferenceTable
+  columns={["Token pattern", "MUI role", "Purpose", "Typical use"]}
+  rows={[
+    [
+      <code>--ds-[token]</code>,
+      <code>palette.[role].main</code>,
+      "Main semantic colour",
+      "Actions, status communication, emphasis, identity",
+    ],
+    [
+      <code>--ds-on-[token]</code>,
+      <code>palette.[role].contrastText</code>,
+      "Foreground colour paired with the role",
+      "Text and icons shown on the role colour",
+    ],
+    [
+      <code>--ds-[token]-emphasis</code>,
+      <code>palette.[role].dark</code>,
+      "Stronger variation of the role",
+      "Hover, active or stronger emphasis states",
+    ],
+    [
+      <code>--ds-[token]-accent</code>,
+      <code>palette.[role].light</code>,
+      "Lighter accent variation",
+      "Focus rings, highlights, supporting accents",
+    ],
+    [
+      <code>--ds-[token]-container</code>,
+      <code>palette.[role].container</code>,
+      "Lower-emphasis role surface",
+      "Chips, alerts, selected regions, grouped states",
+    ],
+    [
+      <code>--ds-on-[token]-container</code>,
+      <code>palette.[role].onContainer</code>,
+      "Foreground colour paired with role containers",
+      "Text and icons inside semantic containers",
+    ],
+    [
+      <code>--ds-[token]-solid</code>,
+      <code>palette.[role].solid</code>,
+      "High-emphasis interactive surface",
+      "Contained buttons and strong interactive controls",
+    ],
+    [
+      <code>--ds-on-[token]-solid</code>,
+      <code>palette.[role].onSolid</code>,
+      "Foreground colour paired with solid surfaces",
+      "Text and icons inside solid controls",
+    ],
+  ]}
+/>
+
+<Callout>
+  Token names and MUI role names usually match. The exception is that DiamondDS
+  uses `danger` tokens internally, which map to the MUI `error` palette role.
+  The MUI names `light` and `dark` mean accent and emphasis, not lighter and
+  darker.
+</Callout>
+
+### Neutral roles
+
+Neutral tokens create the structure of the interface. They should be the default
+choice for layout, surfaces, borders, text and dense scientific workflows.
+
+<ReferenceTable
+  columns={["Token", "MUI role", "Purpose", "Typical use"]}
+  rows={[
+    [
+      <code>--ds-background</code>,
+      <code>background.default</code>,
+      "Root application background",
+      "App shell, page canvas, full-screen layouts",
+    ],
+    [
+      <code>--ds-surface</code>,
+      <code>background.paper</code>,
+      "Base content surface",
+      "Cards, dialogs, menus, content panels",
+    ],
+    [
+      <code>--ds-surface-container</code>,
+      <code>surface.subtle</code>,
+      "Quiet grouped surface",
+      "Secondary panels, grouped controls, low-emphasis regions",
+    ],
+    [
+      <code>--ds-surface-container-high</code>,
+      <code>surface.strong</code>,
+      "Stronger grouped surface",
+      "Nested containers, selected regions, raised sections",
+    ],
+    [
+      <code>--ds-surface-disabled</code>,
+      <code>action.disabledBackground</code>,
+      "Disabled surface treatment",
+      "Disabled filled controls and inactive regions",
+    ],
+    [
+      <code>--ds-on-surface</code>,
+      <code>text.primary</code>,
+      "Main foreground colour",
+      "Primary text and icons",
+    ],
+    [
+      <code>--ds-on-surface-variant</code>,
+      <code>text.secondary</code>,
+      "Lower-emphasis foreground colour",
+      "Secondary text, metadata, helper text",
+    ],
+    [
+      <code>--ds-on-surface-disabled</code>,
+      <code>text.disabled / action.disabled</code>,
+      "Disabled foreground colour",
+      "Disabled text, icons and interactive controls (buttons, tabs, inputs)",
+    ],
+    [
+      <code>--ds-control-disabled</code>,
+      <code>Checkbox / Radio (Mui-disabled)</code>,
+      "Disabled control icon colour",
+      "Disabled checkbox and radio icons",
+    ],
+    [
+      <code>--ds-border-subtle</code>,
+      <code>border.subtle</code>,
+      "Quiet structural boundary",
+      "Dividers, table lines, subtle outlines",
+    ],
+    [
+      <code>--ds-border-emphasis</code>,
+      <code>border.emphasis</code>,
+      "Stronger boundary",
+      "Interactive boundaries and active regions",
+    ],
+    [
+      <code>--ds-border-strong</code>,
+      <code>border.strong</code>,
+      "Highest-emphasis neutral boundary",
+      "Hover states and high-attention boundaries",
+    ],
+  ]}
+/>
