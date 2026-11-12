@@ -1,26 +1,10 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
-import type { ReactNode } from "react";
+import { ContentPanel } from "./ContentPanel";
 
 export interface TabDescription {
   label: string;
   path: string;
-}
-
-/** Padded, scrollable content area, matching the one used below a tabs nav */
-export function ContentPanel({ children }: { children: ReactNode }) {
-  return (
-    <Box
-      sx={{
-        flex: 1,
-        minHeight: 0,
-        overflow: "auto",
-        p: 2,
-      }}
-    >
-      {children}
-    </Box>
-  );
 }
 
 export interface TabbedPanelProps {
@@ -34,8 +18,13 @@ export function TabbedPanel({ tabs, basePath }: TabbedPanelProps) {
   const navigate = useNavigate();
 
   const currentTab =
-    tabs.find((tab) => location.pathname.startsWith(`${basePath}/${tab.path}`))
-      ?.path ?? false;
+    tabs.find((tab) => {
+      const tabPath = `${basePath}/${tab.path}`;
+      return (
+        location.pathname === tabPath ||
+        location.pathname.startsWith(`${tabPath}/`)
+      );
+    })?.path ?? false;
 
   const handleChange = (_: React.SyntheticEvent, value: string) => {
     navigate(`${basePath}/${value}`);

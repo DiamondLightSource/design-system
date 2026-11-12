@@ -3,6 +3,7 @@ import { SidebarNav, type Navigation } from "@diamondlightsource/sci-react-ui";
 import { useEffect } from "react";
 import { NavLink, Outlet, useMatches } from "react-router-dom";
 import { routePath, type RouteHandle, type RouterProps } from "./Router";
+import { SectionNav } from "./SectionNav";
 import { TopBar } from "./TopBar";
 import { usePersistentDrawerState } from "./usePersistentDrawerState";
 
@@ -47,9 +48,9 @@ export function Layout(props: RouterProps) {
     <Box sx={{ display: "flex" }}>
       <TopBar title={props.title} open={open} setOpen={setOpen} />
       <SidebarNav navigation={navigation} open={open} setOpen={setOpen} />
-      <Box component="main" sx={{ flexGrow: 1, pt: 6 }}>
+      <SectionNav navigation={props.navigation}>
         <Outlet />
-      </Box>
+      </SectionNav>
     </Box>
   );
 }
