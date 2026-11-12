@@ -1,102 +1,495 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Callout, DoDont, Lead, ReferenceTable } from "../../mdx/blocks";
 
 # Typography
 
-DiamondDS's type scale, driven by `--ds-type-*` and `--ds-font-*` tokens.
+<Lead>
+  Typography in DiamondDS should support readability and technical clarity.
+  Interfaces are often used in dense scientific workflows, so type should feel
+  consistent and easy to parse.
+</Lead>
 
-export const typographySections = [
-  {
-    title: "Display",
-    variants: [
-      { variant: "h1Display", sample: "Display H1" },
-      { variant: "h2Display", sample: "Display H2" },
-      { variant: "h3Display", sample: "Display H3" },
-      { variant: "h4Display", sample: "Display H4" },
-    ],
-  },
-  {
-    title: "Headings",
-    variants: [
-      { variant: "h1", sample: "Heading H1" },
-      { variant: "h2", sample: "Heading H2" },
-      { variant: "h3", sample: "Heading H3" },
-      { variant: "h4", sample: "Heading H4" },
-      { variant: "h5", sample: "Heading H5" },
-      { variant: "h6", sample: "Heading H6" },
-    ],
-  },
-  {
-    title: "Body",
-    variants: [
-      { variant: "lead", sample: "Lead paragraph text" },
-      { variant: "body1", sample: "Body 1 paragraph text" },
-      { variant: "body2", sample: "Body 2 paragraph text" },
-    ],
-  },
-  {
-    title: "Subtitle",
-    variants: [
-      { variant: "subtitle1", sample: "Subtitle 1" },
-      { variant: "subtitle2", sample: "Subtitle 2" },
-    ],
-  },
-  {
-    title: "Overline & caption",
-    variants: [
-      { variant: "overline", sample: "Overline" },
-      { variant: "overlineSmall", sample: "Overline small" },
-      { variant: "caption", sample: "Caption text" },
-      { variant: "meta", sample: "Meta text" },
-    ],
-  },
-  {
-    title: "Monospace",
-    variants: [
-      { variant: "mono1", sample: "Mono 1: const x = 1;" },
-      { variant: "mono2", sample: "Mono 2: const x = 1;" },
-      { variant: "mono3", sample: "Mono 3: const x = 1;" },
-    ],
-  },
-  {
-    title: "Other",
-    variants: [{ variant: "button", sample: "Button label" }],
-  },
-];
+To see each variant rendered, use the **Specimens** tab.
 
-export const TypographyRow = ({ variant, sample }) => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "baseline",
-      justifyContent: "space-between",
-      gap: 2,
-      py: 1,
-      borderBottom: "1px solid",
-      borderColor: "divider",
-    }}
-  >
-    <Typography variant={variant}>{sample}</Typography>
-    <Typography
-      variant="caption"
-      color="text.secondary"
-      sx={{ fontFamily: "monospace", flexShrink: 0 }}
-    >
-      {variant}
+## Typefaces
+
+<ReferenceTable
+  columns={["Typeface", "Token", "Variants", "Purpose", "Typical usage"]}
+  rows={[
+    [
+      "Inter",
+      <code>--ds-font-family-default</code>,
+      <>
+        <code>body1</code>, <code>body2</code>, <code>subtitle1</code>,{" "}
+        <code>subtitle2</code>, <code>caption</code>, <code>meta</code>,{" "}
+        <code>button</code>
+      </>,
+      "Default interface typeface",
+      "UI text, controls, tables, navigation, forms",
+    ],
+    [
+      "Outfit",
+      <code>--ds-font-family-display</code>,
+      <>
+        <code>h1Display</code>, <code>h2Display</code>, <code>h3Display</code>,{" "}
+        <code>h4Display</code>
+      </>,
+      "Display and high-level headings",
+      "Product headings, landing areas, documentation hero areas",
+    ],
+    [
+      "IBM Plex Mono",
+      <code>--ds-font-family-mono</code>,
+      <>
+        <code>mono1</code>, <code>mono2</code>, <code>mono3</code>
+      </>,
+      "Technical and aligned content",
+      "IDs, timestamps, code, logs, numeric values, instrument output",
+    ],
+  ]}
+/>
+
+## Core principle
+
+Use typography to make information easier to understand, not more decorative.
+
+Scientific interfaces often contain dense data, status information, technical
+labels, long identifiers and changing values. Typography should help users see
+what matters, compare values and act with confidence.
+
+## Hierarchy
+
+Use a clear and repeatable hierarchy across products.
+
+- Use headings to structure the page.
+- Use body text for explanation and supporting content.
+- Use meta text for compact operational information and status.
+- Use labels for controls, fields, table headers and short descriptors.
+- Use mono type for technical values where alignment or precision matters.
+
+Avoid creating one-off heading sizes or local typographic styles unless there is
+a reusable reason.
+
+Use heading levels in order where possible. Avoid jumping from `h1` to `h4`
+unless the surrounding structure justifies it.
+
+<DoDont
+  dos={[
+    "Keep hierarchy consistent across products.",
+    "Prefer short, clear labels.",
+    "Make numbers and technical values easy to scan.",
+    "Use mono type where alignment matters.",
+    "Use display variants sparingly, for high-level moments.",
+    "Use meta for compact operational information.",
+    "Use overlines for lightweight grouping.",
+    "Keep dense UI text legible and readable.",
+  ]}
+  donts={[
+    "Don’t create new type styles screen by screen.",
+    "Don’t use decorative typography in operational interfaces.",
+    "Don’t use display variants as the default heading style inside applications.",
+    "Don’t use mono type for long paragraphs.",
+    "Don’t rely on font weight alone to show status or severity.",
+    "Don’t mix heading styles without a clear structure.",
+    "Don’t use caption when the content is operational metadata.",
+    "Don’t make technical values harder to copy or compare.",
+  ]}
+/>
+
+## Typography variants
+
+<ReferenceTable
+  columns={["Group", "Variants", "Use for"]}
+  rows={[
+    [
+      "Display",
+      <>
+        <code>h1Display</code>, <code>h2Display</code>, <code>h3Display</code>,{" "}
+        <code>h4Display</code>
+      </>,
+      "Public-facing pages, landing areas, documentation hero sections",
+    ],
+    [
+      "Headings",
+      <>
+        <code>h1</code> to <code>h6</code>
+      </>,
+      "Application and document structure",
+    ],
+    [
+      "Body",
+      <>
+        <code>lead</code>, <code>body1</code>, <code>body2</code>,{" "}
+        <code>subtitle1</code>, <code>subtitle2</code>
+      </>,
+      "Readable interface text and supporting content",
+    ],
+    [
+      "Utility",
+      <>
+        <code>caption</code>, <code>meta</code>, <code>overline</code>,{" "}
+        <code>overlineSmall</code>
+      </>,
+      "Supporting text, operational metadata, grouping labels, status bars and compact section labels",
+    ],
+    [
+      "Mono",
+      <>
+        <code>mono1</code>, <code>mono2</code>, <code>mono3</code>
+      </>,
+      "Logs, console output, IDs, paths, timestamps, technical values",
+    ],
+  ]}
+/>
+
+Subtitle variants are for supporting headings and structured content. Use body
+variants for prose and explanatory text.
+
+## Typography scale
+
+DiamondDS provides a shared typography scale that underpins all typography
+variants.
+
+<ReferenceTable
+  columns={["Token", "Size"]}
+  rows={[
+    [<code>--ds-font-size-100</code>, "0.6875rem (11px)"],
+    [<code>--ds-font-size-200</code>, "0.75rem (12px)"],
+    [<code>--ds-font-size-300</code>, "0.875rem (14px)"],
+    [<code>--ds-font-size-400</code>, "1rem (16px)"],
+    [<code>--ds-font-size-500</code>, "1.125rem (18px)"],
+    [<code>--ds-font-size-600</code>, "1.25rem (20px)"],
+    [<code>--ds-font-size-700</code>, "1.75rem (28px)"],
+    [<code>--ds-font-size-800</code>, "2rem (32px)"],
+    [<code>--ds-font-size-900</code>, "2.125rem (34px)"],
+    [<code>--ds-font-size-1000</code>, "3rem (48px)"],
+    [<code>--ds-font-size-1100</code>, "4.5rem (72px)"],
+  ]}
+/>
+
+Use typography variants directly in most cases. Font size tokens are mainly for
+building reusable components, defining typography variants and keeping the scale
+consistent across the design system.
+
+Avoid applying arbitrary font sizes when an existing variant already
+communicates the right hierarchy and meaning.
+
+## Font weight scale
+
+<ReferenceTable
+  columns={["Token", "Weight", "Typical use"]}
+  rows={[
+    [
+      <code>--ds-font-weight-light</code>,
+      "300",
+      "Not used by any variant. Reserve for deliberate light treatments in large display type.",
+    ],
+    [
+      <code>--ds-font-weight-regular</code>,
+      "400",
+      "Body copy, captions, meta text and mono values",
+    ],
+    [
+      <code>--ds-font-weight-medium</code>,
+      "500",
+      <>
+        <code>h1</code> and <code>h2</code>, <code>h1Display</code> and{" "}
+        <code>h2Display</code>
+      </>,
+    ],
+    [
+      <code>--ds-font-weight-semibold</code>,
+      "600",
+      <>
+        <code>h3</code> to <code>h6</code>, <code>h3Display</code> and{" "}
+        <code>h4Display</code>, subtitles, overlines and buttons
+      </>,
+    ],
+    [
+      <code>--ds-font-weight-bold</code>,
+      "700",
+      "Not used by any variant. Reserve for inline emphasis within body text rather than a whole heading.",
+    ],
+  ]}
+/>
+
+## Line height scale
+
+<ReferenceTable
+  columns={["Token", "Value", "Typical use"]}
+  rows={[
+    [<code>--ds-line-height-tight</code>, "1.1", "Large display headings"],
+    [<code>--ds-line-height-condensed</code>, "1.2", "Headings and utility text"],
+    [<code>--ds-line-height-normal</code>, "1.4", "Captions and dense text"],
+    [
+      <code>--ds-line-height-relaxed</code>,
+      "1.5",
+      "Body copy and long-form reading",
+    ],
+  ]}
+/>
+
+## Letter spacing scale
+
+<ReferenceTable
+  columns={["Token", "Value", "Typical use"]}
+  rows={[
+    [<code>--ds-letter-spacing-tight</code>, "-0.03em", "Large display headings"],
+    [<code>--ds-letter-spacing-condensed</code>, "-0.01em", "Headings"],
+    [<code>--ds-letter-spacing-normal</code>, "0", "Body and most UI text"],
+    [
+      <code>--ds-letter-spacing-wide</code>,
+      "0.08em",
+      "Overlines and uppercase labels",
+    ],
+  ]}
+/>
+
+Weight, line height and letter spacing tokens are mainly for building reusable
+components, defining typography variants and keeping the scale consistent.
+Avoid applying arbitrary values when an existing variant already communicates
+the right hierarchy and meaning.
+
+## Display and heading variants
+
+Use display variants for large, high-level moments such as landing pages,
+welcome screens, product introductions and documentation hero areas.
+
+Use heading variants for application structure and content hierarchy. Display
+variants should be used sparingly, and are not meant to replace the standard
+heading hierarchy inside operational interfaces.
+
+<Callout title="Under review">
+  The current model uses dedicated display variants (`h1Display` to
+  `h4Display`) for display typography, and `h1` to `h6` for application
+  hierarchy. As the design system evolves, `h1` or `h2` may adopt the display
+  typeface in some contexts. This decision is still under review and may change
+  based on how applications and public-facing pages use them.
+</Callout>
+
+## Choosing a typeface
+
+<Typography
+  variant="h4"
+  component="h3"
+  sx={{ fontFamily: "var(--ds-font-family-default)", mt: 3.5, mb: 1 }}
+>
+  Inter
+</Typography>
+
+The default interface typeface. Use it for:
+
+- Navigation
+- Body text
+- Buttons
+- Forms
+- Tables
+- Dialogues
+- Cards
+- Labels
+- Status messages
+
+Inter should be the default choice unless there is a specific reason to use
+Outfit or IBM Plex Mono.
+
+<Typography
+  variant="h4"
+  component="h3"
+  sx={{ fontFamily: "var(--ds-font-family-display)", mt: 3.5, mb: 1 }}
+>
+  Outfit
+</Typography>
+
+Used for display and high-level headings. Use it sparingly for:
+
+- Product names
+- Major page titles
+- Welcome or landing areas
+- Documentation hero headings
+
+Do not use Outfit for dense application UI, tables, forms or technical values.
+
+<Typography
+  variant="h4"
+  component="h3"
+  sx={{ fontFamily: "var(--ds-font-family-mono)", mt: 3.5, mb: 1 }}
+>
+  IBM Plex Mono
+</Typography>
+
+Used for technical and aligned information. Use it for:
+
+- Code
+- Logs
+- Console output
+- Timestamps
+- Numeric values where alignment helps comparison
+- IDs (proposals, samples, beamlines)
+- Numeric columns
+- Technical table values
+- File paths
+- API-like values
+
+Do not use mono type for general UI text.
+
+## Technical values
+
+Technical values should be easy to scan, compare and copy.
+
+Use mono type where users need to inspect precise values:
+
+```tsx
+<Typography variant="mono1">
+  energy=12.4 keV · exposure=0.5 s · frames=100
+</Typography>
+```
+
+For tables with mixed content, use mono only for the technical cells rather than
+the whole table.
+
+## Truncation and overflow
+
+Long technical values (paths, IDs, timestamps) can overflow a constrained layout
+such as a table cell or a narrow panel.
+
+Use `noWrap` inside a width-constrained container to cut the value to a single
+line with an ellipsis, and pair it with a tooltip so the full value is still
+available on hover or focus.
+
+```tsx
+<Box sx={{ maxWidth: 240 }}>
+  <Tooltip title="/dls/i15-1/data/2026/cm12345-1/processed/sample_0042.nxs">
+    <Typography variant="mono2" noWrap tabIndex={0}>
+      /dls/i15-1/data/2026/cm12345-1/processed/sample_0042.nxs
     </Typography>
-  </Box>
-);
+  </Tooltip>
+</Box>
+```
 
-<Stack spacing={4}>
-  {typographySections.map((section) => (
-    <Box key={section.title}>
-      <Typography variant="overline" color="text.secondary" gutterBottom>
-        {section.title}
-      </Typography>
-      <Stack>
-        {section.variants.map((item) => (
-          <TypographyRow key={item.variant} {...item} />
-        ))}
-      </Stack>
-    </Box>
-  ))}
-</Stack>
+Don’t truncate a value without also giving users a way to read it in full.
+Prefer a tooltip, or reflow the layout so the value has room to wrap.
+
+## Numbers and units
+
+Keep numbers and units readable.
+
+```text
+12.4 keV
+0.5 s
+180 ms
+1,024 frames
+```
+
+Prefer a space between number and unit unless the notation convention says
+otherwise. Avoid inconsistent formatting:
+
+```text
+12.4keV
+0.5sec
+180 milliseconds
+1024 Frames
+```
+
+## Overlines and grouping
+
+Overlines give lightweight hierarchy and grouping without introducing a full
+heading. They are particularly useful in dense scientific interfaces, where more
+structure is needed without adding visual weight.
+
+Use overlines to:
+
+- Group related controls
+- Separate sections within cards or panels
+- Label groups of settings
+- Introduce collections of information
+- Provide context above headings or values
+
+```tsx
+<Typography variant="overline">Acquisition</Typography>
+
+<Typography variant="h4">Detector settings</Typography>
+```
+
+Prefer overlines when a full heading would add unnecessary visual weight.
+
+## Utility text
+
+<ReferenceTable
+  columns={["Variant", "Purpose", "Typical usage"]}
+  rows={[
+    [
+      <code>caption</code>,
+      "Small explanatory or supporting text",
+      "Helper text, figure captions, secondary descriptions",
+    ],
+    [
+      <code>meta</code>,
+      "Small operational information",
+      "Status bars, timestamps, counts, short technical metadata",
+    ],
+    [
+      <code>overline</code>,
+      "Grouping and categorisation",
+      "Section labels, grouped controls, settings groups, card sections",
+    ],
+    [
+      <code>overlineSmall</code>,
+      "Compact grouping and dense labelling",
+      "Dense panels, compact cards, highly constrained layouts",
+    ],
+  ]}
+/>
+
+### Meta
+
+Use meta for compact operational information such as:
+
+- Status bars
+- Timestamps
+- Counts
+- Short technical metadata
+- Connection status
+- Acquisition state
+
+## Logs and console output
+
+Logs and console output should use mono type.
+
+```tsx
+<Typography component="pre" variant="mono1">
+  [14:30:15] Starting data acquisition pipeline
+  <br />
+  [14:30:18] Detector initialised successfully
+  <br />
+  [14:30:22] Scan started — energy 12.4 keV, exposure 0.5 s
+</Typography>
+```
+
+Use colour and status tokens carefully. Typography should not be the only way to
+communicate severity.
+
+## Light and dark behaviour
+
+Typography should stay readable in both light and dark modes. Use semantic
+foreground roles rather than raw colour values:
+
+```tsx
+<Typography color="text.primary">Primary text</Typography>
+
+<Typography color="text.secondary">Secondary text</Typography>
+
+<Typography color="text.disabled">Disabled text</Typography>
+```
+
+Avoid hard-coded greys for text. They may pass in one mode and fail in the
+other.
+
+## Accessibility
+
+Typography must support legibility, contrast and a predictable reading order.
+
+- Use sufficient contrast for text and icons.
+- Do not use colour alone to communicate meaning.
+- Keep line lengths comfortable for reading.
+- Avoid very small text in dense operational areas.
+- Preserve semantic headings where possible.

@@ -15,8 +15,11 @@ import More from "./pages/GettingStarted/More.mdx";
 
 import Foundations from "./pages/Foundations/Overview.mdx";
 import Colours from "./pages/Foundations/Colours.mdx";
+import ThemeColours from "./pages/Foundations/ThemeColours.mdx";
 import Typography from "./pages/Foundations/Typography.mdx";
+import TypographySpecimens from "./pages/Foundations/TypographySpecimens.mdx";
 import Elevation from "./pages/Foundations/Elevation.mdx";
+import Icons from "./pages/Foundations/Icons.mdx";
 
 import Components from "./pages/Components/Overview.mdx";
 import Inputs from "./pages/Components/Inputs.mdx";
@@ -66,15 +69,37 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Colours",
-            element: <MdxWrapper component={Colours} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Colours} />,
+              },
+              {
+                name: "Theme colours",
+                element: <MdxWrapper component={ThemeColours} />,
+              },
+            ],
           },
           {
             name: "Typography",
-            element: <MdxWrapper component={Typography} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Typography} />,
+              },
+              {
+                name: "Specimens",
+                element: <MdxWrapper component={TypographySpecimens} />,
+              },
+            ],
           },
           {
             name: "Elevation",
             element: <MdxWrapper component={Elevation} />,
+          },
+          {
+            name: "Icons",
+            element: <MdxWrapper component={Icons} />,
           },
         ],
       },
