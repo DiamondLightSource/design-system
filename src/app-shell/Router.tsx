@@ -71,14 +71,19 @@ export interface PagedSection extends BaseSection {
  * accessible via main navigation component */
 export type Section = SingleSection | TabbedSection | PagedSection;
 
+interface PageRoute extends LabelledRoute {
+  /** Marks the page as not written yet, with a "Soon" label in the sub navigation */
+  soon?: boolean;
+}
+
 /** A page rendering its content directly */
-export interface ContentPage extends LabelledRoute {
+export interface ContentPage extends PageRoute {
   element: ReactNode;
   tabs?: never;
 }
 
 /** A page rendering several tabs, one level below the sub navigation */
-export interface TabbedPage extends LabelledRoute {
+export interface TabbedPage extends PageRoute {
   /** First one is default */
   tabs: Tab[];
   /** Shown above the tabs, shared by every tab */

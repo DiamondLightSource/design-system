@@ -148,10 +148,12 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Inputs",
+            soon: true,
             element: <MdxWrapper component={Inputs} />,
           },
           {
             name: "Navigation",
+            soon: true,
             element: <MdxWrapper component={Navigation} />,
           },
           {
@@ -184,6 +186,7 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Navigation",
+            soon: true,
             element: <MdxWrapper component={NavigationP} />,
           },
           {
@@ -202,10 +205,12 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Accessibility",
+            soon: true,
             element: <MdxWrapper component={Accessibility} />,
           },
           {
             name: "Interaction Standards",
+            soon: true,
             element: <MdxWrapper component={InteractionStandards} />,
           },
         ],
