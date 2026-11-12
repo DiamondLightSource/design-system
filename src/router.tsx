@@ -74,7 +74,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={PracticalGuide} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={Outline} />,
           },
         ],
@@ -158,7 +158,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={Icons} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={FoundationsOutline} />,
           },
         ],
@@ -215,7 +215,7 @@ const navigation: SectionGroup[] = [
             element: <MdxWrapper component={NavigationP} />,
           },
           {
-            name: "Outline",
+            name: "Outline plan",
             element: <MdxWrapper component={PatternsOutline} />,
           },
         ],
