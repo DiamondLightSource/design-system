@@ -22,16 +22,16 @@ export function ReferenceTable({
     <DataTable>
       <DataTableHead>
         <DataTableRow>
-          {columns.map((column) => (
-            <DataTableCell key={column}>{column}</DataTableCell>
+          {columns.map((column, columnIndex) => (
+            <DataTableCell key={columnIndex}>{column}</DataTableCell>
           ))}
         </DataTableRow>
       </DataTableHead>
       <DataTableBody>
         {rows.map((row, rowIndex) => (
           <DataTableRow key={rowIndex}>
-            {row.map((cell, index) => (
-              <DataTableCell key={columns[index]}>{cell}</DataTableCell>
+            {row.map((cell, cellIndex) => (
+              <DataTableCell key={cellIndex}>{cell}</DataTableCell>
             ))}
           </DataTableRow>
         ))}
@@ -131,7 +131,7 @@ function Guidance({
         }}
       >
         <Icon size={16} strokeWidth={2} aria-hidden="true" />
-        <Typography variant="subtitle2" component="h3">
+        <Typography variant="subtitle2" component="p">
           {isDo ? "Do" : "Don’t"}
         </Typography>
       </Stack>
@@ -211,10 +211,10 @@ function Branch({ nodes, depth }: { nodes: TreeNode[]; depth: number }) {
       role="list"
       sx={{ listStyle: "none", m: 0, p: 0 }}
     >
-      {nodes.map((node) => (
+      {nodes.map((node, index) => (
         <Box
           component="li"
-          key={node.label}
+          key={index}
           sx={{
             position: "relative",
             py: 0.5,

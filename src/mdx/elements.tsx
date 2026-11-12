@@ -147,14 +147,18 @@ export const MdxLink = ({
   href = "",
   children,
 }: { href?: string } & Children) => {
-  const isInternal = href.startsWith("/");
-
-  if (isInternal) {
+  // "//host/path" is a protocol-relative link to another site, not a route
+  if (href.startsWith("/") && !href.startsWith("//")) {
     return (
       <MuiLink component={RouterLink} to={href}>
         {children}
       </MuiLink>
     );
+  }
+
+  // Anchors, mail and phone links stay in the page
+  if (!/^(https?:)?\/\//.test(href)) {
+    return <MuiLink href={href}>{children}</MuiLink>;
   }
 
   return (

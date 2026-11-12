@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
-import type { ReactNode } from "react";
-import { APP_BAR_HEIGHT } from "./dimensions";
+import { useEffect, useRef, type ReactNode } from "react";
+import { APP_BAR_HEIGHT, TAB_BAR_HEIGHT } from "./dimensions";
 
 export interface TabDescription {
   label: string;
@@ -28,6 +28,25 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
         location.pathname.startsWith(`${tabPath}/`)
       );
     })?.path ?? false;
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const previousTab = useRef(currentTab);
+
+  // Tabs stay pinned while the page scrolls, so switching tab from far down a
+  // long page would otherwise land partway down, or at the bottom, of the next
+  useEffect(() => {
+    if (previousTab.current === currentTab) return;
+    previousTab.current = currentTab;
+
+    const content = contentRef.current;
+    if (!content) return;
+
+    const pinnedBottom = APP_BAR_HEIGHT + TAB_BAR_HEIGHT;
+    const top = content.getBoundingClientRect().top;
+    if (top < pinnedBottom) {
+      window.scrollBy({ top: top - pinnedBottom });
+    }
+  }, [currentTab]);
 
   const handleChange = (_: React.SyntheticEvent, value: string) => {
     navigate(`${basePath}/${value}`);
@@ -65,7 +84,7 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
         </Tabs>
       </Paper>
 
-      <Box sx={{ p: 2 }}>
+      <Box ref={contentRef} sx={{ p: 2 }}>
         <Outlet />
       </Box>
     </Box>
