@@ -19,7 +19,7 @@ export const getPaletteValue = (theme, path) => {
       return obj[key];
     }
     return undefined;
-  }, theme.palette);
+  }, theme.vars?.palette ?? theme.palette);
 
   return typeof value === "string" ? value : undefined;
 };

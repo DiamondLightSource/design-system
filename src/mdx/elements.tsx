@@ -153,14 +153,7 @@ export const DataTable = ({
   children,
   equalColumns = false,
 }: Children & { equalColumns?: boolean }) => (
-  <TableContainer
-    sx={{
-      mb: 3,
-      border: "1px solid",
-      borderColor: "border.subtle",
-      borderRadius: 1,
-    }}
-  >
+  <TableContainer sx={{ mb: 3 }}>
     <Table
       size="small"
       sx={equalColumns ? { tableLayout: "fixed" } : undefined}

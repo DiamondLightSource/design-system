@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { columnsFit } from "../../mdx/layout";
 
 DiamondDS colour tokens, exposed as MUI palette roles or raw `--ds-*` CSS
 variables. Toggle light/dark mode to see how each token responds.
@@ -109,7 +110,7 @@ export const getPaletteValue = (theme, path) => {
       return obj[key];
     }
     return undefined;
-  }, theme.palette);
+  }, theme.vars?.palette ?? theme.palette);
 
   return typeof value === "string" ? value : undefined;
 };
@@ -118,17 +119,19 @@ export const ColourRow = ({ label, background, foreground }) => (
   <Box
     sx={(theme) => ({
       px: 1.25,
-      py: 1,
-      minHeight: 40,
+      py: 0.75,
+      minHeight: 36,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      flexWrap: "wrap",
+      columnGap: 2,
       backgroundColor: getPaletteValue(theme, background),
       color: getPaletteValue(theme, foreground),
     })}
   >
     <Typography variant="body2">{label}</Typography>
-    <Typography variant="caption" sx={{ fontFamily: "monospace" }}>
+    <Typography variant="caption" sx={{ fontFamily: "monospace", ml: "auto" }}>
       {background}
     </Typography>
   </Box>
@@ -138,7 +141,7 @@ export const IntentGroupGrid = ({ groups }) => (
   <Box
     sx={{
       display: "grid",
-      gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+      gridTemplateColumns: columnsFit(300),
       gap: 2,
     }}
   >
@@ -156,12 +159,13 @@ export const IntentGroupGrid = ({ groups }) => (
 
               return {
                 px: 1.25,
-                py: 1,
-                minHeight: 40,
+                py: 0.75,
+                minHeight: 36,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: 2,
+                flexWrap: "wrap",
+                columnGap: 2,
                 backgroundColor: palette[row.bg],
                 color: palette[row.fg],
               };
@@ -170,7 +174,10 @@ export const IntentGroupGrid = ({ groups }) => (
             <Typography variant="body2">
               {row.label ? `${group.label} ${row.label}` : group.label}
             </Typography>
-            <Typography variant="caption" sx={{ fontFamily: "monospace" }}>
+            <Typography
+              variant="caption"
+              sx={{ fontFamily: "monospace", ml: "auto" }}
+            >
               {group.cssVarNames?.[row.bg] ??
                 (group.muiPath ? `${group.muiPath}.${row.bg}` : row.bg)}
             </Typography>
@@ -200,7 +207,7 @@ export const IntentGroupGrid = ({ groups }) => (
         sx={{ maxWidth: "66ch" }}
       >
         Exposed as MUI palette roles (e.g.{" "}
-        <code>theme.palette.primary.main</code>).
+        <code>theme.vars.palette.primary.main</code>).
       </Typography>
       <IntentGroupGrid groups={intentGroups} />
     </Box>
@@ -231,7 +238,7 @@ export const IntentGroupGrid = ({ groups }) => (
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+          gridTemplateColumns: columnsFit(300),
           gap: 2,
         }}
       >

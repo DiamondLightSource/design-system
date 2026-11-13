@@ -16,7 +16,7 @@ import { describeLayout } from "./diagrams/describe";
 import type { LayoutConfig } from "./diagrams/layout";
 import { LayoutDiagram } from "./diagrams/patterns";
 import { resolveLayout, type PatternName } from "./diagrams/presets";
-import { readingWidth } from "./layout";
+import { columnsFit, readingWidth } from "./layout";
 
 /** Column headings that carry a positive or negative meaning */
 const columnTone = {
@@ -232,7 +232,7 @@ export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
       sx={{
         mb: 3,
         display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+        gridTemplateColumns: columnsFit(260),
         gap: 2,
       }}
     >
@@ -277,14 +277,18 @@ export function TypefaceCards({ items }: { items: TypefaceCardProps[] }) {
   );
 }
 
+/** The page width (px) from which principles sit three to a row */
+const PRINCIPLES_ROW_WIDTH = 640;
+
 export type PrincipleCardProps = {
   title: string;
   children: ReactNode;
 };
 
 /**
- * Short principles as cards, three to a row on wide screens. A last row of two
- * or one cards shares the row equally rather than leaving a gap.
+ * Short principles as cards, three to a row once the page is wide enough for
+ * it, whatever the window's width. A last row of two or one cards shares the
+ * row equally rather than leaving a gap.
  */
 export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
   // Columns a card spans, on a grid of six: a full row of three takes two each
@@ -297,38 +301,44 @@ export function PrincipleCards({ items }: { items: PrincipleCardProps[] }) {
   };
 
   return (
-    <Box
-      data-outline="skip"
-      sx={{
-        mb: 3,
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "repeat(6, 1fr)" },
-        gap: 2,
-      }}
-    >
-      {items.map(({ title, children }, index) => {
-        return (
-          <Box
-            key={title}
-            component="section"
-            sx={{
-              ...cardSx,
-              gridColumn: { md: `span ${spanFor(index)}` },
-            }}
-          >
-            <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
-              {title}
-            </Typography>
-            <Typography
-              variant="body2"
-              component="div"
-              sx={{ "& > p": { m: 0 } }}
+    // Sized by the room the page has, not the window: three to a row needs it
+    <Box data-outline="skip" sx={{ mb: 3, containerType: "inline-size" }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: 2,
+          [`@container (min-width: ${PRINCIPLES_ROW_WIDTH}px)`]: {
+            gridTemplateColumns: "repeat(6, 1fr)",
+          },
+        }}
+      >
+        {items.map(({ title, children }, index) => {
+          return (
+            <Box
+              key={title}
+              component="section"
+              sx={{
+                ...cardSx,
+                [`@container (min-width: ${PRINCIPLES_ROW_WIDTH}px)`]: {
+                  gridColumn: `span ${spanFor(index)}`,
+                },
+              }}
             >
-              {children}
-            </Typography>
-          </Box>
-        );
-      })}
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                {title}
+              </Typography>
+              <Typography
+                variant="body2"
+                component="div"
+                sx={{ "& > p": { m: 0 } }}
+              >
+                {children}
+              </Typography>
+            </Box>
+          );
+        })}
+      </Box>
     </Box>
   );
 }
@@ -388,7 +398,7 @@ export function DoDont({ dos, donts }: { dos: string[]; donts: string[] }) {
       sx={{
         mb: 3,
         display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+        gridTemplateColumns: columnsFit(320),
         gap: 2,
       }}
     >
