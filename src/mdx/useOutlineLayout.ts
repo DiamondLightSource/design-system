@@ -1,14 +1,21 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  type RefObject,
-} from "react";
+import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
 import { useLocation } from "react-router-dom";
-import { PAGE_LEAD_ATTRIBUTE, PAGE_TITLE_ATTRIBUTE } from "../app-shell/usePageTitleBar";
+import {
+  PAGE_LEAD_ATTRIBUTE,
+  PAGE_TITLE_ATTRIBUTE,
+} from "../app-shell/usePageTitleBar";
+
+/** How much of the length that earns an outline is enough to keep it */
+const KEEP_RATIO = 0.85;
+
+/** Marks the element the outline list is drawn into */
+const OUTLINE_ANCHOR_ATTRIBUTE = "data-outline-anchor";
 
 /** Whether `ref`'s element is narrower than `minWidth` (px), measured before it is first drawn */
-export function useIsNarrow(ref: RefObject<HTMLElement | null>, minWidth: number) {
+export function useIsNarrow(
+  ref: RefObject<HTMLElement | null>,
+  minWidth: number,
+) {
   const [narrow, setNarrow] = useState(false);
 
   useLayoutEffect(() => {
@@ -22,6 +29,49 @@ export function useIsNarrow(ref: RefObject<HTMLElement | null>, minWidth: number
   }, [ref, minWidth]);
 
   return narrow;
+}
+
+/**
+ * Whether `ref`'s element is at least `windows` times as tall as the window,
+ * measured before it is first drawn. A page shorter than that is read in a
+ * screen or two, and gains nothing from an outline.
+ */
+export function useIsLong(ref: RefObject<HTMLElement | null>, windows: number) {
+  const [long, setLong] = useState(false);
+  // Switching page keeps this component mounted but swaps its content
+  const { pathname } = useLocation();
+
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    // Each page starts afresh: the length of the one before says nothing of it
+    let isLong = false;
+    const update = () => {
+      // Not counting the outline list the page may hold, or the answer would
+      // depend on the list that it decides on
+      const outline = Array.from(
+        element.querySelectorAll<HTMLElement>(`[${OUTLINE_ANCHOR_ATTRIBUTE}]`),
+      ).reduce((height, anchor) => height + anchor.offsetHeight, 0);
+      const height = element.clientHeight - outline;
+      // A page that has the outline keeps it until it is clearly shorter, so
+      // a window whose height drifts, as the address bar on a phone does,
+      // does not make the outline come and go
+      isLong = isLong
+        ? height >= windows * KEEP_RATIO * window.innerHeight
+        : height >= windows * window.innerHeight;
+      setLong(isLong);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, [ref, windows, pathname]);
+
+  return long;
 }
 
 /**
@@ -44,6 +94,9 @@ export function useOutlineAnchor(
     if (!enabled || !content) return;
 
     const element = document.createElement("div");
+    element.setAttribute(OUTLINE_ANCHOR_ATTRIBUTE, "");
+    // Holds the list's margins, so its height is all the space it takes
+    element.style.display = "flow-root";
     const title = content.querySelector<HTMLElement>(
       `h1[${PAGE_TITLE_ATTRIBUTE}]`,
     );

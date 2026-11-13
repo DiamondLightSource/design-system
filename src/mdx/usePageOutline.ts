@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
 import { useLocation } from "react-router-dom";
 
-/** Below this many headings a page is short enough to scroll without an outline */
+/** Below this many headings there is too little to list in an outline */
 export const MIN_OUTLINE_HEADINGS = 3;
 
 export interface OutlineHeading {
@@ -18,7 +18,7 @@ const INTRO_TEXT = "Introduction";
  * A first heading closer than this to the top of the content (px) is already in
  * the first part of the page, so there is no introduction to jump to
  */
-const INTRO_MIN_OFFSET = 320;
+const INTRO_MIN_OFFSET = 160;
 
 /** A first heading with one of these names already serves as the introduction */
 const INTRO_HEADING = /^(overview|introduction)$/i;
@@ -108,9 +108,26 @@ function collectHeadings(root: HTMLElement): OutlineHeading[] {
 function findActiveId(headings: OutlineHeading[]) {
   const page = document.documentElement;
   const scrollable = page.scrollHeight > window.innerHeight + 1;
-  const atBottom =
-    scrollable && window.innerHeight + window.scrollY >= page.scrollHeight - 2;
-  if (atBottom) return headings[headings.length - 1]?.id;
+  const remaining = page.scrollHeight - window.innerHeight - window.scrollY;
+  if (scrollable && remaining <= 2) return headings[headings.length - 1]?.id;
+
+  const lastElement = document.getElementById(
+    headings[headings.length - 1]?.id ?? "",
+  );
+  const lastMargin = lastElement
+    ? parseFloat(getComputedStyle(lastElement).scrollMarginTop) || 0
+    : 0;
+  // The last headings cannot scroll up to the top of the page, so over the
+  // final screenful the line a heading must cross moves down to the bottom
+  // of the window, and each of them takes its turn. On a page that scrolls
+  // less than that, the line starts from the top, so the first heading leads
+  const span = window.innerHeight - lastMargin;
+  const scrollRange = page.scrollHeight - window.innerHeight;
+  const creepRange = Math.min(span, scrollRange);
+  const creep =
+    scrollable && creepRange > 0
+      ? span * Math.min(Math.max(1 - remaining / creepRange, 0), 1)
+      : 0;
 
   let activeId = headings[0]?.id;
   for (const { id } of headings) {
@@ -118,20 +135,24 @@ function findActiveId(headings: OutlineHeading[]) {
     if (!element) continue;
     // A heading that was jumped to rests exactly at its scroll margin
     const margin = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
-    if (element.getBoundingClientRect().top > margin + 1) break;
+    if (element.getBoundingClientRect().top > margin + creep + 1) break;
     activeId = id;
   }
   return activeId;
 }
 
-/** The #hash of the address, which may not be valid percent-encoding */
-function readHash() {
-  const hash = window.location.hash.slice(1);
+/** Reads percent-encoding that may not be valid, keeping the text as it is */
+function decode(text: string) {
   try {
-    return decodeURIComponent(hash);
+    return decodeURIComponent(text);
   } catch {
-    return hash;
+    return text;
   }
+}
+
+/** The #hash of the address */
+function readHash() {
+  return decode(window.location.hash.slice(1));
 }
 
 /**
@@ -174,16 +195,74 @@ export function usePageOutline(contentRef: RefObject<HTMLElement | null>) {
     if (headings.length === 0) return;
 
     let frame = 0;
+    let landFrame = 0;
+    // A heading jumped to near the end of the page cannot scroll up to the
+    // top, so it is the one chosen until it moves away from where the jump
+    // left it. Its place in the window is watched, not the scroll position:
+    // a late reflow, such as fonts loading, and the scroll that follows it
+    // bring the heading back to the same place
+    let chosen: string | undefined;
+    let landedTop: number | undefined;
     const update = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setActiveId(findActiveId(headings)));
+      frame = requestAnimationFrame(() => {
+        if (chosen !== undefined && landedTop !== undefined) {
+          const top = document
+            .getElementById(chosen)
+            ?.getBoundingClientRect().top;
+          if (top === undefined || Math.abs(top - landedTop) > 2) {
+            chosen = undefined;
+          }
+        }
+        setActiveId(chosen ?? findActiveId(headings));
+      });
+    };
+    const choose = (id: string) => {
+      chosen = headings.some((heading) => heading.id === id) ? id : undefined;
+      landedTop = undefined;
+      update();
+      // The browser scrolls to the heading after this, so note where it ends up
+      cancelAnimationFrame(landFrame);
+      landFrame = requestAnimationFrame(() => {
+        landFrame = requestAnimationFrame(() => {
+          landedTop =
+            chosen === undefined
+              ? undefined
+              : document.getElementById(chosen)?.getBoundingClientRect().top;
+        });
+      });
+    };
+    const chooseFromHash = () => choose(readHash());
+    // Pressing the link for the heading already in the address does not
+    // change the hash, so the press itself has to choose it again
+    const chooseFromLink = (event: MouseEvent) => {
+      // Only a press that scrolls the page here: not one that opens another
+      // tab, or that something else has taken over
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+      const link = (event.target as Element).closest?.('a[href^="#"]');
+      if (!link || link.getAttribute("target") === "_blank") return;
+      choose(decode(link.getAttribute("href")!.slice(1)));
     };
 
-    update();
+    chooseFromHash();
+    window.addEventListener("hashchange", chooseFromHash);
+    document.addEventListener("click", chooseFromLink);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(landFrame);
+      window.removeEventListener("hashchange", chooseFromHash);
+      document.removeEventListener("click", chooseFromLink);
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
