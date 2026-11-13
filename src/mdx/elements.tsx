@@ -9,24 +9,50 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import type { ComponentProps, ReactNode } from "react";
+import { useId, type ComponentProps, type ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import { useSectionNavToggle } from "../app-shell/sectionNavState";
+import { ShowSectionNavButton } from "../app-shell/sectionNavToggle";
+import { useTitleBarSlot } from "../app-shell/titleBarSlot";
 import { PAGE_TITLE_ATTRIBUTE } from "../app-shell/usePageTitleBar";
 import { readingWidth } from "./layout";
 
 type Children = { children?: ReactNode };
 
-export const H1 = ({ children }: Children) => (
-  <Typography
-    variant="h2Display"
-    component="h1"
-    sx={{ mb: 2 }}
-    {...{ [PAGE_TITLE_ATTRIBUTE]: "" }}
-  >
-    {children}
-  </Typography>
-);
+export const H1 = ({ children }: Children) => {
+  const sectionNavHidden = useSectionNavToggle() !== null;
+  // The title bar has its own button once it is showing; two would be read out
+  const { shown: titleBarShown } = useTitleBarSlot();
+  const textId = useId();
+
+  return (
+    <Typography
+      variant="h2Display"
+      component="h1"
+      sx={{
+        mb: 2,
+        ...(sectionNavHidden && {
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }),
+      }}
+      // The button is inside the heading, so name the heading by its text alone
+      aria-labelledby={sectionNavHidden ? textId : undefined}
+      {...{ [PAGE_TITLE_ATTRIBUTE]: "" }}
+    >
+      {sectionNavHidden ? (
+        <>
+          <ShowSectionNavButton concealed={titleBarShown} />
+          <span id={textId}>{children}</span>
+        </>
+      ) : (
+        children
+      )}
+    </Typography>
+  );
+};
 
 export const H2 = ({ children }: Children) => (
   <Typography variant="h4" component="h2" sx={{ mt: 5, mb: 1.5 }}>
