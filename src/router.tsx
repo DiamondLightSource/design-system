@@ -50,6 +50,7 @@ import Standards from "./pages/Standards/Overview.mdx";
 import StandardsOutline from "./pages/Standards/Outline.mdx";
 import AccessibilityIntro from "./pages/Standards/AccessibilityIntro.mdx";
 import Accessibility from "./pages/Standards/Accessibility.mdx";
+import AccessibilityInPractice from "./pages/Standards/AccessibilityInPractice.mdx";
 import AccessibilityColour from "./pages/Standards/AccessibilityColour.mdx";
 import AccessibilityCognitive from "./pages/Standards/AccessibilityCognitive.mdx";
 import InteractionStandards from "./pages/Standards/InteractionStandards.mdx";
@@ -246,6 +247,10 @@ const navigation: SectionGroup[] = [
               {
                 name: "Guidance",
                 element: <MdxWrapper component={Accessibility} />,
+              },
+              {
+                name: "In practice",
+                element: <MdxWrapper component={AccessibilityInPractice} />,
               },
               {
                 name: "Colour contrast",
