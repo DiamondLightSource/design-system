@@ -3,6 +3,7 @@ import { Box, Tabs, Tab, Paper } from "@mui/material";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { PINNED_TABS_HEIGHT } from "./dimensions";
 import { PageTitleBar } from "./PageTitleBar";
+import { OutlineLabelContext } from "./outlineLabel";
 import { PinnedOffsetContext } from "./pinnedOffset";
 import { usePageTitleBar } from "./usePageTitleBar";
 
@@ -107,14 +108,16 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
         </Paper>
 
         <Box ref={contentRef} sx={{ p: 2 }}>
-          <PinnedOffsetContext.Provider
-            value={{
-              top: pinnedTop + PINNED_TABS_HEIGHT,
-              clearance: pinnedTop + PINNED_TABS_HEIGHT,
-            }}
-          >
-            <Outlet />
-          </PinnedOffsetContext.Provider>
+          <OutlineLabelContext.Provider value="On this tab">
+            <PinnedOffsetContext.Provider
+              value={{
+                top: pinnedTop + PINNED_TABS_HEIGHT,
+                clearance: pinnedTop + PINNED_TABS_HEIGHT,
+              }}
+            >
+              <Outlet />
+            </PinnedOffsetContext.Provider>
+          </OutlineLabelContext.Provider>
         </Box>
       </Box>
     </PageTitleBar>

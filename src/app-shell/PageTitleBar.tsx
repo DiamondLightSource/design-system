@@ -28,7 +28,7 @@ export function PageTitleBar({ state, children }: PageTitleBarProps) {
       {title && (
         <TitleStrip title={title} shown={shown} slotRef={setSlot} />
       )}
-      <TitleBarSlotContext.Provider value={slot}>
+      <TitleBarSlotContext.Provider value={{ element: slot, shown }}>
         {children}
       </TitleBarSlotContext.Provider>
     </>

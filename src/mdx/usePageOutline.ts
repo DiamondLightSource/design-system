@@ -1,4 +1,4 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
 import { useLocation } from "react-router-dom";
 
 /** Below this many headings a page is short enough to scroll without an outline */
@@ -144,7 +144,7 @@ export function usePageOutline(contentRef: RefObject<HTMLElement | null>) {
   // Switching tab keeps this component mounted but swaps its content
   const { pathname } = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const content = contentRef.current;
     if (!content) return;
 

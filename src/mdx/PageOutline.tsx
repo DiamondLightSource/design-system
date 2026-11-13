@@ -48,9 +48,11 @@ function OutlineLinks({
 export function OutlineRail({
   headings,
   activeId,
+  label,
 }: {
   headings: OutlineHeading[];
   activeId?: string;
+  label: string;
 }) {
   return (
     <Box component="nav" aria-labelledby="page-outline-title">
@@ -60,7 +62,7 @@ export function OutlineRail({
         color="text.secondary"
         sx={{ display: "block", pl: 1.5, mb: 0.5 }}
       >
-        On this page
+        {label}
       </Typography>
       <OutlineLinks headings={headings} activeId={activeId} />
     </Box>
@@ -74,12 +76,14 @@ export function OutlineRail({
 export function OutlineDisclosure({
   headings,
   activeId,
+  label,
 }: {
   headings: OutlineHeading[];
   activeId?: string;
+  label: string;
 }) {
   return (
-    <Box component="nav" aria-label="On this page" sx={{ mb: 3 }}>
+    <Box component="nav" aria-label={label} sx={{ mb: 3 }}>
       <Box
         component="details"
         sx={{
@@ -95,7 +99,7 @@ export function OutlineDisclosure({
           variant="body2"
           sx={{ cursor: "pointer", fontWeight: 600 }}
         >
-          On this page
+          {label}
         </Typography>
         <Box sx={{ mt: 1 }}>
           <OutlineLinks
@@ -116,23 +120,28 @@ export function OutlineDisclosure({
 export function OutlineMenu({
   headings,
   activeId,
+  label,
+  barShown,
 }: {
   headings: OutlineHeading[];
   activeId?: string;
+  label: string;
+  /** The bar holding the button; the list goes with it when the bar hides */
+  barShown: boolean;
 }) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const close = () => setAnchor(null);
+  if (!barShown && anchor) close();
 
   return (
     <>
       <Button
         size="small"
         endIcon={<ChevronDown size={16} aria-hidden />}
-        aria-haspopup="true"
         aria-expanded={anchor !== null}
         onClick={(event) => setAnchor(event.currentTarget)}
       >
-        On this page
+        {label}
       </Button>
       <Popover
         open={anchor !== null}

@@ -3,9 +3,14 @@ import { useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { readingWidth } from "./layout";
 import { usePinnedOffset } from "../app-shell/pinnedOffset";
+import { useOutlineLabel } from "../app-shell/outlineLabel";
 import { useTitleBarSlot } from "../app-shell/titleBarSlot";
 import { OutlineDisclosure, OutlineMenu, OutlineRail } from "./PageOutline";
-import { useIsNarrow, useOutlineAnchor } from "./useOutlineLayout";
+import {
+  useIsNarrow,
+  useOutlineAnchor,
+  useScrolledPast,
+} from "./useOutlineLayout";
 import { MIN_OUTLINE_HEADINGS, usePageOutline } from "./usePageOutline";
 
 /** Width of the page (px) at which the outline fits beside the content */
@@ -21,14 +26,15 @@ const pinTransition = {
  * A documentation page, with an outline of its sections.
  * The outline sits beside the content when the page is wide enough. When it
  * is not, the outline is a list after the page's introduction, and a button in
- * the page title bar once the list has scrolled away. Pages with only a few
+ * the page title bar once that list has scrolled out of sight. Pages with only a few
  * sections get none.
  */
 export function ProsePage({ children }: { children: ReactNode }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const { headings, activeId } = usePageOutline(contentRef);
   const { top, clearance } = usePinnedOffset();
-  const titleBarSlot = useTitleBarSlot();
+  const label = useOutlineLabel();
+  const { element: titleBarSlot, shown: titleBarShown } = useTitleBarSlot();
   const hasOutline =
     headings.filter((heading) => !heading.intro).length >= MIN_OUTLINE_HEADINGS;
 
@@ -37,6 +43,8 @@ export function ProsePage({ children }: { children: ReactNode }) {
   const pageRef = useRef<HTMLDivElement>(null);
   const narrow = useIsNarrow(pageRef, RAIL_MIN_WIDTH);
   const outlineAnchor = useOutlineAnchor(contentRef, hasOutline && narrow);
+  // The bar takes over the list once it has left the screen, never both at once
+  const listPast = useScrolledPast(outlineAnchor, clearance);
 
   // Keeps a linked heading, or the top of the page, clear of what is pinned
   const scrollMargin = { scrollMarginTop: `${clearance + 16}px` };
@@ -80,21 +88,31 @@ export function ProsePage({ children }: { children: ReactNode }) {
               flexShrink: 0,
             }}
           >
-            <OutlineRail headings={headings} activeId={activeId} />
+            <OutlineRail headings={headings} activeId={activeId} label={label} />
           </Box>
         )}
       </Box>
 
       {outlineAnchor &&
         createPortal(
-          <OutlineDisclosure headings={headings} activeId={activeId} />,
+          <OutlineDisclosure
+            headings={headings}
+            activeId={activeId}
+            label={label}
+          />,
           outlineAnchor,
         )}
       {hasOutline &&
         narrow &&
+        listPast &&
         titleBarSlot &&
         createPortal(
-          <OutlineMenu headings={headings} activeId={activeId} />,
+          <OutlineMenu
+            headings={headings}
+            activeId={activeId}
+            label={label}
+            barShown={titleBarShown}
+          />,
           titleBarSlot,
         )}
     </Box>
