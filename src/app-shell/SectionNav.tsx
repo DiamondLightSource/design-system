@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Drawer, useMediaQuery } from "@mui/material";
 import type { Theme } from "@mui/material/styles";
-import { ChevronRight } from "lucide-react";
+import { PanelLeftOpen } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { routePath, type PagedSection, type SectionGroup } from "./Router";
 import { APP_BAR_HEIGHT } from "./dimensions";
@@ -191,11 +191,11 @@ function NarrowSectionNav(props: ReturnType<typeof toSubNavProps>) {
       <Box sx={{ px: 2, pt: 1 }}>
         <Button
           size="small"
-          endIcon={<ChevronRight size={16} />}
+          startIcon={<PanelLeftOpen size={16} aria-hidden />}
           aria-haspopup="dialog"
           onClick={() => setOpen(true)}
         >
-          {props.title} pages
+          Show {props.title} pages
         </Button>
       </Box>
       <Drawer
