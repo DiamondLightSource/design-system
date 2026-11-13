@@ -5,7 +5,23 @@ import {
   WarningButtonComparison,
 } from "../../mdx/accessibilityDemos";
 
-## In a nutshell
+## Why contrast matters
+
+Colour contrast directly affects readability, speed, and error rate. In dense,
+data-heavy scientific interfaces, poor contrast increases cognitive load and
+slows decision-making. Colour vision deficiency adds a second, related failure
+mode: a colour choice can be readable and still fail if the hues involved
+aren’t reliably distinguishable in the first place.
+
+We prioritise perceptual contrast using APCA when defining colour choices,
+while maintaining WCAG 2.2 as the compliance baseline. We also check those same
+colour choices under colour vision deficiency simulation, since a pairing can
+clear both APCA and WCAG 2.2 and still rely on a hue distinction some users
+can’t actually perceive.
+
+<Callout>
+
+**In a nutshell**
 
 - Design colour choices with APCA, so text is comfortable to read, then check
   them against WCAG 2.2 as the compliance floor.
@@ -21,19 +37,7 @@ import {
   vision deficiency, and danger text in dark mode trades readability against
   still looking red.
 
-## Why contrast matters
-
-Colour contrast directly affects readability, speed, and error rate. In dense,
-data-heavy scientific interfaces, poor contrast increases cognitive load and
-slows decision-making. Colour vision deficiency adds a second, related failure
-mode: a colour choice can be readable and still fail if the hues involved
-aren’t reliably distinguishable in the first place.
-
-We prioritise perceptual contrast using APCA when defining colour choices,
-while maintaining WCAG 2.2 as the compliance baseline. We also check those same
-colour choices under colour vision deficiency simulation, since a pairing can
-clear both APCA and WCAG 2.2 and still rely on a hue distinction some users
-can’t actually perceive.
+</Callout>
 
 ## Why contrast needs a modern approach
 
@@ -231,6 +235,8 @@ one:
 
 ## Practical guidance
 
+- **Colour choices**: use the theme tokens and roles (`--ds-*`) rather than
+  picking colours by hand.
 - **Body text**: optimise for perceptual readability first, then confirm WCAG
   2.2 compliance.
 - **UI chrome**: maintain clear separation and predictable hierarchy through
