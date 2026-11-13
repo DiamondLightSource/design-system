@@ -13,6 +13,7 @@ import {
   type PageHandle,
   type RouterProps,
 } from "./Router";
+import { ReportIssueButton } from "./ReportIssueButton";
 import { SECTION_NAV_EXPANDED_SELECTOR, SectionNav } from "./SectionNav";
 import { MAIN_CONTENT_ID, SkipLink } from "./SkipLink";
 import { TopBar } from "./TopBar";
@@ -149,7 +150,12 @@ export function Layout(props: RouterProps) {
     <Box sx={{ display: "flex" }}>
       <SkipLink />
       <TopBar title={props.title} open={open} setOpen={setOpen} />
-      <SidebarNav navigation={navigation} open={open} setOpen={setOpen} />
+      <SidebarNav
+        navigation={navigation}
+        open={open}
+        setOpen={setOpen}
+        footerSlot={<ReportIssueButton open={open} />}
+      />
       <SectionNav navigation={props.navigation}>
         <Outlet />
       </SectionNav>
