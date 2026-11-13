@@ -68,15 +68,6 @@ export function SectionNav({
   // `md` rather than `sm`: beside the primary navigation, the sub navigation
   // leaves too little room for content between the two.
   const isWide = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const [wasWide, setWasWide] = useState(isWide);
-  if (isWide !== wasWide) {
-    setWasWide(isWide);
-    if (isWide) {
-      setDrawerOpen(false);
-    }
-  }
 
   const { collapsed, setCollapsed } = usePersistentSectionNavCollapsed();
   const subNavProps = section && toSubNavProps(section);
@@ -178,33 +169,43 @@ export function SectionNav({
           "& h1:focus": { outline: "none" },
         }}
       >
-        {subNavProps && !isWide && (
-          <Box sx={{ px: 2, pt: 1 }}>
-            <Button
-              size="small"
-              endIcon={<ChevronRight size={16} />}
-              aria-haspopup="dialog"
-              onClick={() => setDrawerOpen(true)}
-            >
-              {subNavProps.title} pages
-            </Button>
-          </Box>
-        )}
+        {subNavProps && !isWide && <NarrowSectionNav {...subNavProps} />}
         <SectionNavToggleContext.Provider value={sectionNavToggle}>
           {children}
         </SectionNavToggleContext.Provider>
       </Box>
+    </>
+  );
+}
 
-      {subNavProps && !isWide && (
-        <Drawer
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          onClick={() => setDrawerOpen(false)}
-          slotProps={{ paper: { sx: { width: NAV_WIDTH, pt: 6 } } }}
+/**
+ * The section's pages on a narrow screen: a button at the top of the page that
+ * opens them in a drawer. The drawer's open state lives here, so it starts
+ * closed each time the screen narrows to this layout.
+ */
+function NarrowSectionNav(props: ReturnType<typeof toSubNavProps>) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Box sx={{ px: 2, pt: 1 }}>
+        <Button
+          size="small"
+          endIcon={<ChevronRight size={16} />}
+          aria-haspopup="dialog"
+          onClick={() => setOpen(true)}
         >
-          <SubNavContent {...subNavProps} onBack={() => setDrawerOpen(false)} />
-        </Drawer>
-      )}
+          {props.title} pages
+        </Button>
+      </Box>
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onClick={() => setOpen(false)}
+        slotProps={{ paper: { sx: { width: NAV_WIDTH, pt: 6 } } }}
+      >
+        <SubNavContent {...props} onBack={() => setOpen(false)} />
+      </Drawer>
     </>
   );
 }
