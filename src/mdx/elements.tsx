@@ -12,12 +12,18 @@ import {
 import type { ComponentProps, ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import { PAGE_TITLE_ATTRIBUTE } from "../app-shell/usePageTitleBar";
 import { readingWidth } from "./layout";
 
 type Children = { children?: ReactNode };
 
 export const H1 = ({ children }: Children) => (
-  <Typography variant="h2Display" component="h1" sx={{ mb: 2 }}>
+  <Typography
+    variant="h2Display"
+    component="h1"
+    sx={{ mb: 2 }}
+    {...{ [PAGE_TITLE_ATTRIBUTE]: "" }}
+  >
     {children}
   </Typography>
 );

@@ -11,6 +11,7 @@ import {
   ListItem,
   UnorderedList,
 } from "./elements";
+import { PAGE_LEAD_ATTRIBUTE } from "../app-shell/usePageTitleBar";
 import { describeLayout } from "./diagrams/describe";
 import type { LayoutConfig } from "./diagrams/layout";
 import { LayoutDiagram } from "./diagrams/patterns";
@@ -148,6 +149,7 @@ export function Lead({ children }: { children: ReactNode }) {
       variant="lead"
       component="div"
       color="text.secondary"
+      {...{ [PAGE_LEAD_ATTRIBUTE]: "" }}
       sx={{
         mb: 3,
         maxWidth: readingWidth,
