@@ -13,9 +13,10 @@ slows decision-making. Colour vision deficiency adds a second, related failure
 mode: a colour choice can be readable and still fail if the hues involved
 aren’t reliably distinguishable in the first place.
 
-We prioritise perceptual contrast using APCA when defining colour choices,
-while maintaining WCAG 2.2 as the compliance baseline. We also check those same
-colour choices under colour vision deficiency simulation, since a pairing can
+We prioritise perceptual contrast using [APCA](https://git.apcacontrast.com/documentation/APCAeasyIntro) when defining colour choices,
+while maintaining [WCAG 2.2](https://www.w3.org/TR/WCAG22/) as the compliance baseline. We also check those same
+colour choices under colour vision deficiency simulation (for example with
+[Coblis](https://www.color-blindness.com/coblis-color-blindness-simulator/)), since a pairing can
 clear both APCA and WCAG 2.2 and still rely on a hue distinction some users
 can’t actually perceive.
 
@@ -130,7 +131,8 @@ compress together.
 
 ### Checked, not assumed
 
-WCAG 2.2’s success criterion 1.4.1 (Use of Colour) already requires that colour
+WCAG 2.2’s success criterion
+[1.4.1 (Use of Colour)](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) already requires that colour
 is never the only way information is conveyed. Confirming that means actually
 checking what these tokens look like under a colour vision deficiency, not
 assuming different hues are automatically distinguishable. Running DiamondDS’s
@@ -263,7 +265,7 @@ one:
 
 ## Future: WCAG 3 and APCA
 
-WCAG 3 is still evolving, but perceptual contrast models such as APCA are
+[WCAG 3](https://www.w3.org/TR/wcag-3.0/) is still evolving, but perceptual contrast models such as APCA are
 influencing the direction of accessibility guidance.
 
 Our approach reflects that direction while staying grounded in current
