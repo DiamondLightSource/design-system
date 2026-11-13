@@ -48,7 +48,10 @@ import NavigationP from "./pages/Patterns/Navigation.mdx";
 
 import Standards from "./pages/Standards/Overview.mdx";
 import StandardsOutline from "./pages/Standards/Outline.mdx";
+import AccessibilityIntro from "./pages/Standards/AccessibilityIntro.mdx";
 import Accessibility from "./pages/Standards/Accessibility.mdx";
+import AccessibilityColour from "./pages/Standards/AccessibilityColour.mdx";
+import AccessibilityCognitive from "./pages/Standards/AccessibilityCognitive.mdx";
 import InteractionStandards from "./pages/Standards/InteractionStandards.mdx";
 
 import MdxWrapper from "./Wrapper";
@@ -238,8 +241,21 @@ const navigation: SectionGroup[] = [
           },
           {
             name: "Accessibility",
-            soon: true,
-            element: <MdxWrapper component={Accessibility} />,
+            header: <MdxWrapper component={AccessibilityIntro} />,
+            tabs: [
+              {
+                name: "Guidance",
+                element: <MdxWrapper component={Accessibility} />,
+              },
+              {
+                name: "Colour contrast",
+                element: <MdxWrapper component={AccessibilityColour} />,
+              },
+              {
+                name: "Cognitive",
+                element: <MdxWrapper component={AccessibilityCognitive} />,
+              },
+            ],
           },
           {
             name: "Interaction Standards",
