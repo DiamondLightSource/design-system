@@ -2,6 +2,7 @@ import { Bar } from "@diamondlightsource/sci-react-ui";
 import { Box, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 import { APP_BAR_HEIGHT, TITLE_BAR_HEIGHT } from "./dimensions";
+import { ShowSectionNavButton } from "./sectionNavToggle";
 import { TitleBarSlotContext } from "./titleBarSlot";
 import type { PageTitleBarState } from "./usePageTitleBar";
 
@@ -19,6 +20,8 @@ interface PageTitleBarProps {
  * right-hand end through `useTitleBarSlot`.
  * The heading is still on the page, so the bar's text is hidden from screen
  * readers to avoid reading the title twice; any control in it is not.
+ * While the section navigation is hidden, a button at the bar's left-hand end
+ * brings it back.
  */
 export function PageTitleBar({ state, children }: PageTitleBarProps) {
   const { title, shown, slot, setSlot } = state;
@@ -58,9 +61,14 @@ function TitleStrip({
         surface="paper"
         containerWidth={false}
         leftSlot={
-          <Typography variant="h5" component="div" noWrap aria-hidden="true">
-            {title}
-          </Typography>
+          <Box
+            sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}
+          >
+            <ShowSectionNavButton />
+            <Typography variant="h5" component="div" noWrap aria-hidden="true">
+              {title}
+            </Typography>
+          </Box>
         }
         rightSlot={<Box ref={slotRef} />}
         sx={{

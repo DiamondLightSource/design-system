@@ -67,6 +67,9 @@ export type SubNavContentProps = {
   /** Renders a back affordance above the title when provided. */
   onBack?: () => void;
 
+  /** Rendered at the end of the header row, beside the title - typically an icon button. */
+  titleEndSlot?: ReactNode;
+
   /** Compact row height/spacing, suited to longer lists. Defaults to true. */
   dense?: boolean;
 };
@@ -121,7 +124,7 @@ export function SubNavContent(props: SubNavContentProps) {
 }
 
 function SubNavHeader(props: SubNavContentProps) {
-  if (!props.onBack && !props.title) {
+  if (!props.onBack && !props.title && !props.titleEndSlot) {
     return null;
   }
 
@@ -142,6 +145,11 @@ function SubNavHeader(props: SubNavContentProps) {
           <Typography variant="h6" component="h2" noWrap>
             {props.title}
           </Typography>
+        )}
+        {props.titleEndSlot && (
+          <Box sx={{ ml: "auto", display: "flex", flexShrink: 0 }}>
+            {props.titleEndSlot}
+          </Box>
         )}
       </Box>
     </Box>

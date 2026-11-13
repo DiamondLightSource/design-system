@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Drawer, useMediaQuery } from "@mui/material";
 import type { Theme } from "@mui/material/styles";
 import { ChevronRight } from "lucide-react";
@@ -6,10 +6,19 @@ import { NavLink, useLocation } from "react-router-dom";
 import { routePath, type PagedSection, type SectionGroup } from "./Router";
 import { APP_BAR_HEIGHT } from "./dimensions";
 import { MAIN_CONTENT_ID } from "./SkipLink";
+import {
+  SectionNavToggleContext,
+  SHOW_SECTION_NAV_ATTRIBUTE,
+  usePersistentSectionNavCollapsed,
+} from "./sectionNavState";
+import { HideSectionNavButton } from "./sectionNavToggle";
 import { NAV_WIDTH, SubNavContent } from "./SubNav";
 
 /** The navigation beside the primary one, when it is on screen */
 export const SECTION_NAV_ID = "section-nav";
+
+/** The navigation beside the primary one, unless the reader has collapsed it */
+export const SECTION_NAV_EXPANDED_SELECTOR = `#${SECTION_NAV_ID}:not([data-collapsed])`;
 
 function useCurrentPagedSection(navigation: SectionGroup[]) {
   const { pathname } = useLocation();
@@ -69,32 +78,86 @@ export function SectionNav({
     }
   }
 
+  const { collapsed, setCollapsed } = usePersistentSectionNavCollapsed();
   const subNavProps = section && toSubNavProps(section);
+  const showBeside = subNavProps && isWide;
+
+  // Pressing either button removes it from the page, which would drop focus
+  // to the top of the document; carry it to the button that takes its place.
+  // Not on the first load, nor when the change came from resizing the window.
+  const moveFocus = useRef(false);
+  const toggle = (nextCollapsed: boolean) => {
+    moveFocus.current = true;
+    setCollapsed(nextCollapsed);
+  };
+  useEffect(() => {
+    if (!moveFocus.current) return;
+    moveFocus.current = false;
+    if (collapsed) {
+      // The title bar's button is there but not focusable while the bar is hidden
+      for (const button of document.querySelectorAll<HTMLElement>(
+        `[${SHOW_SECTION_NAV_ATTRIBUTE}]`,
+      )) {
+        button.focus({ preventScroll: true });
+        if (document.activeElement === button) break;
+      }
+    } else {
+      document
+        .querySelector<HTMLElement>(`#${SECTION_NAV_ID} button`)
+        ?.focus({ preventScroll: true });
+    }
+  }, [collapsed]);
+
+  const sectionNavToggle =
+    showBeside && collapsed ? { show: () => toggle(false) } : null;
 
   return (
     <>
-      {subNavProps && isWide && (
+      {showBeside && (
         <Box
           component="nav"
           id={SECTION_NAV_ID}
           aria-label={`${subNavProps.title} pages`}
+          data-collapsed={collapsed ? "" : undefined}
           sx={{
-            width: NAV_WIDTH + 1, // +1 pixel for the border
+            display: "flex",
+            width: collapsed ? 0 : NAV_WIDTH + 1, // +1 pixel for the border
             flexShrink: 0,
-            pt: `${APP_BAR_HEIGHT}px`,
+            // Clipped, not hidden: the content inside is sticky, and a
+            // scroll container would stop it sticking to the window
+            overflowX: "clip",
             bgcolor: (theme: Theme) => theme.palette.surface.elevated(1),
-            borderRight: "1px solid",
-            borderColor: "divider",
+            // Hidden once it has slid away, so Tab cannot reach what is not
+            // on screen; shown again at the start of the slide back
+            visibility: collapsed ? "hidden" : "visible",
+            transition: `width 150ms, visibility 0s linear ${collapsed ? "150ms" : "0s"}`,
+            "@media (prefers-reduced-motion: reduce)": { transition: "none" },
           }}
         >
+          {/* Keeps its width while the panel around it narrows, so its text does not re-wrap */}
           <Box
             sx={{
-              position: "sticky",
-              top: APP_BAR_HEIGHT,
-              height: `calc(100vh - ${APP_BAR_HEIGHT}px)`,
+              width: NAV_WIDTH + 1,
+              flexShrink: 0,
+              pt: `${APP_BAR_HEIGHT}px`,
+              borderRight: "1px solid",
+              borderColor: "divider",
             }}
           >
-            <SubNavContent {...subNavProps} />
+            <Box
+              sx={{
+                position: "sticky",
+                top: APP_BAR_HEIGHT,
+                height: `calc(100vh - ${APP_BAR_HEIGHT}px)`,
+              }}
+            >
+              <SubNavContent
+                {...subNavProps}
+                titleEndSlot={
+                  <HideSectionNavButton onClick={() => toggle(true)} />
+                }
+              />
+            </Box>
           </Box>
         </Box>
       )}
@@ -127,7 +190,9 @@ export function SectionNav({
             </Button>
           </Box>
         )}
-        {children}
+        <SectionNavToggleContext.Provider value={sectionNavToggle}>
+          {children}
+        </SectionNavToggleContext.Provider>
       </Box>
 
       {subNavProps && !isWide && (

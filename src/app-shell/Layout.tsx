@@ -13,7 +13,7 @@ import {
   type PageHandle,
   type RouterProps,
 } from "./Router";
-import { SECTION_NAV_ID, SectionNav } from "./SectionNav";
+import { SECTION_NAV_EXPANDED_SELECTOR, SectionNav } from "./SectionNav";
 import { MAIN_CONTENT_ID, SkipLink } from "./SkipLink";
 import { TopBar } from "./TopBar";
 import { usePersistentDrawerState } from "./usePersistentDrawerState";
@@ -85,11 +85,11 @@ function useMoveFocusOnNavigation() {
     // A link inside the page (a card on the home page, say) has focus while
     // the navigation around it does not; the reader is after that page's
     // content, not its menu. The menu is only on screen beside the primary
-    // navigation on wider screens.
+    // navigation on wider screens, and while the reader has not hidden it.
     const firstSectionPage =
       !focusWasInContent.current && sectionOf(from) !== sectionOf(pagePath)
         ? document
-            .getElementById(SECTION_NAV_ID)
+            .querySelector(SECTION_NAV_EXPANDED_SELECTOR)
             ?.querySelector<HTMLElement>("a[href]")
         : null;
     if (firstSectionPage) {
