@@ -5,6 +5,24 @@ import {
   WarningButtonComparison,
 } from "../../mdx/accessibilityDemos";
 
+## In a nutshell
+
+- Design colour choices with APCA, so text is comfortable to read, then check
+  them against WCAG 2.2 as the compliance floor.
+- If WCAG 2.2 fails, change the colour. If it passes but APCA still flags poor
+  readability, improve the colour anyway.
+- Take extra care with success, warning and danger. Test them across sizes,
+  weights and both themes.
+- Never rely on colour alone. Pair it with text, an icon or a label, and make
+  icons differ in shape, not just colour.
+- Check status colours that sit side by side against a colour blindness
+  simulator, not just by eye.
+- Two gaps are still open: status colours are hard to tell apart under colour
+  vision deficiency, and danger text in dark mode trades readability against
+  still looking red.
+
+## Why contrast matters
+
 Colour contrast directly affects readability, speed, and error rate. In dense,
 data-heavy scientific interfaces, poor contrast increases cognitive load and
 slows decision-making. Colour vision deficiency adds a second, related failure
