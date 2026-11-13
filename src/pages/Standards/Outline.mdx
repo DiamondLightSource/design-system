@@ -1,12 +1,25 @@
+import { OutlinePlan } from "../../mdx/blocks";
+
 # Outline plan
 
-- Content and terminology
-- Interaction standards
-- Application states
-- Error handling
-- Data presentation
-- Dates, times and units
-- Scientific notation
-- Security and privacy
-- Browser and device support
-- Quality and testing
+The topics planned for Standards, and which have pages.
+
+export const items = [
+  { topic: "Overview", soon: true },
+  { topic: "Content and terminology" },
+  {
+    topic: "Accessibility",
+    pages: [{ name: "Accessibility", href: "/standards/accessibility" }],
+  },
+  { topic: "Interaction standards", soon: true },
+  { topic: "Application states" },
+  { topic: "Error handling" },
+  { topic: "Data presentation" },
+  { topic: "Dates, times and units" },
+  { topic: "Scientific notation" },
+  { topic: "Security and privacy" },
+  { topic: "Browser and device support" },
+  { topic: "Quality and testing" },
+];
+
+<OutlinePlan items={items} />

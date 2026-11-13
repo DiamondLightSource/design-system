@@ -2,8 +2,10 @@ import { Bar } from "@diamondlightsource/sci-react-ui";
 import { Box, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 import { APP_BAR_HEIGHT, TITLE_BAR_HEIGHT } from "./dimensions";
+import { useSectionNavHidden } from "./sectionNavState";
 import { ShowSectionNavButton } from "./sectionNavToggle";
 import { TitleBarSlotContext } from "./titleBarSlot";
+import { useSectionName } from "./useSectionName";
 import type { PageTitleBarState } from "./usePageTitleBar";
 
 interface PageTitleBarProps {
@@ -47,6 +49,10 @@ function TitleStrip({
   shown: boolean;
   slotRef: (slot: HTMLElement | null) => void;
 }) {
+  // With the section navigation hidden, nothing else on screen names the section
+  const sectionName = useSectionName();
+  const showSection = useSectionNavHidden() && sectionName;
+
   return (
     <Box
       sx={{
@@ -66,6 +72,11 @@ function TitleStrip({
           >
             <ShowSectionNavButton />
             <Typography variant="h5" component="div" noWrap aria-hidden="true">
+              {showSection && (
+                <Box component="span" sx={{ color: "text.secondary" }}>
+                  {sectionName} /{" "}
+                </Box>
+              )}
               {title}
             </Typography>
           </Box>

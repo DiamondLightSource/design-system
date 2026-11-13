@@ -42,3 +42,13 @@ export const SectionNavToggleContext = createContext<SectionNavToggle | null>(
 export function useSectionNavToggle() {
   return useContext(SectionNavToggleContext);
 }
+
+/**
+ * Whether the page's section has navigation that is out of sight, collapsed or
+ * in a drawer on a narrow screen, so nothing on screen names the section
+ */
+export const SectionNavHiddenContext = createContext(false);
+
+export function useSectionNavHidden() {
+  return useContext(SectionNavHiddenContext);
+}
