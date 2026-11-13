@@ -1,8 +1,10 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box, Tabs, Tab, Paper } from "@mui/material";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
-import { APP_BAR_HEIGHT, PINNED_TABS_HEIGHT } from "./dimensions";
+import { PINNED_TABS_HEIGHT } from "./dimensions";
+import { PageTitleBar } from "./PageTitleBar";
 import { PinnedOffsetContext } from "./pinnedOffset";
+import { usePageTitleBar } from "./usePageTitleBar";
 
 export interface TabDescription {
   label: string;
@@ -12,7 +14,10 @@ export interface TabDescription {
 export interface TabbedPanelProps {
   tabs: TabDescription[];
   basePath: string;
-  /** Shown above the tabs; scrolls away while the tabs stay pinned */
+  /**
+   * Shown above the tabs; scrolls away while the tabs stay pinned. Its page
+   * title, if it has one, then pins above the tabs as a bar.
+   */
   header?: ReactNode;
 }
 
@@ -29,6 +34,12 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
         location.pathname.startsWith(`${tabPath}/`)
       );
     })?.path ?? false;
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const titleBar = usePageTitleBar(headerRef);
+  // Tabs reach the title bar only once the heading is gone, so they can be
+  // placed under it all along
+  const pinnedTop = titleBar.clearance;
 
   const barRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -58,45 +69,54 @@ export function TabbedPanel({ tabs, basePath, header }: TabbedPanelProps) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      {header && <Box sx={{ px: 2, pt: 2 }}>{header}</Box>}
+    <PageTitleBar state={titleBar}>
+      <Box sx={{ width: "100%" }}>
+        {header && (
+          <Box ref={headerRef} sx={{ px: 2, pt: 2 }}>
+            {header}
+          </Box>
+        )}
 
-      <Paper
-        ref={barRef}
-        square
-        elevation={0}
-        sx={{
-          position: "sticky",
-          top: APP_BAR_HEIGHT,
-          zIndex: 1,
-          borderBottom: 1,
-          borderColor: "divider",
-        }}
-      >
-        <Tabs
-          value={currentTab}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons="auto"
+        <Paper
+          ref={barRef}
+          square
+          elevation={0}
+          sx={{
+            position: "sticky",
+            top: pinnedTop,
+            zIndex: 1,
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
         >
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.path}
-              label={tab.label}
-              value={tab.path}
-              aria-label={tab.label}
-            />
-          ))}
-        </Tabs>
-      </Paper>
+          <Tabs
+            value={currentTab}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.path}
+                label={tab.label}
+                value={tab.path}
+                aria-label={tab.label}
+              />
+            ))}
+          </Tabs>
+        </Paper>
 
-      <Box ref={contentRef} sx={{ p: 2 }}>
-        <PinnedOffsetContext.Provider
-          value={APP_BAR_HEIGHT + PINNED_TABS_HEIGHT}
-        >
-          <Outlet />
-        </PinnedOffsetContext.Provider>
+        <Box ref={contentRef} sx={{ p: 2 }}>
+          <PinnedOffsetContext.Provider
+            value={{
+              top: pinnedTop + PINNED_TABS_HEIGHT,
+              clearance: pinnedTop + PINNED_TABS_HEIGHT,
+            }}
+          >
+            <Outlet />
+          </PinnedOffsetContext.Provider>
+        </Box>
       </Box>
-    </Box>
+    </PageTitleBar>
   );
 }

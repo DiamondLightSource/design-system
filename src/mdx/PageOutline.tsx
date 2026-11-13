@@ -1,5 +1,6 @@
-import { Box, Link, Typography } from "@mui/material";
-import type { MouseEvent } from "react";
+import { Box, Button, Link, Popover, Typography } from "@mui/material";
+import { ChevronDown } from "lucide-react";
+import { useState, type MouseEvent } from "react";
 import type { OutlineHeading } from "./usePageOutline";
 
 function OutlineLinks({
@@ -66,49 +67,99 @@ export function OutlineRail({
   );
 }
 
-/** Collapsed list at the top of the page, for when there is no room for the rail */
+/**
+ * Collapsed list for when there is no room for the rail, in the flow of the
+ * page between its introduction and the main text
+ */
 export function OutlineDisclosure({
   headings,
   activeId,
-  top,
 }: {
   headings: OutlineHeading[];
   activeId?: string;
-  /** Distance from the top of the window to where the list is pinned */
-  top: number;
 }) {
   return (
-    <Box
-      component="details"
-      sx={{
-        px: 2,
-        py: 1,
-        border: "1px solid",
-        borderColor: "border.subtle",
-        borderRadius: 1,
-      }}
-    >
-      <Typography
-        component="summary"
-        variant="body2"
-        sx={{ cursor: "pointer", fontWeight: 600 }}
+    <Box component="nav" aria-label="On this page" sx={{ mb: 3 }}>
+      <Box
+        component="details"
+        sx={{
+          px: 2,
+          py: 1,
+          border: "1px solid",
+          borderColor: "border.subtle",
+          borderRadius: 1,
+        }}
+      >
+        <Typography
+          component="summary"
+          variant="body2"
+          sx={{ cursor: "pointer", fontWeight: 600 }}
+        >
+          On this page
+        </Typography>
+        <Box sx={{ mt: 1 }}>
+          <OutlineLinks
+            headings={headings}
+            activeId={activeId}
+            onNavigate={closeDisclosure}
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+/**
+ * The same list as a button and a popover, for the page title bar, so it stays
+ * in reach once the page has scrolled past the list in the flow
+ */
+export function OutlineMenu({
+  headings,
+  activeId,
+}: {
+  headings: OutlineHeading[];
+  activeId?: string;
+}) {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const close = () => setAnchor(null);
+
+  return (
+    <>
+      <Button
+        size="small"
+        endIcon={<ChevronDown size={16} aria-hidden />}
+        aria-haspopup="true"
+        aria-expanded={anchor !== null}
+        onClick={(event) => setAnchor(event.currentTarget)}
       >
         On this page
-      </Typography>
-      <Box
-        sx={{
-          mt: 1,
-          maxHeight: `calc(100vh - ${top + 120}px)`,
-          overflowY: "auto",
+      </Button>
+      <Popover
+        open={anchor !== null}
+        anchorEl={anchor}
+        onClose={close}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        // Locking the scroll would make the page jump as the scrollbar goes
+        disableScrollLock
+        slotProps={{
+          paper: {
+            sx: {
+              mt: 0.5,
+              p: 1,
+              maxWidth: "calc(100vw - 32px)",
+              maxHeight: "calc(100vh - 120px)",
+            },
+          },
         }}
       >
         <OutlineLinks
           headings={headings}
           activeId={activeId}
-          onNavigate={closeDisclosure}
+          onNavigate={close}
         />
-      </Box>
-    </Box>
+      </Popover>
+    </>
   );
 }
 
