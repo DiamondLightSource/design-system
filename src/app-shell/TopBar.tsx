@@ -3,8 +3,11 @@ import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import type { Theme } from "@mui/material/styles";
 
 import { Menu } from "lucide-react";
+import { Link as RouterLink } from "react-router-dom";
 
 import {
   ColourSchemeButton,
@@ -19,6 +22,10 @@ type Props = {
 };
 
 export function TopBar({ title, open, setOpen }: Props) {
+  const isNarrow = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm"),
+  );
+
   return (
     <Navbar
       surface="surface"
@@ -41,13 +48,26 @@ export function TopBar({ title, open, setOpen }: Props) {
           >
             <Menu />
           </IconButton>
-          <Logo />
-          <Divider orientation="vertical" flexItem sx={{ my: 1 }} />
+          <Logo short={isNarrow} />
+          <Divider orientation="vertical" flexItem sx={{ my: 0.5 }} />
           <Typography
             variant="h2Display"
             noWrap
-            component="div"
-            sx={{ fontSize: "var(--ds-type-h5-size)" }}
+            component={RouterLink}
+            to="/"
+            sx={{
+              fontSize: "var(--ds-type-h5-size)",
+              color: "var(--ds-on-brand-container)",
+              textDecoration: "none",
+              borderRadius: 0.5,
+              transition: "color 120ms",
+              "&:hover": { color: "var(--ds-brand-accent)" },
+              "&:focus-visible": {
+                color: "var(--ds-brand-accent)",
+                outline: "2px solid var(--ds-brand-accent)",
+                outlineOffset: 2,
+              },
+            }}
           >
             {title}
           </Typography>
