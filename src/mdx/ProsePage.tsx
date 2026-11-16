@@ -28,7 +28,7 @@ const RAIL_MIN_WIDTH = MIN_CONTENT_WIDTH + RAIL_GAP + RAIL_WIDTH;
  * How many window heights a page must run to before it gets an outline: a
  * page read in a screen or two, such as an overview, has no need of one
  */
-const OUTLINE_MIN_WINDOWS = 1.75;
+const OUTLINE_MIN_WINDOWS = 1.3;
 
 /** The title bar can appear or leave as the page scrolls; follow it smoothly */
 const pinTransition = {
