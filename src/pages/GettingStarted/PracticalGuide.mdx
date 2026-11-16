@@ -20,7 +20,7 @@ to the design tokens.
 <ReferenceTable
   columns={["Prefer", "Avoid"]}
   rows={[
-    [<code>theme.palette.primary.main</code>, <code>#005bbb</code>],
+    [<code>theme.vars.palette.primary.main</code>, <code>#005bbb</code>],
     [<code>theme.palette.divider</code>, "Custom border greys"],
     [<code>theme.spacing(2)</code>, "Arbitrary spacing values"],
     [<code>surface.subtle</code>, "One-off background colours"],
@@ -29,6 +29,35 @@ to the design tokens.
 
 Semantic roles keep interfaces consistent across products, support light and
 dark themes, and let the system evolve without rewriting component styles.
+
+### Read intent colours from `theme.vars`
+
+The light, main, dark and contrast text slots of the intent colours (primary,
+secondary, error, warning, success, info) are fixed hex values on
+`theme.palette`. Read in code, they give the light theme's colour in both modes
+and do not change when the mode does. `theme.vars.palette` returns a CSS
+variable instead, so the colour follows the mode. It is there whenever the theme
+uses CSS variables, as the Diamond theme does.
+
+<ReferenceTable
+  columns={["Prefer", "Avoid"]}
+  rows={[
+    [
+      <code>theme.vars.palette.primary.main</code>,
+      <code>theme.palette.primary.main</code>,
+    ],
+    [
+      <code>rgb(var(--ds-primary-channel) / 0.12)</code>,
+      <code>alpha(theme.palette.primary.main, 0.12)</code>,
+    ],
+  ]}
+/>
+
+Roles that are already CSS variables, such as text, background, border, surface
+and the container and solid roles, are safe to read from either.
+`alpha()`, `lighten()` and `darken()` throw on a `var()` colour, so use the
+channel tokens for transparency. The tokens for the error intent are named
+`danger`, so its channel token is `--ds-danger-channel`.
 
 ## Reuse components
 
