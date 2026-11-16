@@ -7,14 +7,28 @@ import { useOutlineLabel } from "../app-shell/outlineLabel";
 import { useTitleBarSlot } from "../app-shell/titleBarSlot";
 import { OutlineDisclosure, OutlineMenu, OutlineRail } from "./PageOutline";
 import {
+  useIsLong,
   useIsNarrow,
   useOutlineAnchor,
   useScrolledPast,
 } from "./useOutlineLayout";
 import { MIN_OUTLINE_HEADINGS, usePageOutline } from "./usePageOutline";
 
+/** The outline beside the content: its width and the gap between them (px) */
+const RAIL_WIDTH = 208;
+const RAIL_GAP = 32;
+
+/** The content must have this much room (px) for the outline to sit beside it */
+const MIN_CONTENT_WIDTH = 800;
+
 /** Width of the page (px) at which the outline fits beside the content */
-const RAIL_MIN_WIDTH = 900;
+const RAIL_MIN_WIDTH = MIN_CONTENT_WIDTH + RAIL_GAP + RAIL_WIDTH;
+
+/**
+ * How many window heights a page must run to before it gets an outline: a
+ * page read in a screen or two, such as an overview, has no need of one
+ */
+const OUTLINE_MIN_WINDOWS = 1.75;
 
 /** The title bar can appear or leave as the page scrolls; follow it smoothly */
 const pinTransition = {
@@ -27,7 +41,7 @@ const pinTransition = {
  * The outline sits beside the content when the page is wide enough. When it
  * is not, the outline is a list after the page's introduction, and a button in
  * the page title bar once that list has scrolled out of sight. Pages with only a few
- * sections get none.
+ * sections, or that are short, get none.
  */
 export function ProsePage({ children }: { children: ReactNode }) {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -35,7 +49,9 @@ export function ProsePage({ children }: { children: ReactNode }) {
   const { top, clearance } = usePinnedOffset();
   const label = useOutlineLabel();
   const { element: titleBarSlot, shown: titleBarShown } = useTitleBarSlot();
+  const isLong = useIsLong(contentRef, OUTLINE_MIN_WINDOWS);
   const hasOutline =
+    isLong &&
     headings.filter((heading) => !heading.intro).length >= MIN_OUTLINE_HEADINGS;
 
   // The width of the page, not of the window, decides whether the rail fits:
@@ -55,7 +71,7 @@ export function ProsePage({ children }: { children: ReactNode }) {
         sx={{
           display: "flex",
           alignItems: "flex-start",
-          gap: 4,
+          gap: `${RAIL_GAP}px`,
         }}
       >
         <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -88,11 +104,15 @@ export function ProsePage({ children }: { children: ReactNode }) {
               // Long outlines scroll on their own rather than running off the screen
               maxHeight: `calc(100vh - ${top + 32}px)`,
               overflowY: "auto",
-              width: 208,
+              width: RAIL_WIDTH,
               flexShrink: 0,
             }}
           >
-            <OutlineRail headings={headings} activeId={activeId} label={label} />
+            <OutlineRail
+              headings={headings}
+              activeId={activeId}
+              label={label}
+            />
           </Box>
         )}
       </Box>
