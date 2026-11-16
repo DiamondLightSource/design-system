@@ -7,6 +7,7 @@ import { routePath, type PagedSection, type SectionGroup } from "./Router";
 import { APP_BAR_HEIGHT } from "./dimensions";
 import { MAIN_CONTENT_ID } from "./SkipLink";
 import {
+  SectionNavHiddenContext,
   SectionNavToggleContext,
   SHOW_SECTION_NAV_ATTRIBUTE,
   usePersistentSectionNavCollapsed,
@@ -171,7 +172,11 @@ export function SectionNav({
       >
         {subNavProps && !isWide && <NarrowSectionNav {...subNavProps} />}
         <SectionNavToggleContext.Provider value={sectionNavToggle}>
-          {children}
+          <SectionNavHiddenContext.Provider
+            value={subNavProps !== undefined && (!isWide || collapsed)}
+          >
+            {children}
+          </SectionNavHiddenContext.Provider>
         </SectionNavToggleContext.Provider>
       </Box>
     </>

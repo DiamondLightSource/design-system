@@ -1,17 +1,48 @@
+import { OutlinePlan } from "../../mdx/blocks";
+
 # Outline plan
 
-- Application structure
-- Navigation
-- Forms and configuration
-- Search and filtering
-- Tables and data exploration
-- Queues and task management
-- Status and progress
-- Notifications and alerts
-- Errors and recovery
-- Confirmation and destructive actions
-- Empty states
-- Loading and long-running processes
-- Scientific data visualisation
-- Experiment setup
-- Live acquisition and monitoring
+The topics planned for Patterns, and which have pages.
+
+export const items = [
+  {
+    topic: "Overview",
+    pages: [{ name: "Overview", href: "/patterns/overview" }],
+  },
+  {
+    topic: "Application structure",
+    pages: [
+      {
+        name: "Application Structure",
+        href: "/patterns/application_structure",
+      },
+    ],
+  },
+  { topic: "Navigation", soon: true },
+  { topic: "Forms and configuration" },
+  { topic: "Search and filtering" },
+  { topic: "Tables and data exploration" },
+  { topic: "Queues and task management" },
+  {
+    topic: "Status and progress",
+    pages: [{ name: "Feedback and status", href: "/components/feedback" }],
+  },
+  { topic: "Notifications and alerts" },
+  {
+    topic: "Errors and recovery",
+    pages: [
+      {
+        name: "Errors and recovery",
+        href: "/components/feedback/errors_and_recovery",
+      },
+    ],
+  },
+  { topic: "Confirmation and destructive actions" },
+  { topic: "Empty states" },
+  { topic: "Loading and long-running processes" },
+  { topic: "Scientific data visualisation" },
+  { topic: "Experiment setup" },
+  { topic: "Live acquisition and monitoring" },
+];
+
+<OutlinePlan items={items} />

@@ -5,10 +5,23 @@ import { APP_BAR_HEIGHT, TITLE_BAR_HEIGHT } from "./dimensions";
 /** Marks the heading that titles a page, set on the `h1` of an MDX page */
 export const PAGE_TITLE_ATTRIBUTE = "data-page-title";
 
+/** Marks something inside the title heading that is not part of the title's text */
+export const PAGE_TITLE_SKIP_ATTRIBUTE = "data-page-title-skip";
+
 /** Marks the introduction under the page title, set on a page's `Lead` */
 export const PAGE_LEAD_ATTRIBUTE = "data-page-lead";
 
 const TITLE_SELECTOR = `h1[${PAGE_TITLE_ATTRIBUTE}]`;
+
+/** The heading's text, without labels such as "Soon" that sit beside the title */
+function titleText(heading: HTMLElement | null) {
+  if (!heading) return undefined;
+  const copy = heading.cloneNode(true) as HTMLElement;
+  copy
+    .querySelectorAll(`[${PAGE_TITLE_SKIP_ATTRIBUTE}]`)
+    .forEach((element) => element.remove());
+  return copy.textContent?.trim() || undefined;
+}
 
 /**
  * State for a title bar, which pins the page's title under the app bar once the
@@ -50,7 +63,7 @@ export function usePageTitleBar(scopeRef: RefObject<HTMLElement | null>) {
     return () => observer.disconnect();
   }, [heading]);
 
-  const title = heading?.textContent?.trim() || undefined;
+  const title = titleText(heading);
   const shown = heading !== null && scrolledAway;
 
   return {

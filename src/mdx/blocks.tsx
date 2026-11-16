@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import { Check, Pause, Play, X } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useState, type ReactNode } from "react";
 import {
   DataTable,
   DataTableBody,
@@ -9,6 +9,7 @@ import {
   DataTableRow,
   InlineCode,
   ListItem,
+  MdxLink,
   UnorderedList,
 } from "./elements";
 import { PAGE_LEAD_ATTRIBUTE } from "../app-shell/usePageTitleBar";
@@ -139,6 +140,41 @@ export function ReferenceTable({
         ))}
       </DataTableBody>
     </DataTable>
+  );
+}
+
+export interface OutlineItem {
+  topic: string;
+  /** The pages that cover the topic; leave out for a topic not yet written */
+  pages?: { name: string; href: string }[];
+  /** A page exists for the topic but is a placeholder */
+  soon?: boolean;
+}
+
+/** The topics planned for a section, and which of them have pages */
+export function OutlinePlan({ items }: { items: OutlineItem[] }) {
+  return (
+    <ReferenceTable
+      columns={["Topic", "Status"]}
+      rows={items.map(({ topic, pages, soon }) => [
+        topic,
+        pages?.length ? (
+          <>
+            Added:{" "}
+            {pages.map((page, index) => (
+              <Fragment key={page.href}>
+                {index > 0 && ", "}
+                <MdxLink href={page.href}>{page.name}</MdxLink>
+              </Fragment>
+            ))}
+          </>
+        ) : soon ? (
+          "Soon"
+        ) : (
+          "Planned"
+        ),
+      ])}
+    />
   );
 }
 

@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   Link as MuiLink,
   Table,
   TableBody,
@@ -10,12 +11,17 @@ import {
   Typography,
 } from "@mui/material";
 import { useId, type ComponentProps, type ReactNode } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useMatches } from "react-router-dom";
 
+import type { PageHandle } from "../app-shell/Router";
 import { useSectionNavToggle } from "../app-shell/sectionNavState";
+import { useSectionName } from "../app-shell/useSectionName";
 import { ShowSectionNavButton } from "../app-shell/sectionNavToggle";
 import { useTitleBarSlot } from "../app-shell/titleBarSlot";
-import { PAGE_TITLE_ATTRIBUTE } from "../app-shell/usePageTitleBar";
+import {
+  PAGE_TITLE_ATTRIBUTE,
+  PAGE_TITLE_SKIP_ATTRIBUTE,
+} from "../app-shell/usePageTitleBar";
 import { readingWidth } from "./layout";
 
 type Children = { children?: ReactNode };
@@ -25,32 +31,64 @@ export const H1 = ({ children }: Children) => {
   // The title bar has its own button once it is showing; two would be read out
   const { shown: titleBarShown } = useTitleBarSlot();
   const textId = useId();
+  const soonId = useId();
+  // With the section navigation hidden, nothing else on screen names the section
+  const sectionName = useSectionName();
+  const soon = useMatches().some(
+    (match) => (match.handle as PageHandle | undefined)?.soon,
+  );
 
   return (
-    <Typography
-      variant="h2Display"
-      component="h1"
-      sx={{
-        mb: 2,
-        ...(sectionNavHidden && {
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        }),
-      }}
-      // The button is inside the heading, so name the heading by its text alone
-      aria-labelledby={sectionNavHidden ? textId : undefined}
-      {...{ [PAGE_TITLE_ATTRIBUTE]: "" }}
-    >
-      {sectionNavHidden ? (
-        <>
-          <ShowSectionNavButton concealed={titleBarShown} />
-          <span id={textId}>{children}</span>
-        </>
-      ) : (
-        children
+    <>
+      {sectionNavHidden && sectionName && (
+        <Typography
+          variant="overline"
+          component="div"
+          color="text.secondary"
+          sx={{ display: "block", mb: 0.5 }}
+        >
+          {sectionName}
+        </Typography>
       )}
-    </Typography>
+      <Typography
+        variant="h2Display"
+        component="h1"
+        sx={{
+          mb: 2,
+          ...((sectionNavHidden || soon) && {
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }),
+        }}
+        // The button is inside the heading, so name the heading by its text alone
+        aria-labelledby={
+          sectionNavHidden ? (soon ? `${textId} ${soonId}` : textId) : undefined
+        }
+        {...{ [PAGE_TITLE_ATTRIBUTE]: "" }}
+      >
+        {sectionNavHidden ? (
+          <>
+            <ShowSectionNavButton concealed={titleBarShown} />
+            <span id={textId}>{children}</span>
+          </>
+        ) : (
+          children
+        )}
+        {soon && (
+          // Not the heading's type: the label is a small status, as in the navigation
+          <Chip
+            id={soonId}
+            component="span"
+            label="Soon"
+            size="small"
+            variant="outlined"
+            sx={{ typography: "body2" }}
+            {...{ [PAGE_TITLE_SKIP_ATTRIBUTE]: "" }}
+          />
+        )}
+      </Typography>
+    </>
   );
 };
 

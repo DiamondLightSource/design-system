@@ -102,6 +102,10 @@ export interface PageHandle {
   title: string;
   /** Set on tab routes, so switching tab is not treated as changing page */
   tab?: boolean;
+  /** The page is not written yet, so its heading carries a "Soon" label */
+  soon?: boolean;
+  /** The section the page belongs to, named where its navigation is hidden */
+  section?: string;
 }
 
 /** Attached to routes that only redirect: not a page the reader arrived at */
@@ -139,6 +143,8 @@ function tabbedRoute(
   parentName: string,
   tabs: Tab[],
   header?: ReactNode,
+  sectionName?: string,
+  soon?: boolean,
 ): RouteObject {
   const tabDescriptions: TabDescription[] = tabs.map((tab) => ({
     label: tab.name,
@@ -158,13 +164,16 @@ function tabbedRoute(
         handle: {
           title: `${parentName} / ${tab.name}`,
           tab: true,
+          section: sectionName,
+          soon,
         } satisfies PageHandle,
       })),
     ],
   };
 }
 
-function pageRoute(page: Page, sectionPath: string): RouteObject {
+function pageRoute(page: Page, section: Section): RouteObject {
+  const sectionPath = routePath(section);
   const pagePath = routePath(page);
 
   if (page.tabs) {
@@ -174,13 +183,19 @@ function pageRoute(page: Page, sectionPath: string): RouteObject {
       page.name,
       page.tabs,
       page.header,
+      section.name,
+      page.soon,
     );
   }
 
   return {
     path: pagePath,
     element: <ContentPanel>{page.element}</ContentPanel>,
-    handle: { title: page.name } satisfies PageHandle,
+    handle: {
+      title: page.name,
+      soon: page.soon,
+      section: section.name,
+    } satisfies PageHandle,
   };
 }
 
@@ -209,7 +224,7 @@ function childRoute(section: Section): RouteObject {
     path: sectionPath,
     children: [
       ...(firstPage ? [redirectRoute(routePath(firstPage))] : []),
-      ...section.pages.map((page) => pageRoute(page, sectionPath)),
+      ...section.pages.map((page) => pageRoute(page, section)),
     ],
   };
 }

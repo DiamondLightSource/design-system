@@ -1,11 +1,35 @@
+import { OutlinePlan } from "../../mdx/blocks";
+
 # Outline plan
 
-- Colour
-- Typography
-- Spacing and layout
-- Elevation and surfaces
-- Icons
-- Motion
-- Accessibility
-- Responsive design
-- Design tokens
+The topics planned for Foundations, and which have pages.
+
+export const items = [
+  {
+    topic: "Overview",
+    pages: [{ name: "Overview", href: "/foundations/overview" }],
+  },
+  {
+    topic: "Colour",
+    pages: [{ name: "Colours", href: "/foundations/colours" }],
+  },
+  {
+    topic: "Typography",
+    pages: [{ name: "Typography", href: "/foundations/typography" }],
+  },
+  { topic: "Spacing and layout" },
+  {
+    topic: "Elevation and surfaces",
+    pages: [
+      { name: "Elevation", href: "/foundations/elevation" },
+      { name: "Borders", href: "/foundations/borders" },
+    ],
+  },
+  { topic: "Icons", pages: [{ name: "Icons", href: "/foundations/icons" }] },
+  { topic: "Motion" },
+  { topic: "Accessibility" },
+  { topic: "Responsive design" },
+  { topic: "Design tokens" },
+];
+
+<OutlinePlan items={items} />

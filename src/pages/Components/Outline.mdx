@@ -1,10 +1,22 @@
+import { OutlinePlan } from "../../mdx/blocks";
+
 # Outline plan
 
-- Controls
-- Inputs
-- Navigation
-- Feedback
-- Data display
-- Surfaces
-- Layout
-- Overlays
+The topics planned for Components, and which have pages.
+
+export const items = [
+  { topic: "Overview", soon: true },
+  { topic: "Controls" },
+  { topic: "Inputs", soon: true },
+  { topic: "Navigation", soon: true },
+  {
+    topic: "Feedback",
+    pages: [{ name: "Feedback", href: "/components/feedback" }],
+  },
+  { topic: "Data display" },
+  { topic: "Surfaces" },
+  { topic: "Layout" },
+  { topic: "Overlays" },
+];
+
+<OutlinePlan items={items} />
