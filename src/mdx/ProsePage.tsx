@@ -65,6 +65,10 @@ export function ProsePage({ children }: { children: ReactNode }) {
             ref={contentRef}
             sx={{
               "& > p": { typography: "body1", mb: 2, maxWidth: readingWidth },
+              // Inherited, so every block of text on the page avoids a last
+              // line of one short word, while headings split evenly instead
+              textWrap: "pretty",
+              "& h1, & h2, & h3, & h4": { textWrap: "balance" },
               ...scrollMargin,
               "& h2, & h3": scrollMargin,
             }}
