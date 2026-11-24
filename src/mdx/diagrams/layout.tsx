@@ -140,8 +140,9 @@ export function Layout({
   // The workspace row, left to right: item list, content, an inner pane
   const navWidth = workspaceNav ? grid.workspaceNav : 0;
   const innerWidth = aux?.placement === "inner" ? auxWidth : 0;
-  // An inner pane starts level with the toolbar and sits beside it
-  const innerTop = rowY - toolbarHeight;
+  // An inner pane starts at the top of the workspace column's toolbar row, so
+  // it sits beside the toolbar if there is one
+  const innerTop = bodyY + selectorHeight;
   const contentX = columnX + navWidth;
   const contentWidth = columnWidth - navWidth - innerWidth;
 

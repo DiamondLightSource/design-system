@@ -549,6 +549,7 @@ export function Pane({
 }: Frame & { label: string } & PaneParts) {
   // As tall as the workspace toolbar, so the two line up when side by side
   const toolbarHeight = grid.toolbar;
+  const toolbarMiddle = y + toolbarHeight / 2;
   const statusHeight = 18.667;
   const actionsHeight = 28;
   const actionsTop = y + h - (actions ? actionsHeight : 0);
@@ -565,12 +566,20 @@ export function Pane({
         tone="strong"
         sides={{ bottom: true }}
       >
-        <RegionLabel x={x + 10.667} y={y + 19.4}>
+        <RegionLabel x={x + 10.667} y={toolbarMiddle + 4.733}>
           {label}
         </RegionLabel>
-        <IconBox x={x + w - toolRight} y={y + 9} size={11.333} />
-        <IconBox x={x + w - toolRight + 22.667} y={y + 9} size={11.333} />
-        {close && <CloseIcon x={x + w - 21.333} y={y + 14.667} />}
+        <IconBox
+          x={x + w - toolRight}
+          y={toolbarMiddle - 5.667}
+          size={11.333}
+        />
+        <IconBox
+          x={x + w - toolRight + 22.667}
+          y={toolbarMiddle - 5.667}
+          size={11.333}
+        />
+        {close && <CloseIcon x={x + w - 21.333} y={toolbarMiddle} />}
       </Block>
       <Hint x={x + 16} y={y + 54.5}>
         Secondary content
