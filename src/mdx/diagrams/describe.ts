@@ -38,19 +38,26 @@ export function describeLayout(layout: LayoutConfig): RegionDescription[] {
   });
 
   if (layout.context) {
-    const notes = {
-      links: "a list of links",
-      cards: "a list of items to choose from",
-      accordion: "with accordion groups",
+    const kinds = {
+      links: {
+        note: "a list of links",
+        components: "`SubNav`",
+      },
+      cards: {
+        note: "a list of items to choose from",
+        components: "`ContextPanel` with cards",
+      },
+      accordion: {
+        note: "a tree of items to choose from, in accordion groups",
+        components: "`ContextPanel` with a tree",
+      },
     };
+    const kind = kinds[layout.context];
     regions.push({
       id: "C",
       name: "Context panel",
-      note: notes[layout.context],
-      components:
-        layout.context === "cards"
-          ? "use a local component for now (`ContextPanel` with cards, once available)"
-          : "use a local component for now (`SubNav`, once available)",
+      note: kind.note,
+      components: `use a local component for now (${kind.components}, once available)`,
     });
   }
 
