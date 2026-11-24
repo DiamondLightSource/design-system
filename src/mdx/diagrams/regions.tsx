@@ -9,6 +9,7 @@ import {
   Outlined,
   RegionLabel,
 } from "./skeleton";
+import { grid } from "./grid";
 
 /**
  * One component per region of the layout patterns. Each takes the rectangle it
@@ -546,7 +547,8 @@ export function Pane({
   columns = 1,
   edge = "left",
 }: Frame & { label: string } & PaneParts) {
-  const toolbarHeight = 28;
+  // As tall as the workspace toolbar, so the two line up when side by side
+  const toolbarHeight = grid.toolbar;
   const statusHeight = 18.667;
   const actionsHeight = 28;
   const actionsTop = y + h - (actions ? actionsHeight : 0);
@@ -563,12 +565,12 @@ export function Pane({
         tone="strong"
         sides={{ bottom: true }}
       >
-        <RegionLabel x={x + 10.667} y={y + 18.7}>
+        <RegionLabel x={x + 10.667} y={y + 19.4}>
           {label}
         </RegionLabel>
-        <IconBox x={x + w - toolRight} y={y + 8.333} size={11.333} />
-        <IconBox x={x + w - toolRight + 22.667} y={y + 8.333} size={11.333} />
-        {close && <CloseIcon x={x + w - 21.333} y={y + 14} />}
+        <IconBox x={x + w - toolRight} y={y + 9} size={11.333} />
+        <IconBox x={x + w - toolRight + 22.667} y={y + 9} size={11.333} />
+        {close && <CloseIcon x={x + w - 21.333} y={y + 14.667} />}
       </Block>
       <Hint x={x + 16} y={y + 54.5}>
         Secondary content

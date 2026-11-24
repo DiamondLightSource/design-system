@@ -17,8 +17,8 @@ const presets = {
     title: "Starting app",
     layout: {},
   },
-  "context-navigation": {
-    title: "Context navigation",
+  "context-panel": {
+    title: "Context panel",
     layout: { context: "links" },
   },
   "tabs-and-status": {
